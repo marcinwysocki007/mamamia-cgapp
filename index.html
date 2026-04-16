@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mamamia · App v5</title>
+<link rel="stylesheet" href="/src/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- MAP SYMBOLS -->
+<svg width="0" height="0" style="position:absolute;"><defs>
+  <symbol id="m-nrw" viewBox="0 0 250 290"><path d="M118,4 L198,4 L214,82 L196,106 L170,132 L148,146 L130,172 L110,192 L84,214 L62,222 L36,190 L26,136 L48,76 L60,40 L66,36 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><path d="M66,36 L116,40 L112,96 L96,120 L66,130 L48,100 L52,76 Z" fill="rgba(255,255,255,0.5)" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/><path d="M116,40 L196,36 L198,80 L148,80 L148,40 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M96,120 L148,116 L146,148 L110,144 L82,132 L66,130 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M110,144 L148,148 L196,152 L196,200 L140,236 L96,214 L82,148 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M66,130 L82,128 L82,200 L54,182 L52,144 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><circle cx="72" cy="108" r="5" fill="white" opacity="0.95"/><circle cx="72" cy="108" r="2.5" fill="#1A4D3A"/></symbol>
+  <symbol id="m-berlin" viewBox="0 0 250 290"><path d="M118,4 L198,4 L214,82 L196,106 L170,132 L148,146 L130,172 L110,192 L84,214 L62,222 L36,190 L26,136 L48,76 L60,40 L66,36 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><path d="M116,40 L196,36 L198,80 L148,80 L148,40 Z" fill="rgba(255,255,255,0.48)" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/><path d="M66,36 L116,40 L112,96 L96,120 L66,130 L48,100 L52,76 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M96,120 L148,116 L146,148 L110,144 L82,132 L66,130 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M110,144 L148,148 L196,152 L196,200 L140,236 L96,214 L82,148 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M66,130 L82,128 L82,200 L54,182 L52,144 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><circle cx="165" cy="56" r="7" fill="rgba(255,255,255,0.9)" stroke="rgba(255,255,255,0.95)" stroke-width="1.5"/><circle cx="165" cy="56" r="3" fill="#2A3F5E"/></symbol>
+  <symbol id="m-hessen" viewBox="0 0 250 290"><path d="M118,4 L198,4 L214,82 L196,106 L170,132 L148,146 L130,172 L110,192 L84,214 L62,222 L36,190 L26,136 L48,76 L60,40 L66,36 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><path d="M66,36 L116,40 L112,96 L96,120 L66,130 L48,100 L52,76 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M116,40 L196,36 L198,80 L148,80 L148,40 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M96,120 L148,116 L146,148 L110,144 L82,132 L66,130 Z" fill="rgba(255,255,255,0.48)" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/><path d="M110,144 L148,148 L196,152 L196,200 L140,236 L96,214 L82,148 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M66,130 L82,128 L82,200 L54,182 L52,144 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><circle cx="116" cy="134" r="5" fill="white" opacity="0.95"/><circle cx="116" cy="134" r="2.5" fill="#6B4A7A"/></symbol>
+</defs></svg>
+
+<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;">
+<div class="phone">
+
+<!-- ══════════════════════════════════════
+     SCREEN: HOME
+══════════════════════════════════════ -->
+<div class="screen active" id="s-home">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div class="hdr">
+    <div class="hdr-row">
+      <div>
+        <div class="hdr-greet">Dzień dobry 👋</div>
+        <div class="hdr-name-row">
+          <div class="hdr-name">Monika K.</div>
+          <div class="hdr-badge"><span class="hdr-badge-ico">🏅</span><span class="hdr-badge-txt">Srebrna</span></div>
+        </div>
+      </div>
+      <div class="hdr-icons">
+        <div class="chat-wrap" onclick="go('s-chat')">
+          <svg class="chat-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9B8FB0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          <div class="chat-dot"></div>
+        </div>
+        <div class="av" onclick="go('s-profile')">MK</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll">
+
+    <!-- Powiadomienia / alerty -->
+    <div style="display:flex;flex-direction:column;gap:8px;padding:12px 16px 4px;">
+      <div onclick="go('s-zapytania')" style="display:flex;align-items:center;gap:12px;background:#FFF5E6;border:1px solid #FFD699;border-radius:14px;padding:12px 14px;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(0.99)'" onmouseout="this.style.transform='scale(1)'">
+        <div style="width:36px;height:36px;border-radius:10px;background:#FF9900;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/><circle cx="12" cy="7" r="1.5" fill="white" stroke="none"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;color:#8B5000;">2 klientów pyta o Ciebie</div>
+          <div style="font-size:11px;color:#B87000;margin-top:1px;">Rodziny czekają na Twoją odpowiedź</div>
+        </div>
+        <span style="color:#FF9900;font-size:19px;font-weight:300;">›</span>
+      </div>
+      <div onclick="go('s-accepted')" style="display:flex;align-items:center;gap:12px;background:#E6F7F3;border:1px solid #99E0C8;border-radius:14px;padding:12px 14px;cursor:pointer;transition:transform 0.15s;" onmouseover="this.style.transform='scale(0.99)'" onmouseout="this.style.transform='scale(1)'">
+        <div style="width:36px;height:36px;border-radius:10px;background:#00A878;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;color:#005A3C;">Aplikacja została zaakceptowana</div>
+          <div style="font-size:11px;color:#007A58;margin-top:1px;">Berlin · 17.04.2026 · € 2.010</div>
+        </div>
+        <span style="color:#00A878;font-size:19px;font-weight:300;">›</span>
+      </div>
+    </div>
+
+    <!-- Hero intro -->
+    <div style="margin:8px 0 4px;position:relative;overflow:visible;z-index:2;min-height:155px;display:flex;align-items:flex-end;">
+      <!-- Background premium gradient — starts 28px below top so head floats above -->
+      <div style="position:absolute;left:0;right:0;top:28px;bottom:0;background:linear-gradient(120deg,#2D1040 0%,#6B1A7A 45%,#9B3AAD 75%,#C670D8 100%);"></div>
+      <!-- subtle texture overlay -->
+      <div style="position:absolute;left:0;right:0;top:28px;bottom:0;background:radial-gradient(ellipse at 30% 100%,rgba(255,255,255,0.08) 0%,transparent 60%);"></div>
+      <!-- Illustration — head pokes 28px above the banner -->
+      <div style="position:absolute;right:0;bottom:0;width:120px;height:168px;z-index:3;">
+        <svg viewBox="0 0 110 168" width="120" height="168" xmlns="http://www.w3.org/2000/svg">
+          <!-- shadow under feet -->
+          <ellipse cx="55" cy="132" rx="36" ry="8" fill="rgba(0,0,0,0.15)"/>
+          <!-- legs -->
+          <rect x="42" y="100" width="11" height="30" rx="5" fill="white" opacity="0.9"/>
+          <rect x="57" y="100" width="11" height="30" rx="5" fill="white" opacity="0.9"/>
+          <!-- shoes -->
+          <ellipse cx="47" cy="130" rx="8" ry="4" fill="#2D1040"/>
+          <ellipse cx="63" cy="130" rx="8" ry="4" fill="#2D1040"/>
+          <!-- torso / uniform -->
+          <rect x="36" y="62" width="38" height="42" rx="14" fill="white" opacity="0.92"/>
+          <!-- uniform detail (scrubs v-neck) -->
+          <path d="M55 66 L50 76 L55 80 L60 76 Z" fill="#C890D8" opacity="0.5"/>
+          <!-- left arm -->
+          <path d="M36 72 Q20 82 22 96" stroke="white" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.92"/>
+          <!-- right arm raised (static) -->
+          <path d="M74 70 Q90 62 88 78" stroke="white" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.92"/>
+          <!-- left hand -->
+          <circle cx="23" cy="97" r="6.5" fill="#FADADD"/>
+          <!-- right hand + heart waving -->
+          <g style="transform-box:fill-box;transform-origin:50% 100%;animation:heroWave 4s ease-in-out 2s infinite;">
+            <circle cx="87" cy="79" r="6.5" fill="#FADADD"/>
+            <text x="82" y="70" font-size="10" fill="#FF4D8D">♥</text>
+          </g>
+          <!-- neck -->
+          <rect x="50" y="54" width="10" height="12" rx="4" fill="#FADADD"/>
+          <!-- head -->
+          <ellipse cx="55" cy="43" rx="18" ry="20" fill="#FADADD"/>
+          <!-- hair -->
+          <path d="M37 39 Q38 17 55 15 Q72 17 73 39 Q68 27 55 26 Q42 27 37 39Z" fill="#3D1A0A"/>
+          <path d="M37 39 Q32 50 38 58 Q35 46 37 39Z" fill="#3D1A0A"/>
+          <path d="M73 39 Q78 50 72 58 Q75 46 73 39Z" fill="#3D1A0A"/>
+          <!-- bun -->
+          <circle cx="55" cy="16" r="8" fill="#3D1A0A"/>
+          <circle cx="55" cy="16" r="4" fill="#5C2810"/>
+          <!-- eyes smiling / blinking via scaleY -->
+          <g style="transform-origin:55px 43px;animation:heroBlink 5s ease-in-out 1s infinite;">
+            <path d="M46 43 Q48 40 50 43" stroke="#3A1A0A" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M60 43 Q62 40 64 43" stroke="#3A1A0A" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </g>
+          <!-- smile -->
+          <path d="M49 51 Q55 57 61 51" stroke="#D0605A" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <!-- cheeks -->
+          <ellipse cx="45" cy="50" rx="4.5" ry="3" fill="#FFB0A0" opacity="0.6"/>
+          <ellipse cx="65" cy="50" rx="4.5" ry="3" fill="#FFB0A0" opacity="0.6"/>
+        </svg>
+      </div>
+      <!-- Text -->
+      <div style="position:relative;z-index:1;padding:16px 18px 22px;padding-top:36px;max-width:calc(100% - 110px);">
+        <div style="font-size:16px;font-weight:900;color:white;line-height:1.25;margin-bottom:7px;text-shadow:0 1px 8px rgba(0,0,0,0.2);">Najlepsze zlecenia<br>dla najlepszych opiekunek</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.75);line-height:1.55;">Tylko zweryfikowani pracodawcy.<br>Ty wybierasz — my dbamy o resztę.</div>
+      </div>
+    </div>
+
+    <div class="slbl">Szybki dostęp</div>
+    <div class="qgrid">
+      <div class="qi" onclick="go('s-search')"><div class="qic" style="background:#F5EDF6;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div class="ql">Szukaj pracy</div></div>
+      <div class="qi" onclick="go('s-zapytania')"><div class="qic" style="background:#FFF0E0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#CC6600" stroke-width="1.6" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/><circle cx="12" cy="7" r="1.5" fill="#CC6600" stroke="none"/></svg></div><div class="ql">Zapytania</div></div>
+      <div class="qi" onclick="go('s-activity')"><div class="qic" style="background:#E6F7F3;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00A878" stroke-width="1.6" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="ql">Aplikacje</div></div>
+      <div class="qi" onclick="go('s-profile')"><div class="qic" style="background:#FFF5CC;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A07000" stroke-width="1.6" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="ql">Mój profil</div></div>
+    </div>
+    <div style="padding:20px 16px 12px;">
+      <div class="lvl lvl-anim" onclick="go('s-profile')">
+        <div class="lvl-ic">🏅</div>
+        <div style="flex:1"><div class="lvl-t">Poziom 4</div><div class="lvl-n">Srebrna Opiekunka</div><div class="lvl-x">680 / 1000 pkt do Złotej</div><div class="lvl-bg"><div class="lvl-fill"></div></div></div>
+        <div class="lvl-pct">›</div>
+      </div>
+    </div>
+    <div class="srow"><div class="slbl">Dopasowane oferty</div><div class="see-all" onclick="go('s-search')">Wszystkie 23 →</div></div>
+    <!-- Job Card 1 -->
+    <div class="jcard" onclick="go('s-detail')"><div class="ribbon"><div class="ribbon-inner">+ 200 €</div></div><div class="jhero"><div class="jhero-bg" style="background:linear-gradient(135deg,#F0D0C8,#E0B0A8,#CC9088);"></div><div class="jhero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-nrw"/></svg></div><div class="jhero-mid"><div class="jhero-city">Köln</div><div class="jhero-state">Nordrhein-Westfalen</div><div class="jhero-dist">📍 ~680 km od Ciebie</div></div></div><div class="jstatus"><div class="badge-s"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#007A58" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Sprawdzona</div><div style="display:flex;gap:5px;"><div class="badge-diff diff-hard">⚡ Wymagające</div><div class="badge-pay">💰 Dobrze płatna</div></div></div><div class="jpats"><div class="pat-box"><div class="pat-ico">👨</div><div class="pat-age">90 lat</div><div class="pat-mob">osoba leżąca</div></div><div class="pat-box"><div class="pat-ico">👩</div><div class="pat-age">90 lat</div><div class="pat-mob">o balkoniku</div></div></div><div class="jinfos"><div class="irow"><span class="iico">👤</span><span>dla: <b>opiekuna lub opiekunki</b></span></div><div class="irow"><span class="iico">🌙</span><span>Nocne: <b>tak, ~2×/tydz.</b></span></div><div class="irow"><span class="iico">🇩🇪</span><span>Język: <b>dobry</b></span></div></div><div class="jmeta"><div><div class="meta-lbl">Wyjazd</div><div class="meta-val">📅 10.04.2026</div></div><div style="text-align:right;"><div class="meta-lbl">Wynagrodzenie</div><div class="meta-sal">€ 2.738</div><div class="meta-pts">⭐ 10 pkt / dzień</div></div></div><div class="jbtns"><button class="btn-apply" onclick="event.stopPropagation();openApplyModal(this)">Aplikuj <span class="heart">♥</span></button></div><div class="jfooter"><div class="jviewers">👁 16 ogląda · dodana 09.04</div><div class="jszczegoly" onclick="go('s-detail')">Szczegóły <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    <!-- Job Card 2 -->
+    <div class="jcard" onclick="go('s-detail')"><div class="jhero"><div class="jhero-bg" style="background:linear-gradient(135deg,#C8DDD0,#A8C8B8,#88B0A0);"></div><div class="jhero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-berlin"/></svg></div><div class="jhero-mid"><div class="jhero-city">Berlin</div><div class="jhero-state">Berlin</div><div class="jhero-dist">📍 ~520 km od Ciebie</div></div></div><div class="jstatus"><div></div><div style="display:flex;gap:5px;"><div class="badge-diff diff-easy">🌿 Łatwe</div></div></div><div class="jpats"><div class="pat-box" style="max-width:calc(50% - 4px);"><div class="pat-ico">👨</div><div class="pat-age">61 lat</div><div class="pat-mob">samodzielny</div></div></div><div class="jinfos"><div class="irow"><span class="iico">👤</span><span>dla: <b>opiekuna lub opiekunki</b></span></div><div class="irow"><span class="iico">🌙</span><span>Nocne: <b>brak</b></span></div><div class="irow"><span class="iico">🇩🇪</span><span>Język: <b>bardzo dobry</b></span></div></div><div class="jmeta"><div><div class="meta-lbl">Wyjazd</div><div class="meta-val">📅 17.04.2026</div></div><div style="text-align:right;"><div class="meta-lbl">Wynagrodzenie</div><div class="meta-sal">€ 2.010</div><div class="meta-pts">⭐ 5 pkt / dzień</div></div></div><div class="jbtns"><button class="btn-apply" onclick="event.stopPropagation();openApplyModal(this)">Aplikuj <span class="heart">♥</span></button></div><div class="jfooter"><div class="jviewers">👁 8 ogląda · dodana dziś</div><div class="jszczegoly" onclick="go('s-detail')">Szczegóły <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+  </div>
+  <div class="bnav">
+    <div class="ni on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.6" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="ni-lbl" style="color:var(--brand)">Start</div></div>
+    <div class="ni" onclick="go('s-search')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><div class="ni-lbl">Oferty</div><div class="ni-pip">23</div></div>
+    <div class="ni" onclick="go('s-zapytania')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><div class="ni-lbl">Zapytania</div><div class="ni-pip">1</div></div>
+    <div class="ni" onclick="go('s-activity')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div class="ni-lbl">Aplikacje</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: ZAAKCEPTOWANA (ACCEPTED STATE)
+══════════════════════════════════════ -->
+<div class="screen" id="s-accepted">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div style="background:var(--card);border-bottom:1px solid #EDE7EF;padding:8px 16px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+    <button class="back-btn" onclick="go('s-home')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <div style="color:var(--text);font-size:16px;font-weight:800;flex:1;">Twoje zlecenie</div>
+    <div class="chat-wrap" onclick="go('s-chat')"><svg class="chat-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9B8FB0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg><div class="chat-dot"></div></div>
+  </div>
+  <div class="scroll" style="padding:0;padding-bottom:80px;">
+
+    <!-- Gratulacje banner -->
+    <div style="background:linear-gradient(135deg,#007A58,#00A878);padding:20px 18px 22px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <div style="width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">🎉</div>
+        <div>
+          <div style="color:rgba(255,255,255,0.75);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;">Zaakceptowano · 08.04.2026</div>
+          <div style="color:white;font-size:17px;font-weight:800;margin-top:2px;">Gratulacje, Moniko!</div>
+        </div>
+      </div>
+      <!-- Countdown -->
+      <div style="background:rgba(255,255,255,0.15);border-radius:14px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="text-align:center;">
+          <div style="color:white;font-size:24px;font-weight:800;line-height:1;">9</div>
+          <div style="color:rgba(255,255,255,0.7);font-size:10px;font-weight:600;text-transform:uppercase;margin-top:2px;">dni</div>
+        </div>
+        <div style="color:rgba(255,255,255,0.4);font-size:18px;">:</div>
+        <div style="text-align:center;">
+          <div style="color:white;font-size:24px;font-weight:800;line-height:1;">17</div>
+          <div style="color:rgba(255,255,255,0.7);font-size:10px;font-weight:600;text-transform:uppercase;margin-top:2px;">godz</div>
+        </div>
+        <div style="color:rgba(255,255,255,0.4);font-size:18px;">:</div>
+        <div style="text-align:center;">
+          <div style="color:white;font-size:24px;font-weight:800;line-height:1;">43</div>
+          <div style="color:rgba(255,255,255,0.7);font-size:10px;font-weight:600;text-transform:uppercase;margin-top:2px;">min</div>
+        </div>
+        <div style="width:1px;background:rgba(255,255,255,0.2);height:32px;"></div>
+        <div style="text-align:right;">
+          <div style="color:rgba(255,255,255,0.75);font-size:10px;font-weight:600;text-transform:uppercase;">Wyjazd</div>
+          <div style="color:white;font-size:14px;font-weight:800;margin-top:1px;">17.04.2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:8px;background:var(--bg);"></div>
+
+    <!-- Szczegóły zlecenia -->
+    <div style="background:var(--card);padding:16px 18px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.4px;">Szczegóły zlecenia</div>
+        <div onclick="goDetail('accepted')" style="display:flex;align-items:center;gap:4px;cursor:pointer;background:var(--brand-light);border:1px solid var(--brand-mid);border-radius:20px;padding:3px 10px;transition:opacity 0.15s,transform 0.15s;" onmouseover="this.style.opacity='0.7';this.style.transform='scale(0.95)'" onmouseout="this.style.opacity='1';this.style.transform='scale(1)'">
+          <span style="font-size:11px;font-weight:700;color:var(--brand);">Pełna oferta →</span>
+        </div>
+      </div>
+      <div class="sec-inner" style="padding:0;">
+        <div class="row"><div class="row-icon">📅</div><div><div class="row-title">Od — Do</div><div class="row-sub">17.04.2026 — 17.07.2026 · 3 miesiące</div></div></div>
+        <div class="row"><div class="row-icon">💶</div><div><div class="row-title">Wynagrodzenie</div><div class="row-sub" style="color:var(--cta-d);font-weight:700;">€ 2.010 netto / miesiąc</div></div></div>
+        <div class="row"><div class="row-icon">⭐</div><div><div class="row-title">Punkty</div><div class="row-sub">5 pkt dziennie</div></div></div>
+        <div class="row"><div class="row-icon">📍</div><div><div class="row-title">Adres</div><div class="row-sub">Mitte, Berlin · ~520 km od Ciebie</div></div></div>
+        <div class="row" style="border:none;"><div class="row-icon">📅</div><div><div class="row-title">Kontakt z rodziną</div><div class="row-sub" style="color:#B87000;">Przekazany 1 dzień przed wyjazdem</div></div></div>
+      </div>
+    </div>
+
+    <div style="height:8px;background:var(--bg);"></div>
+
+    <!-- Checklista -->
+    <div style="background:var(--card);padding:14px 18px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.4px;">Do zrobienia</div>
+        <div style="font-size:11px;font-weight:700;color:var(--brand);">1 / 4 gotowe</div>
+      </div>
+      <div style="background:#EDE0F0;border-radius:4px;height:4px;margin-bottom:12px;overflow:hidden;"><div style="background:var(--brand);width:25%;height:100%;border-radius:4px;"></div></div>
+
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <!-- done -->
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #F3EEF5;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#00C07A;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span style="font-size:13px;font-weight:500;color:var(--text-3);text-decoration:line-through;">Potwierdź datę wyjazdu</span>
+        </div>
+        <!-- Vertrag -->
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #F3EEF5;cursor:pointer;">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--bg);border:2px solid var(--brand-mid);flex-shrink:0;"></div>
+          <div style="flex:1;"><div style="font-size:13px;font-weight:700;color:var(--text);">Podpisz umowę</div><div style="font-size:11px;color:var(--text-3);">Umowa czeka na Twój podpis</div></div>
+          <span style="font-size:12px;font-weight:700;color:var(--brand);">Podpisz →</span>
+        </div>
+        <!-- Podopieczny -->
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #F3EEF5;cursor:pointer;">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--bg);border:2px solid var(--brand-mid);flex-shrink:0;"></div>
+          <div style="flex:1;"><div style="font-size:13px;font-weight:700;color:var(--text);">Zapoznaj się z podopiecznym</div><div style="font-size:11px;color:var(--text-3);">Profil i zwyczaje Pana Wernera</div></div>
+          <span class="prow-arr">›</span>
+        </div>
+        <!-- Transport -->
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #F3EEF5;cursor:pointer;">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--bg);border:2px solid var(--brand-mid);flex-shrink:0;"></div>
+          <div style="flex:1;"><div style="font-size:13px;font-weight:700;color:var(--text);">Zarezerwuj transport</div><div style="font-size:11px;color:var(--text-3);">Do 10.04 · mamamia pomaga</div></div>
+          <span class="prow-arr">›</span>
+        </div>
+        <!-- A1 — mamamia sends -->
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 0;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#E6F7F3;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#00A878" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div>
+          <div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--text-3);">Dokument A1</div><div style="font-size:11px;color:#00A878;font-weight:600;">mamamia wysyła za Ciebie ✓</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:8px;"></div>
+
+    <div style="height:8px;background:var(--bg);"></div>
+
+    <!-- Poradnik — teaser -->
+    <div style="margin:0 16px;" >
+      <div style="background:linear-gradient(135deg,var(--brand-light),#EDD9F5);border:1px solid var(--brand-mid);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;">
+        <div style="font-size:28px;flex-shrink:0;">📖</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;">Poradnik opiekunki</div>
+          <div style="font-size:11px;color:var(--text-3);line-height:1.5;">Jak się przygotować? Co zabrać? Pierwszy dzień za granicą.</div>
+        </div>
+        <span style="color:var(--brand);font-size:20px;font-weight:300;flex-shrink:0;">›</span>
+      </div>
+    </div>
+
+    <div style="height:8px;background:var(--bg);"></div>
+
+    <!-- Kontakt do Rekruterki -->
+    <div style="background:var(--card);padding:14px 18px;" onclick="go('s-chat')" style="cursor:pointer;">
+      <div style="display:flex;align-items:center;gap:12px;cursor:pointer;" onclick="go('s-chat')">
+        <div style="width:40px;height:40px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👩</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;color:var(--text);">Monika — Rekruterka</div>
+          <div style="font-size:11px;color:var(--text-3);">Masz pytanie? Napisz do mnie</div>
+        </div>
+        <div style="width:34px;height:34px;border-radius:10px;background:var(--brand-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:80px;"></div>
+  </div>
+
+  <!-- Restricted nav: only Chat + Profile -->
+  <div class="bnav" style="justify-content:center;gap:0;">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 0;cursor:pointer;" onclick="go('s-chat')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+      <div class="ni-lbl">Czat</div>
+    </div>
+    <div style="width:1px;background:#EDE7EF;margin:10px 0;"></div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 0;cursor:pointer;" onclick="go('s-profile')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <div class="ni-lbl">Mój profil</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: OFERTY (SEARCH)
+══════════════════════════════════════ -->
+<div class="screen" id="s-search">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div class="shdr">
+    <div class="shdr-top">
+      <div class="stitle">Znajdź pracę</div>
+      <div class="chat-wrap" onclick="go('s-chat')"><svg class="chat-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9B8FB0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg><div class="chat-dot"></div></div>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <div id="date-pill" class="date-pill outdated" onclick="openCalModal()">
+      <svg id="date-pill-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+      <span class="date-pill-label">Od</span>
+      <span class="date-pill-val" id="date-pill-val">09.04.2026</span>
+      <span id="date-pill-warn" style="font-size:14px;margin-left:2px;">⚠️</span>
+    </div>
+    <button class="filter-btn" onclick="openSheet()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+      Filtruj
+      <div class="filter-count">3</div>
+    </button>
+  </div>
+  <div class="result-bar"><div class="result-lbl">23 oferty dopasowane</div></div>
+  <div class="scroll" style="padding-top:8px;">
+    <div class="jcard" onclick="go('s-detail')"><div class="ribbon"><div class="ribbon-inner">+ 200 €</div></div><div class="jhero"><div class="jhero-bg" style="background:linear-gradient(135deg,#F0D0C8,#E0B0A8,#CC9088);"></div><div class="jhero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-nrw"/></svg></div><div class="jhero-mid"><div class="jhero-city">Köln</div><div class="jhero-state">Nordrhein-Westfalen</div><div class="jhero-dist">📍 ~680 km od Ciebie</div></div></div><div class="jstatus"><div class="badge-s"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#007A58" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Sprawdzona</div><div style="display:flex;gap:5px;"><div class="badge-diff diff-hard">⚡ Wymagające</div><div class="badge-pay">💰 Dobrze płatna</div></div></div><div class="jpats"><div class="pat-box"><div class="pat-ico">👨</div><div class="pat-age">90 lat</div><div class="pat-mob">osoba leżąca</div></div><div class="pat-box"><div class="pat-ico">👩</div><div class="pat-age">90 lat</div><div class="pat-mob">o balkoniku</div></div></div><div class="jinfos"><div class="irow"><span class="iico">👤</span><span>dla: <b>opiekuna lub opiekunki</b></span></div><div class="irow"><span class="iico">🌙</span><span>Nocne: <b>tak, ~2×/tydz.</b></span></div><div class="irow"><span class="iico">🇩🇪</span><span>Język: <b>dobry</b></span></div></div><div class="jmeta"><div><div class="meta-lbl">Wyjazd</div><div class="meta-val">📅 10.04.2026</div></div><div style="text-align:right;"><div class="meta-lbl">Wynagrodzenie</div><div class="meta-sal">€ 2.738</div><div class="meta-pts">⭐ 10 pkt / dzień</div></div></div><div class="jbtns"><button class="btn-apply" onclick="event.stopPropagation();openApplyModal(this)">Aplikuj <span class="heart">♥</span></button></div><div class="jfooter"><div class="jviewers">👁 16 ogląda · dodana 09.04</div><div class="jszczegoly" onclick="go('s-detail')">Szczegóły <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    <div class="jcard" onclick="go('s-detail')"><div class="jhero"><div class="jhero-bg" style="background:linear-gradient(135deg,#C8DDD0,#A8C8B8,#88B0A0);"></div><div class="jhero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-berlin"/></svg></div><div class="jhero-mid"><div class="jhero-city">Berlin</div><div class="jhero-state">Berlin</div><div class="jhero-dist">📍 ~520 km od Ciebie</div></div></div><div class="jstatus"><div></div><div style="display:flex;gap:5px;"><div class="badge-diff diff-easy">🌿 Łatwe</div></div></div><div class="jpats"><div class="pat-box" style="max-width:calc(50% - 4px);"><div class="pat-ico">👨</div><div class="pat-age">61 lat</div><div class="pat-mob">samodzielny</div></div></div><div class="jinfos"><div class="irow"><span class="iico">👤</span><span>dla: <b>opiekuna lub opiekunki</b></span></div><div class="irow"><span class="iico">🌙</span><span>Nocne: <b>brak</b></span></div><div class="irow"><span class="iico">🇩🇪</span><span>Język: <b>bardzo dobry</b></span></div></div><div class="jmeta"><div><div class="meta-lbl">Wyjazd</div><div class="meta-val">📅 17.04.2026</div></div><div style="text-align:right;"><div class="meta-lbl">Wynagrodzenie</div><div class="meta-sal">€ 2.010</div><div class="meta-pts">⭐ 5 pkt / dzień</div></div></div><div class="jbtns"><button class="btn-apply" onclick="event.stopPropagation();openApplyModal(this)">Aplikuj <span class="heart">♥</span></button></div><div class="jfooter"><div class="jviewers">👁 8 ogląda · dodana dziś</div><div class="jszczegoly" onclick="go('s-detail')">Szczegóły <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    <div class="jcard" onclick="go('s-detail')"><div class="ribbon"><div class="ribbon-inner">+ 150 €</div></div><div class="jhero"><div class="jhero-bg" style="background:linear-gradient(135deg,#F0E0C0,#E0C898,#CEB078);"></div><div class="jhero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-hessen"/></svg></div><div class="jhero-mid"><div class="jhero-city">Pohlheim</div><div class="jhero-state">Hessen</div><div class="jhero-dist">📍 ~750 km od Ciebie</div></div></div><div class="jstatus"><div class="badge-s"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#007A58" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Sprawdzona</div><div style="display:flex;gap:5px;"><div class="badge-diff diff-med">🔶 Średnie</div></div></div><div class="jpats"><div class="pat-box"><div class="pat-ico">👩</div><div class="pat-age">91 lat</div><div class="pat-mob">mobilna</div></div><div class="pat-box"><div class="pat-ico">👨</div><div class="pat-age">91 lat</div><div class="pat-mob">mobilny</div></div></div><div class="jinfos"><div class="irow"><span class="iico">👤</span><span>dla: <b>opiekuna lub opiekunki</b></span></div><div class="irow"><span class="iico">🌙</span><span>Nocne: <b>brak</b></span></div><div class="irow"><span class="iico">🇩🇪</span><span>Język: <b>komunikatywny</b></span></div></div><div class="jmeta"><div><div class="meta-lbl">Wyjazd</div><div class="meta-val">📅 21.03.2026</div></div><div style="text-align:right;"><div class="meta-lbl">Wynagrodzenie</div><div class="meta-sal">€ 2.170</div><div class="meta-pts">⭐ 20 pkt / dzień</div></div></div><div class="jbtns"><button class="btn-apply" onclick="event.stopPropagation();openApplyModal(this)">Aplikuj <span class="heart">♥</span></button></div><div class="jfooter"><div class="jviewers">👁 22 ogląda · dodana 05.04</div><div class="jszczegoly" onclick="go('s-detail')">Szczegóły <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+  </div>
+  <div class="bnav">
+    <div class="ni" onclick="go('s-home')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="ni-lbl">Start</div></div>
+    <div class="ni on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><div class="ni-lbl" style="color:var(--brand)">Oferty</div></div>
+    <div class="ni" onclick="go('s-zapytania')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><div class="ni-lbl">Zapytania</div><div class="ni-pip">1</div></div>
+    <div class="ni" onclick="go('s-activity')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div class="ni-lbl">Aplikacje</div></div>
+  </div>
+  <!-- FILTER SHEET -->
+  <div class="overlay" id="overlay" onclick="closeSheet()"></div>
+  <div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hdr">
+      <div class="sheet-title">Filtruj oferty</div>
+      <button class="sheet-close" onclick="closeSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A5470" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <div style="height:1px;background:#F0EAF4;margin:0 18px;"></div>
+    <div class="sheet-scroll">
+
+      <!-- Data -->
+      <div class="fsec">
+        <div class="fsec-label">Dostępna od</div>
+        <div class="date-field">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+          <div class="date-field-val">09.04.2026</div>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#B0A4BE" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+
+      <!-- Wynagrodzenie -->
+      <div class="fsec">
+        <div class="fsec-label">Min. wynagrodzenie</div>
+        <div class="stepper">
+          <button class="step-btn" onclick="changeWyn(-50)">−</button>
+          <input type="number" id="wyn-val-input" value="2000" min="1000" max="5000" step="50"
+            style="width:90px;text-align:center;border:none;font-size:17px;font-weight:800;color:var(--text);font-family:var(--font);background:transparent;outline:none;"
+            oninput="wynVal=parseInt(this.value)||1000;document.getElementById('wyn-val').textContent=''">
+          <span id="wyn-val" style="font-size:13px;font-weight:700;color:var(--text-3);margin-left:2px;">€</span>
+          <button class="step-btn" onclick="changeWyn(50)">+</button>
+        </div>
+      </div>
+
+      <!-- Region — Freitext + chips -->
+      <div class="fsec">
+        <div class="fsec-label">Region / Miasto</div>
+        <input type="text" placeholder="np. Berlin, Bayern, NRW…"
+          style="width:100%;box-sizing:border-box;border:1.5px solid var(--brand-mid);border-radius:12px;padding:10px 14px;font-size:14px;font-family:var(--font);color:var(--text);background:var(--card);outline:none;margin-bottom:10px;transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='var(--brand)'" onblur="this.style.borderColor='var(--brand-mid)'">
+        <div class="tchips">
+          <div class="tchip on" onclick="toggleChip(this)">Wszystkie</div>
+          <div class="tchip" onclick="toggleChip(this)">NRW</div>
+          <div class="tchip" onclick="toggleChip(this)">Berlin</div>
+          <div class="tchip" onclick="toggleChip(this)">Bayern</div>
+          <div class="tchip" onclick="toggleChip(this)">Hessen</div>
+          <div class="tchip" onclick="toggleChip(this)">Hamburg</div>
+          <div class="tchip" onclick="toggleChip(this)">Baden-W.</div>
+          <div class="tchip" onclick="toggleChip(this)">Sachsen</div>
+        </div>
+      </div>
+
+      <!-- Podopieczni -->
+      <div class="fsec">
+        <div class="fsec-label">Liczba podopiecznych</div>
+        <div class="tchips">
+          <div class="tchip" onclick="toggleSingle(this)">1 osoba</div>
+          <div class="tchip" onclick="toggleSingle(this)">2 osoby</div>
+          <div class="tchip on" onclick="toggleSingle(this)">Nieważne</div>
+        </div>
+      </div>
+
+      <!-- Mobilność -->
+      <div class="fsec">
+        <div class="fsec-label">Mobilność podopiecznych</div>
+        <div class="tchips">
+          <div class="tchip on" onclick="toggleChip(this)">Mobilny</div>
+          <div class="tchip on" onclick="toggleChip(this)">Na wózku</div>
+          <div class="tchip on" onclick="toggleChip(this)">Leżący</div>
+        </div>
+      </div>
+
+      <!-- Nocne -->
+      <div class="fsec">
+        <div class="fsec-label">Nocne dyżury</div>
+        <div class="tchips">
+          <div class="tchip on" onclick="toggleChip(this)">Tak</div>
+          <div class="tchip on" onclick="toggleChip(this)">Nie</div>
+        </div>
+      </div>
+
+      <div style="height:8px;"></div>
+    </div>
+    <div class="sheet-footer">
+      <button class="btn-reset" onclick="wynVal=2000;document.getElementById('wyn-val-input').value=2000;" title="Wyczyść filtry">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="1.8" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+      </button>
+      <button class="btn-show" onclick="closeSheet()">Pokaż 23 oferty →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: AKTYWNOSCI
+══════════════════════════════════════ -->
+<div class="screen" id="s-activity">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div class="act-hdr">
+    <div class="act-hdr-row">
+      <div class="act-title">Moje aplikacje</div>
+      <div class="chat-wrap" onclick="go('s-chat')"><svg class="chat-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9B8FB0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg><div class="chat-dot"></div></div>
+    </div>
+    <div class="act-tab-bar">
+      <div class="act-tab on" onclick="actTab(0)">Aplikacje <span class="act-tab-pip">2</span></div>
+      <div class="act-tab" onclick="actTab(1)">Historia zleceń</div>
+    </div>
+  </div>
+
+  <!-- TAB 0: APLIKACJE -->
+  <div id="act-panel-0" class="scroll" style="padding-top:14px;">
+
+    <!-- OCZEKUJĄCE -->
+    <div style="padding:0 14px;margin-bottom:6px;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-3);margin-bottom:8px;">Oczekujące · 2</div>
+
+      <div class="act-card" style="margin-bottom:8px;" onclick="goDetail('applied')">
+        <div class="act-hero"><div class="act-hero-bg" style="background:linear-gradient(135deg,#E8C4B0,#C8A0B8,#A888A8);"></div><div class="act-hero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-hessen"/></svg></div><div class="act-hero-mid"><div class="act-hero-city">Pohlheim · Hessen</div><div class="act-hero-state">👩 91 l. · 👨 91 l.</div></div><div class="act-hero-right"><div class="act-pill ap-pend">📤 Wysłana</div></div></div>
+        <div class="act-body">
+          <div class="act-brow">
+            <div><div style="font-size:12px;font-weight:600;color:var(--text);">Wyjazd 21.04.2026</div><div style="font-size:11px;color:var(--text-3);margin-top:1px;">Wysłano 13.04 · czeka na decyzję</div></div>
+            <div style="text-align:right;"><div class="act-sal">€ 2.170</div><div class="act-pts">⭐ 20 pkt / dzień</div></div>
+          </div>
+          <div style="margin-top:6px;font-size:11px;color:var(--text-3);">Dotknij, aby zobaczyć szczegóły →</div>
+        </div>
+      </div>
+
+      <div class="act-card" onclick="goDetail('applied')">
+        <div class="act-hero"><div class="act-hero-bg" style="background:linear-gradient(135deg,#B8D4C8,#8FBCAA,#6EA090);"></div><div class="act-hero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-nrw"/></svg></div><div class="act-hero-mid"><div class="act-hero-city">Köln · NRW</div><div class="act-hero-state">👨 90 l. · 👩 90 l.</div></div><div class="act-hero-right"><div class="act-pill ap-pend">📤 Wysłana</div></div></div>
+        <div class="act-body">
+          <div class="act-brow">
+            <div><div style="font-size:12px;font-weight:600;color:var(--text);">Wyjazd 10.04.2026</div><div style="font-size:11px;color:var(--text-3);margin-top:1px;">Wysłano 09.04 · czeka na decyzję</div></div>
+            <div style="text-align:right;"><div class="act-sal">€ 2.738</div><div class="act-pts">⭐ 10 pkt / dzień</div></div>
+          </div>
+          <div style="margin-top:6px;font-size:11px;color:var(--text-3);">Dotknij, aby zobaczyć szczegóły →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ODRZUCONE (zwijane) -->
+    <div style="padding:0 14px;margin-bottom:20px;">
+      <div class="act-rejected-hdr" onclick="toggleRejected()">
+        <div style="display:flex;align-items:center;gap:7px;">
+          <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-3);">Odrzucone · 2</span>
+        </div>
+        <svg id="rejected-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2.5" stroke-linecap="round" style="transition:transform 0.2s;flex-shrink:0;"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div id="rejected-list" style="display:none;margin-top:6px;display:flex;flex-direction:column;gap:6px;">
+        <div class="act-card-rej">
+          <div style="display:flex;flex-direction:column;gap:1px;flex:1;min-width:0;">
+            <div style="font-size:12px;font-weight:700;color:var(--text-3);">Konstanz · Baden-Württemberg</div>
+            <div style="font-size:11px;color:var(--text-3);">Wyjazd 12.04 · odrzucono 10.04</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;"><div style="font-size:12px;font-weight:700;color:var(--text-3);">€ 2.410</div></div>
+        </div>
+        <div class="act-card-rej">
+          <div style="display:flex;flex-direction:column;gap:1px;flex:1;min-width:0;">
+            <div style="font-size:12px;font-weight:700;color:var(--text-3);">München · Bayern</div>
+            <div style="font-size:11px;color:var(--text-3);">Wyjazd 05.04 · odrzucono 03.04</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;"><div style="font-size:12px;font-weight:700;color:var(--text-3);">€ 2.200</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 1: HISTORIA -->
+  <div id="act-panel-1" class="scroll" style="padding-top:14px;display:none;">
+    <div style="padding:0 14px;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-3);margin-bottom:10px;">Zakończone zlecenia · 1</div>
+
+      <!-- Completed assignment card -->
+      <div style="background:var(--card);border-radius:18px;border:1.5px solid #EDE0F0;overflow:hidden;box-shadow:0 2px 12px rgba(100,30,120,0.07);margin-bottom:12px;cursor:pointer;" onclick="go('s-hist-detail')" onmouseover="this.style.transform='scale(0.99)'" onmouseout="this.style.transform='scale(1)'" style="transition:transform 0.15s;">
+        <div class="act-hero"><div class="act-hero-bg" style="background:linear-gradient(135deg,#B8CEDE,#8AAABF,#6E8FA8);"></div><div class="act-hero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-berlin"/></svg></div><div class="act-hero-mid"><div class="act-hero-city">Hamburg · Schleswig</div><div class="act-hero-state">👩 77 lat · mobilna</div></div><div class="act-hero-right"><div class="act-pill" style="background:rgba(255,255,255,0.18);color:white;">✓ Ukończony</div></div></div>
+        <div style="padding:12px 14px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+            <div>
+              <div style="font-size:12px;font-weight:700;color:var(--text);">15.01.2026 — 15.04.2026</div>
+              <div style="font-size:11px;color:var(--text-3);margin-top:2px;">3 miesiące · rodzina Weiss</div>
+            </div>
+            <div style="text-align:right;display:flex;flex-direction:column;gap:3px;align-items:flex-end;">
+              <div style="font-size:16px;font-weight:800;color:var(--cta);">€ 6.030</div>
+              <div style="font-size:10px;color:var(--text-3);">łącznie zarobione</div>
+              <div style="font-size:12px;font-weight:700;color:var(--brand);background:var(--brand-light);border-radius:20px;padding:2px 8px;">⭐ 270 pkt</div>
+            </div>
+          </div>
+          <div style="border-top:1px solid #F0EAF4;padding-top:12px;">
+            <div style="font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:8px;">🔁 Czy chciałabyś wrócić do tej rodziny?</div>
+            <div id="return-btns" style="display:flex;gap:8px;">
+              <button onclick="returnAnswer('no')" style="flex:1;background:var(--bg);border:1.5px solid #DDD0E6;border-radius:12px;padding:9px;font-size:12px;font-weight:700;color:var(--text-2);font-family:var(--font);cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='#EDE7EF'" onmouseout="this.style.background='var(--bg)'">Nie, dziękuję</button>
+              <button onclick="returnAnswer('yes')" style="flex:1;background:var(--brand-light);border:1.5px solid var(--brand-mid);border-radius:12px;padding:9px;font-size:12px;font-weight:700;color:var(--brand);font-family:var(--font);cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='#EDD9F5'" onmouseout="this.style.background='var(--brand-light)'">Tak, chętnie! 🙌</button>
+            </div>
+            <div id="return-thanks" style="display:none;padding:2px 0;">
+              <div style="font-size:11px;color:var(--text-3);line-height:1.5;" id="return-thanks-txt"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state hint -->
+      <div style="text-align:center;padding:8px 0 30px;">
+        <div style="font-size:13px;color:var(--text-3);line-height:1.6;">Każde ukończone zlecenie pojawi się tutaj.<br>Twoja historia — Twój dorobek. 💪</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bnav">
+    <div class="ni" onclick="go('s-home')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="ni-lbl">Start</div></div>
+    <div class="ni" onclick="go('s-search')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><div class="ni-lbl">Oferty</div><div class="ni-pip">23</div></div>
+    <div class="ni" onclick="go('s-zapytania')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><div class="ni-lbl">Zapytania</div><div class="ni-pip">1</div></div>
+    <div class="ni on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.6" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div class="ni-lbl" style="color:var(--brand)">Aplikacje</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: CZAT LIST
+══════════════════════════════════════ -->
+<!-- ══════════════════════════════════════
+     SCREEN: CZAT
+══════════════════════════════════════ -->
+<div class="screen" id="s-chat">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div class="chat-detail-hdr">
+    <button class="back-btn" onclick="go('s-home')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div class="chat-av" style="background:#F5EDF6;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">👩</div>
+    <div><div style="color:var(--text);font-size:15px;font-weight:700;">Monika — Rekruterka</div><div style="color:var(--text-3);font-size:11px;">Zazwyczaj odpowiada w ciągu godziny</div></div>
+  </div>
+  <div class="messages">
+    <div class="msg-row"><div class="msg-av-sm">👩</div><div><div class="msg-time">09:15</div><div class="bubble them">Cześć Moniko! Aplikowałaś na Köln — pasuje Ci termin 10 kwietnia?</div></div></div>
+    <div class="msg-row me"><div><div class="msg-time" style="text-align:right;">09:22</div><div class="bubble me">Tak, pasuje! Mam pytanie o nocne dyżury.</div></div></div>
+    <div class="msg-row"><div class="msg-av-sm">👩</div><div><div class="msg-time">09:31</div><div class="bubble them">~2x w tygodniu, dodatkowo płatne. Twoja aplikacja wygląda świetnie — przekazuję ją teraz! 🎉</div></div></div>
+    <div class="msg-row me"><div><div class="msg-time" style="text-align:right;">09:35</div><div class="bubble me">Super, dziękuję! Czekam na wiadomość 🙏</div></div></div>
+  </div>
+  <div class="chat-inp-row">
+    <input class="chat-inp" placeholder="Napisz wiadomość...">
+    <button class="chat-send"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: JOB DETAIL
+══════════════════════════════════════ -->
+<div class="screen" id="s-detail">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div style="background:var(--card);border-bottom:1px solid #EDE7EF;padding:8px 16px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+    <button class="back-btn" onclick="go('s-search')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div style="color:var(--text);font-size:15px;font-weight:700;">Szczegóły oferty</div>
+  </div>
+  <div class="scroll" style="padding:0;padding-bottom:110px;">
+
+    <!-- HERO -->
+    <div style="background:var(--card);padding:20px 18px 18px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;">
+        <div>
+          <div style="font-size:17px;font-weight:800;color:var(--text);margin-bottom:5px;line-height:1.6;">
+            <div>👴 Mężczyzna · 90 lat <span style="font-size:11px;font-weight:500;color:var(--text-3);">osoba leżąca</span></div>
+            <div>👵 Kobieta · 90 lat <span style="font-size:11px;font-weight:500;color:var(--text-3);">o balkoniku</span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:13px;color:var(--text-2);margin-bottom:10px;font-weight:500;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.6" stroke-linecap="round"><path d="M20 10c0 6-8 13-8 13s-8-7-8-13a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>Köln, Nordrhein-Westfalen</div>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <div class="badge-s"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#007A58" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg> Sprawdzona</div>
+            <div class="badge-diff diff-med">🔶 Średnie</div>
+            <div class="badge-pay">💰 Dobrze płatna</div>
+          </div>
+        </div>
+        <div style="flex-shrink:0;width:70px;height:70px;">
+          <svg viewBox="0 0 250 290" style="width:100%;height:100%;">
+            <path d="M118,4 L198,4 L214,82 L196,106 L170,132 L148,146 L130,172 L110,192 L84,214 L62,222 L36,190 L26,136 L48,76 L60,40 L66,36 Z" fill="none" stroke="#DEC6E0" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M66,36 L116,40 L112,96 L96,120 L66,130 L48,100 L52,76 Z" fill="rgba(155,31,161,0.06)" stroke="#EDE0F0" stroke-width="1"/>
+            <path d="M116,40 L196,36 L198,80 L148,80 L148,40 Z" fill="rgba(155,31,161,0.06)" stroke="#EDE0F0" stroke-width="1"/>
+            <path d="M96,120 L148,116 L146,148 L110,144 L82,132 L66,130 Z" fill="rgba(155,31,161,0.06)" stroke="#EDE0F0" stroke-width="1"/>
+            <path d="M66,130 L82,128 L82,200 L54,182 L52,144 Z" fill="rgba(155,31,161,0.06)" stroke="#EDE0F0" stroke-width="1"/>
+            <path d="M68,178 L96,160 L110,168 L112,202 L96,214 L72,210 L56,196 L54,182 Z" fill="#9B1FA1"/>
+            <path d="M110,152 L160,148 L196,152 L196,200 L170,228 L140,236 L110,228 L96,214 L112,202 L110,168 L96,160 Z" fill="#C890D8"/>
+          </svg>
+        </div>
+      </div>
+      <div style="background:var(--brand-light);border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--brand);margin-bottom:3px;opacity:0.7;">Wynagrodzenie</div>
+          <div style="font-size:26px;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1;">2.410 €</div>
+          <div style="font-size:12px;color:var(--text-2);margin-top:2px;">netto / miesiąc</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:15px;font-weight:800;color:var(--brand);">⭐ 10 pkt</div>
+          <div style="font-size:10px;color:var(--text-3);margin-top:1px;">dziennie</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:8px;background:var(--bg);"></div>
+
+    <!-- AI SUMMARY -->
+    <div style="background:var(--card);padding:16px 18px;">
+      <div style="background:linear-gradient(135deg,#F2E5FA,#EDD9F5);border-radius:14px;padding:14px 15px;">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px;">
+          <div style="width:30px;height:30px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">✨</div>
+          <div style="font-size:13px;font-weight:800;color:var(--text);">Automatyczne podsumowanie oferty</div>
+        </div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.55;">Szukamy opiekuna dla 81-letniej, mobilnej pacjentki z demencją i inkontynencją. Wymagane wsparcie nocne 1–2×. Dobra znajomość języka niemieckiego (L3) niezbędna. Osobny pokój, dostęp do internetu, Tagespflege 3× w tygodniu.</div>
+        <div style="font-size:12px;font-weight:700;color:var(--brand);margin-top:7px;cursor:pointer;">więcej →</div>
+      </div>
+    </div>
+
+    <div style="height:8px;background:var(--bg);"></div>
+
+    <!-- SECTIONS -->
+    <div class="secs">
+
+      <!-- Kiedy i gdzie -->
+      <div class="sec">
+        <div class="sec-hdr" onclick="toggleDet(this)">
+          <div class="sec-hdr-l"><div class="sec-ico">📅</div><div class="sec-title">Kiedy i gdzie?</div></div>
+          <div class="chevron open">▾</div>
+        </div>
+        <div class="sec-body open"><div class="sec-inner">
+          <div class="row"><div class="row-icon">📅</div><div><div class="row-title">Data wyjazdu</div><div class="row-sub">12.04.2026</div></div></div>
+          <div class="row"><div class="row-icon">🔄</div><div><div class="row-title">Data powrotu</div><div class="row-sub">Do ustalenia</div></div></div>
+          <div class="row"><div class="row-icon">📍</div><div><div class="row-title">Lokalizacja</div><div class="row-sub">78464 Konstanz, Baden-Württemberg</div></div></div>
+          <div class="row"><div class="row-icon">🚗</div><div><div class="row-title">Odległość od granicy polskiej</div><div class="row-sub">ok. 680 km</div></div></div>
+        </div></div>
+      </div>
+
+      <!-- Pacjenci -->
+      <div class="sec">
+        <div class="sec-hdr" onclick="toggleDet(this)">
+          <div class="sec-hdr-l"><div class="sec-ico">👤</div><div class="sec-title">Pacjenci</div></div>
+          <div class="chevron open">▾</div>
+        </div>
+        <div class="sec-body open"><div class="sec-inner">
+          <div class="patient-row">
+            <div class="patient-emo">👴</div>
+            <div><div class="patient-name">Pacjent 1</div><div class="patient-detail">Mężczyzna · 90 lat · 61–70 kg</div></div>
+          </div>
+          <div class="row"><div class="row-icon">🛏️</div><div><div class="row-title">Stopień mobilności</div><div class="row-sub">Osoba leżąca — wymaga pełnej opieki</div></div></div>
+          <div class="row"><div class="row-icon">🔄</div><div><div class="row-title">Transfer</div><div class="row-sub">Wymagany — z łóżka na wózek</div></div></div>
+          <div class="row"><div class="row-icon">🌙</div><div><div class="row-title">Wsparcie w nocy</div><div class="row-sub">1–2 razy, godz. 21:00–06:00. Zmiana pozycji i pielęgnacja.</div></div></div>
+          <div class="row"><div class="row-icon">💧</div><div><div class="row-title">Inkontynencja moczowa</div><div class="row-sub">Pełna — cewnik, wymaga regularnej pielęgnacji</div></div></div>
+
+          <div class="patient-row" style="margin-top:4px;">
+            <div class="patient-emo">👵</div>
+            <div><div class="patient-name">Pacjent 2</div><div class="patient-detail">Kobieta · 90 lat · 61–70 kg</div></div>
+          </div>
+          <div class="row"><div class="row-icon">🦯</div><div><div class="row-title">Stopień mobilności</div><div class="row-sub">O balkoniku — wymaga asysty przy poruszaniu</div></div></div>
+          <div class="row"><div class="row-icon">🔄</div><div><div class="row-title">Transfer</div><div class="row-sub">Częściowo wymagany — z fotela na balkonik</div></div></div>
+          <div class="row"><div class="row-icon">🧠</div><div><div class="row-title">Demencja</div><div class="row-sub">Umiarkowana — wymaga stałego nadzoru</div></div></div>
+          <div class="row"><div class="row-icon">💧</div><div><div class="row-title">Inkontynencja moczowa</div><div class="row-sub">Pieluchy — wymiana 3–4× dziennie</div></div></div>
+        </div></div>
+      </div>
+
+      <!-- Co jest wymagane -->
+      <div class="sec">
+        <div class="sec-hdr" onclick="toggleDet(this)">
+          <div class="sec-hdr-l"><div class="sec-ico">✅</div><div class="sec-title">Co jest wymagane?</div></div>
+          <div class="chevron">▾</div>
+        </div>
+        <div class="sec-body"><div class="sec-inner">
+          <div class="row"><div class="row-icon">🇩🇪</div><div><div class="row-title">Język niemiecki</div><div class="row-sub">Dobry (L3) — alternatywnie bardzo dobry (L4)</div></div></div>
+          <div class="row"><div class="row-icon">🎓</div><div><div class="row-title">Doświadczenie w opiece</div><div class="row-sub">Profesjonalne</div></div></div>
+          <div class="row"><div class="row-icon">🚭</div><div><div class="row-title">Palenie</div><div class="row-sub">Preferowana osoba niepaląca</div></div></div>
+          <div class="row"><div class="row-icon">🚗</div><div><div class="row-title">Prawo jazdy</div><div class="row-sub">Nie jest wymagane</div></div></div>
+          <div class="row"><div class="row-icon">🛒</div><div><div class="row-title">Zakupy</div><div class="row-sub">Wykonuje opiekun — sklep dostępny pieszo</div></div></div>
+        </div></div>
+      </div>
+
+      <!-- Twoje obowiązki -->
+      <div class="sec">
+        <div class="sec-hdr" onclick="toggleDet(this)">
+          <div class="sec-hdr-l"><div class="sec-ico">📋</div><div class="sec-title">Twoje obowiązki</div></div>
+          <div class="chevron">▾</div>
+        </div>
+        <div class="sec-body"><div class="sec-inner">
+          <div class="row"><div class="row-icon">🏠</div><div><div class="row-title">Obowiązki domowe</div><div class="row-sub">Sprzątanie, gotowanie, planowanie posiłków, pranie</div></div></div>
+          <div class="row"><div class="row-icon">🌙</div><div><div class="row-title">Wstawanie w nocy</div><div class="row-sub">2× — pielęgnacja inkontynencji moczowej</div></div></div>
+          <div class="row"><div class="row-icon">🛒</div><div><div class="row-title">Zakupy</div><div class="row-sub">Sklep dostępny pieszo, zakupy po stronie opiekuna</div></div></div>
+        </div></div>
+      </div>
+
+      <!-- Pomoc i wsparcie -->
+      <div class="sec">
+        <div class="sec-hdr" onclick="toggleDet(this)">
+          <div class="sec-hdr-l"><div class="sec-ico">🤝</div><div class="sec-title">Pomoc i wsparcie</div></div>
+          <div class="chevron">▾</div>
+        </div>
+        <div class="sec-body"><div class="sec-inner">
+          <div class="row"><div class="row-icon">🏥</div><div><div class="row-title">Pomoc profesjonalna</div><div class="row-sub">Tagespflege: poniedziałki 14:00–16:00, wtorki i czwartki 8:00–16:00</div></div></div>
+          <div class="row"><div class="row-icon">☀️</div><div><div class="row-title">Przerwy i czas wolny</div><div class="row-sub">2 wolne poranki lub popołudnia w tygodniu</div></div></div>
+          <div class="row"><div class="row-icon">👨‍👩‍👧</div><div><div class="row-title">Pomoc rodziny</div><div class="row-sub">Rodzina nie mieszka w pobliżu</div></div></div>
+        </div></div>
+      </div>
+
+      <!-- Zakwaterowanie -->
+      <div class="sec">
+        <div class="sec-hdr" onclick="toggleDet(this)">
+          <div class="sec-hdr-l"><div class="sec-ico">🏠</div><div class="sec-title">Zakwaterowanie</div></div>
+          <div class="chevron">▾</div>
+        </div>
+        <div class="sec-body"><div class="sec-inner">
+          <div class="row"><div class="row-icon">🏘️</div><div><div class="row-title">Typ budynku</div><div class="row-sub">Dom jednorodzinny, duże miasto</div></div></div>
+          <div class="row"><div class="row-icon">🛏️</div><div><div class="row-title">Twój pokój</div><div class="row-sub">Osobny pokój do Twojej dyspozycji</div></div></div>
+          <div class="row"><div class="row-icon">👥</div><div><div class="row-title">Inne osoby w domu</div><div class="row-sub">W gospodarstwie domowym mieszkają inne osoby</div></div></div>
+          <div class="row"><div class="row-icon">📶</div><div><div class="row-title">Internet</div><div class="row-sub">Dostęp do internetu zapewniony</div></div></div>
+          <div class="row"><div class="row-icon">🐾</div><div><div class="row-title">Zwierzęta</div><div class="row-sub">Na miejscu nie ma żadnych zwierząt</div></div></div>
+        </div></div>
+      </div>
+
+      <!-- Kogo szuka Klient -->
+      <div class="sec">
+        <div class="sec-hdr" onclick="toggleDet(this)">
+          <div class="sec-hdr-l"><div class="sec-ico">🔍</div><div class="sec-title">Kogo szuka Klient?</div></div>
+          <div class="chevron">▾</div>
+        </div>
+        <div class="sec-body"><div class="sec-inner">
+          <div class="row"><div class="row-icon">👤</div><div><div class="row-title">Płeć opiekuna</div><div class="row-sub">Nieważne</div></div></div>
+          <div class="row"><div class="row-icon">🇩🇪</div><div><div class="row-title">Znajomość języka</div><div class="row-sub">Dobra (L3) lub biegła (L4)</div></div></div>
+          <div class="row"><div class="row-icon">🎓</div><div><div class="row-title">Doświadczenie</div><div class="row-sub">Profesjonalne w opiece</div></div></div>
+          <div class="row"><div class="row-icon">🚭</div><div><div class="row-title">Palenie</div><div class="row-sub">Preferowana osoba niepaląca</div></div></div>
+        </div></div>
+      </div>
+
+    </div>
+
+    <!-- USP -->
+    <div class="usp-wrap">
+      <div class="usp-title"><span style="font-size:17px;">💜</span> Dlaczego mamamia?</div>
+      <div class="usp-row">
+        <div class="usp-check">✓</div>
+        <div><div class="usp-label">Oferty od wielu sprawdzonych agencji</div><div class="usp-sub">Dostęp do setek zleceń od zweryfikowanych pośredników — wszystko w jednym miejscu</div></div>
+      </div>
+      <div class="usp-row">
+        <div class="usp-check">✓</div>
+        <div><div class="usp-label">Twój osobisty rekruter zawsze do dyspozycji</div><div class="usp-sub">Mimo dużego wyboru, masz dedykowaną osobę ze swojej agencji, która Ci pomaga</div></div>
+      </div>
+      <div class="usp-row">
+        <div class="usp-check">✓</div>
+        <div><div class="usp-label">Wszystko widoczne online — 24/7</div><div class="usp-sub">Przeglądaj oferty, sprawdzaj statusy i aplikuj z telefonu, o każdej porze</div></div>
+      </div>
+      <div class="usp-row">
+        <div class="usp-check">✓</div>
+        <div><div class="usp-label">Powiadomienia o dopasowanych zleceniach</div><div class="usp-sub">Informujemy Cię od razu, gdy pojawi się oferta pasująca do Twoich preferencji</div></div>
+      </div>
+      <div class="usp-row">
+        <div class="usp-check">✓</div>
+        <div><div class="usp-label">Zbieraj punkty za każde zlecenie</div><div class="usp-sub">Im więcej pracujesz, tym więcej zyskujesz — punkty wymieniasz na nagrody i benefity</div></div>
+      </div>
+    </div>
+
+    <div style="height:10px;"></div>
+  </div>
+
+  <!-- Fixed apply (3 states) -->
+  <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 18px 22px;background:linear-gradient(to top,var(--bg) 65%,transparent);">
+    <div id="cta-default">
+      <button class="btn-apply" style="width:100%;border-radius:14px!important;padding:15px!important;font-size:15px!important;" onclick="openApplyModalDetail()">Aplikuj ♥</button>
+    </div>
+    <div id="cta-zapytania" style="display:none;gap:10px;">
+      <button style="flex:1;background:var(--card);border:1.5px solid var(--brand-mid);border-radius:14px;padding:15px;font-size:14px;font-weight:700;color:var(--text-2);font-family:var(--font);cursor:pointer;" onclick="go('s-zapytania')">Odrzuć</button>
+      <button class="btn-apply" style="flex:2;border-radius:14px!important;padding:15px!important;font-size:15px!important;" onclick="openApplyModalDetail()">Aplikuj ♥</button>
+    </div>
+    <div id="cta-applied" style="display:none;">
+      <button onclick="undoApply()" style="width:100%;background:#E6F7F3;border:1.5px solid #A8E6D4;border-radius:14px;padding:15px;font-size:14px;font-weight:700;color:#007A58;font-family:var(--font);cursor:pointer;display:flex;align-items:center;justify-content:space-between;"><span>✓ Aplikacja wysłana</span><span style="font-size:12px;color:var(--text-3);font-weight:600;">Cofnij →</span></button>
+    </div>
+    <div id="cta-pending" style="display:none;gap:10px;">
+      <div style="flex:1;background:#FFF8E6;border:1.5px solid #FFD699;border-radius:14px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;">
+        <div><div style="font-size:12px;font-weight:800;color:#8B5000;">⏳ Aplikacja wysłana</div><div style="font-size:11px;color:#B87000;margin-top:2px;">Czeka na decyzję rekrutera</div></div>
+        <button onclick="withdrawApply()" style="background:none;border:1.5px solid #FFB84D;border-radius:10px;padding:6px 12px;font-size:11px;font-weight:700;color:#8B5000;font-family:var(--font);cursor:pointer;white-space:nowrap;flex-shrink:0;">Cofnij →</button>
+      </div>
+    </div>
+    <div id="cta-accepted-info" style="display:none;flex-direction:column;gap:8px;align-items:center;">
+      <div style="width:100%;background:linear-gradient(135deg,#007A58,#00A878);border-radius:14px;padding:15px 18px;display:flex;align-items:center;gap:12px;">
+        <div style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.8" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div style="color:white;font-size:14px;font-weight:800;">Zostałaś zaakceptowana!</div>
+          <div style="color:rgba(255,255,255,0.75);font-size:11px;font-weight:500;margin-top:1px;">Zlecenie jest Twoje · wyjazd 17.04.2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SCREEN: HISTORIA DETAIL
+══════════════════════════════════════ -->
+<div class="screen" id="s-hist-detail">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div style="background:var(--card);border-bottom:1px solid #EDE7EF;padding:8px 16px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+    <button class="back-btn" onclick="go('s-activity')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <div style="color:var(--text);font-size:16px;font-weight:800;flex:1;">Hamburg · rodzina Weiss</div>
+    <div style="font-size:11px;font-weight:700;color:#007A58;background:#E6F7F3;border-radius:20px;padding:3px 10px;">✓ Ukończone</div>
+  </div>
+  <div class="scroll" style="padding:0;padding-bottom:30px;">
+
+    <!-- Summary banner -->
+    <div style="background:linear-gradient(135deg,#3D5A80,#2A3F5E);padding:18px 18px 20px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+        <div>
+          <div style="color:rgba(255,255,255,0.7);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;">Zlecenie zakończone</div>
+          <div style="color:white;font-size:17px;font-weight:800;margin-top:3px;">15.01 — 15.04.2026</div>
+          <div style="color:rgba(255,255,255,0.65);font-size:12px;margin-top:2px;">3 miesiące · Hamburg · Schleswig</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="color:white;font-size:22px;font-weight:800;">€ 6.030</div>
+          <div style="color:rgba(255,255,255,0.65);font-size:10px;margin-top:1px;">zarobione łącznie</div>
+          <div style="background:rgba(255,255,255,0.15);border-radius:20px;padding:3px 10px;margin-top:6px;font-size:11px;font-weight:700;color:white;">⭐ 270 pkt</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:8px;background:var(--bg);"></div>
+
+    <!-- Szczegóły zlecenia -->
+    <div style="background:var(--card);padding:16px 18px;">
+      <div style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:12px;">Szczegóły zlecenia</div>
+      <div class="sec-inner" style="padding:0;">
+        <div class="row"><div class="row-icon">👩</div><div><div class="row-title">Podopieczna</div><div class="row-sub">Kobieta · 77 lat · mobilna</div></div></div>
+        <div class="row"><div class="row-icon">📍</div><div><div class="row-title">Adres</div><div class="row-sub">Hamburg-Altona · ~680 km od Ciebie</div></div></div>
+        <div class="row"><div class="row-icon">💶</div><div><div class="row-title">Wynagrodzenie</div><div class="row-sub" style="color:var(--cta-d);font-weight:700;">€ 2.010 netto / miesiąc</div></div></div>
+        <div class="row" style="border:none;"><div class="row-icon">🌙</div><div><div class="row-title">Nocne dyżury</div><div class="row-sub">Brak</div></div></div>
+      </div>
+    </div>
+
+    <div style="height:8px;background:var(--bg);"></div>
+
+    <!-- Zrealizowane zadania -->
+    <div style="background:var(--card);padding:16px 18px;">
+      <div style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:12px;">Zrealizowane zadania</div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #F3EEF5;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#00C07A;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span style="font-size:13px;color:var(--text-2);">Potwierdzono datę wyjazdu</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #F3EEF5;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#00C07A;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span style="font-size:13px;color:var(--text-2);">Umowa podpisana</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #F3EEF5;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#00C07A;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span style="font-size:13px;color:var(--text-2);">Profil podopiecznej zapoznany</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #F3EEF5;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#00C07A;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div>
+          <span style="font-size:13px;color:var(--text-2);">Transport zarezerwowany</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:8px 0;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#E6F7F3;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#00A878" stroke-width="2.5" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div>
+          <div><div style="font-size:13px;color:var(--text-2);">Dokument A1</div><div style="font-size:11px;color:#00A878;font-weight:600;">mamamia wysłała za Ciebie ✓</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:8px;background:var(--bg);"></div>
+
+    <!-- Powrót? -->
+    <div style="background:var(--card);padding:16px 18px;">
+      <div style="font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:10px;">🔁 Czy chciałabyś wrócić do tej rodziny?</div>
+      <div id="hist-return-btns" style="display:flex;gap:8px;">
+        <button onclick="histReturnAnswer('no')" style="flex:1;background:var(--bg);border:1.5px solid #DDD0E6;border-radius:12px;padding:10px;font-size:12px;font-weight:700;color:var(--text-2);font-family:var(--font);cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='#EDE7EF'" onmouseout="this.style.background='var(--bg)'">Nie, dziękuję</button>
+        <button onclick="histReturnAnswer('yes')" style="flex:1;background:var(--brand-light);border:1.5px solid var(--brand-mid);border-radius:12px;padding:10px;font-size:12px;font-weight:700;color:var(--brand);font-family:var(--font);cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='#EDD9F5'" onmouseout="this.style.background='var(--brand-light)'">Tak, chętnie! 🙌</button>
+      </div>
+      <div id="hist-return-thanks" style="display:none;padding-top:8px;">
+        <div style="font-size:11px;color:var(--text-3);line-height:1.5;" id="hist-return-thanks-txt"></div>
+      </div>
+    </div>
+
+    <div style="height:20px;"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: ZAPYTANIA
+══════════════════════════════════════ -->
+<div class="screen" id="s-zapytania">
+  <div class="sbar"><span>09:41</span><span>▌▌▌ ██ 86%</span></div>
+  <div class="act-hdr">
+    <div class="act-hdr-row">
+      <div class="act-title">Zapytania</div>
+      <div class="chat-wrap" onclick="go('s-chat')"><svg class="chat-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9B8FB0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg><div class="chat-dot"></div></div>
+    </div>
+  </div>
+  <div class="scroll" style="padding-top:12px;">
+    <div class="jcard" onclick="goDetail('zapytania')"><div class="jhero"><div class="jhero-bg" style="background:linear-gradient(135deg,#C8DDD0,#A8C8B8,#88B0A0);"></div><div class="jhero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-hessen"/></svg></div><div class="jhero-mid"><div class="jhero-city">Monachium</div><div class="jhero-state">Bayern</div><div class="jhero-dist">📍 ~820 km od Ciebie</div></div></div><div class="jstatus"><div class="badge-n">📩 Zaproszenie od klienta · dodane dziś</div><div style="display:flex;gap:5px;"><div class="badge-diff diff-easy">🌿 Łatwe</div></div></div><div class="jpats"><div class="pat-box"><div class="pat-ico">👩</div><div class="pat-age">78 lat</div><div class="pat-mob">mobilna</div></div></div><div class="jinfos"><div class="irow"><span class="iico">👤</span><span>dla: <b>opiekunki</b></span></div><div class="irow"><span class="iico">🌙</span><span>Nocne: <b>brak</b></span></div><div class="irow"><span class="iico">🇩🇪</span><span>Język: <b>dobry</b></span></div><div class="irow"><span class="iico">📅</span><span>Wyjazd: <b>20.04.2026</b></span></div></div><div class="jmeta"><div><div class="meta-lbl">Czas trwania</div><div class="meta-val">2–3 miesiące</div></div><div style="text-align:right;"><div class="meta-lbl">Wynagrodzenie</div><div class="meta-sal">€ 2.200</div><div class="meta-pts">⭐ 10 pkt / dzień</div></div></div><div class="jbtns" style="display:flex;gap:8px;"><button style="flex:1;background:none;border:1.5px solid var(--brand-mid);border-radius:12px;padding:12px;font-size:14px;font-weight:700;color:var(--text-2);font-family:var(--font);cursor:pointer;">Odrzuć</button><button class="btn-apply" style="flex:2;" onclick="event.stopPropagation();openApplyModal(this)">Aplikuj ♥</button></div><div class="jfooter"><div class="jviewers">Klient czeka na Twoją odpowiedź</div><div class="jszczegoly" onclick="goDetail('zapytania')">Szczegóły <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+  </div>
+  <div class="bnav">
+    <div class="ni" onclick="go('s-home')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="ni-lbl">Start</div></div>
+    <div class="ni" onclick="go('s-search')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><div class="ni-lbl">Oferty</div><div class="ni-pip">23</div></div>
+    <div class="ni on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.6" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><div class="ni-lbl" style="color:var(--brand)">Zapytania</div><div class="ni-pip">1</div></div>
+    <div class="ni" onclick="go('s-activity')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div class="ni-lbl">Aplikacje</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: PROFIL
+══════════════════════════════════════ -->
+<div class="screen" id="s-profile">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div style="background:var(--card);border-bottom:1px solid #EDE7EF;padding:8px 16px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+    <button class="back-btn" onclick="go('s-home')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <div style="color:var(--text);font-size:16px;font-weight:800;flex:1;">Mój profil</div>
+    <div class="chat-wrap" onclick="go('s-chat')"><svg class="chat-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9B8FB0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg><div class="chat-dot"></div></div>
+  </div>
+  <div class="scroll" style="padding:0;padding-bottom:80px;">
+
+    <!-- IDENTITY HERO -->
+    <div style="background:var(--card);padding:20px 18px 0;">
+      <!-- Name + Photo row -->
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+        <div style="position:relative;flex-shrink:0;cursor:pointer;" onclick="openPhotoModal()">
+          <div class="photo-circle" style="width:68px;height:68px;font-size:24px;line-height:68px;"><div class="photo-initials">MK</div></div>
+          <div style="position:absolute;bottom:0;right:0;width:22px;height:22px;border-radius:50%;background:var(--brand);border:2px solid white;display:flex;align-items:center;justify-content:center;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          </div>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:17px;font-weight:800;color:var(--text);margin-bottom:6px;">Monika Kowalska</div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span onclick="openPhotoModal()" style="font-size:12px;font-weight:600;color:var(--brand);cursor:pointer;transition:opacity 0.15s,transform 0.15s;" onmouseover="this.style.opacity='0.65';this.style.transform='scale(0.95)'" onmouseout="this.style.opacity='1';this.style.transform='scale(1)'">Dodaj zdjęcie</span>
+            <div onclick="openPhotoModal()" style="display:inline-flex;align-items:center;gap:4px;background:var(--brand-light);border:1px solid var(--brand-mid);border-radius:20px;padding:3px 9px;cursor:pointer;transition:opacity 0.15s,transform 0.15s;" onmouseover="this.style.opacity='0.7';this.style.transform='scale(0.95)'" onmouseout="this.style.opacity='1';this.style.transform='scale(1)'">
+              <span style="font-size:11px;">✨</span>
+              <span style="font-size:11px;font-weight:700;color:var(--brand);">Ulepsz z AI</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Stats strip -->
+      <div style="display:flex;margin-bottom:16px;border:1px solid #F0EAF5;border-radius:12px;overflow:hidden;">
+        <div style="flex:1;padding:12px 6px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:var(--text);">34</div>
+          <div style="font-size:10px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;">Aplikacje</div>
+        </div>
+        <div style="width:1px;background:#F0EAF5;"></div>
+        <div style="flex:1;padding:12px 6px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:var(--text);">3</div>
+          <div style="font-size:10px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;">Polecone</div>
+        </div>
+        <div style="width:1px;background:#F0EAF5;"></div>
+        <div style="flex:1;padding:12px 6px;text-align:center;">
+          <div style="font-size:20px;font-weight:800;color:var(--text);">12</div>
+          <div style="font-size:10px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:0.3px;margin-top:2px;">Wyjazdy</div>
+        </div>
+      </div>
+    </div>
+    <!-- Level card — flush like home screen -->
+    <div style="padding:0 16px;background:var(--bg);">
+      <div class="lvl" onclick="openPointsModal()">
+        <div class="lvl-ic">🏅</div>
+        <div style="flex:1;">
+          <div class="lvl-t">Poziom 4</div>
+          <div class="lvl-n">Srebrna Opiekunka</div>
+          <div class="lvl-x">680 / 1000 pkt do Złotej</div>
+          <div class="lvl-bg"><div class="lvl-fill" style="width:68%;"></div></div>
+        </div>
+        <div class="lvl-pct">›</div>
+      </div>
+    </div>
+
+    <!-- ALL ROWS — one continuous list -->
+    <div style="background:var(--card);">
+
+      <!-- Szukam pracy -->
+      <div class="prow prow-sep">
+        <div class="prow-ic" style="background:none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+        <div class="prow-lbl">Szukam pracy</div>
+        <div style="display:flex;align-items:center;gap:7px;">
+          <div id="search-status-dot" style="width:7px;height:7px;border-radius:50%;background:#00C07A;flex-shrink:0;"></div>
+          <span id="search-status-text" style="font-size:12px;font-weight:600;color:var(--text-2);">Aktywna</span>
+          <div id="search-toggle" onclick="toggleSearching()" style="width:42px;height:24px;border-radius:12px;background:#00C07A;cursor:pointer;position:relative;transition:background 0.25s;flex-shrink:0;">
+            <div id="search-knob" style="position:absolute;top:2px;left:20px;width:20px;height:20px;border-radius:50%;background:white;box-shadow:0 1px 4px rgba(0,0,0,0.2);transition:left 0.25s;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preferencje -->
+      <div class="prow prow-sep">
+        <div class="prow-ic" style="background:none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+        <div class="prow-lbl">Preferencje</div>
+        <span class="prow-val">Południe · 1.800 €</span>
+        <span class="prow-arr">›</span>
+      </div>
+
+      <!-- Profil opiekunki -->
+      <div class="prow prow-sep">
+        <div class="prow-ic" style="background:none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.6" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div class="prow-lbl">Profil opiekunki</div>
+        <span style="font-size:12px;color:var(--brand);font-weight:600;">65%</span>
+        <span class="prow-arr">›</span>
+      </div>
+
+      <!-- Poleć opiekunkę -->
+      <div class="prow prow-sep">
+        <div class="prow-ic" style="background:none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00A878" stroke-width="1.6" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div class="prow-lbl">Poleć opiekunkę</div>
+        <span class="prow-val">+100 pkt</span>
+        <span class="prow-arr">›</span>
+      </div>
+
+      <!-- Powiadomienia -->
+      <div class="prow">
+        <div class="prow-ic" style="background:none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#CC6600" stroke-width="1.6" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <div class="prow-lbl">Powiadomienia</div>
+        <span style="font-size:12px;font-weight:700;color:#00C07A;">Tak</span>
+        <span class="prow-arr">›</span>
+      </div>
+
+    </div>
+
+    <!-- Wyloguj się — kleiner Textlink -->
+    <div style="padding:18px 18px 4px;text-align:center;">
+      <span style="font-size:13px;color:var(--text-3);font-weight:600;cursor:pointer;transition:color 0.15s;" onmouseover="this.style.color='#D44'" onmouseout="this.style.color='var(--text-3)'">Wyloguj się</span>
+    </div>
+
+    <!-- POINTS MODAL -->
+    <div class="modal-overlay" id="points-modal" onclick="if(event.target===this)closePointsModal()">
+      <div class="modal" style="max-height:82vh;overflow-y:auto;padding-bottom:20px;">
+        <div class="modal-handle"></div>
+        <div class="modal-title">Punkty i poziomy</div>
+        <div class="modal-sub">Zbieraj punkty i odblokowuj kolejne poziomy opiekunki.</div>
+
+        <!-- Current progress -->
+        <div style="background:var(--brand-light);border:1px solid var(--brand-mid);border-radius:14px;padding:14px 16px;margin-bottom:20px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:20px;">🏅</span>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:var(--brand);">Srebrna opiekunka</div>
+                <div style="font-size:11px;color:var(--text-3);">680 punktów · jeszcze 70 do Złotej</div>
+              </div>
+            </div>
+            <div style="font-size:20px;font-weight:700;color:var(--brand);">680</div>
+          </div>
+          <div style="background:rgba(155,31,161,0.12);border-radius:4px;height:6px;overflow:hidden;">
+            <div style="background:var(--brand);width:68%;height:100%;border-radius:4px;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:5px;">
+            <div style="font-size:10px;color:var(--text-3);">500 pkt</div>
+            <div style="font-size:10px;color:var(--text-3);">750 pkt → Złota</div>
+          </div>
+        </div>
+
+        <!-- Levels table -->
+        <div style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Wszystkie poziomy</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px;">
+
+          <!-- Startowa -->
+          <div style="border-radius:12px;background:var(--card);border:1.5px solid #EDE8F2;overflow:hidden;display:flex;">
+            <div style="width:4px;background:#C8C0D8;flex-shrink:0;"></div>
+            <div style="flex:1;padding:11px 12px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+                <div style="display:flex;align-items:center;gap:7px;"><span style="font-size:17px;">🌱</span><span style="font-size:13px;font-weight:700;color:var(--text);">Startowa</span></div>
+                <div style="font-size:10px;font-weight:600;color:var(--text-3);">0 – 249 pkt</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <div style="font-size:11px;color:var(--text-3);">📋 Aplikowanie na oferty i dostęp do czatu</div>
+                <div style="font-size:11px;color:var(--text-3);">👁️ Standardowa widoczność w wynikach</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brązowa -->
+          <div style="border-radius:12px;background:var(--card);border:1.5px solid #EDE8F2;overflow:hidden;display:flex;">
+            <div style="width:4px;background:#B87840;flex-shrink:0;"></div>
+            <div style="flex:1;padding:11px 12px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+                <div style="display:flex;align-items:center;gap:7px;"><span style="font-size:17px;">🥉</span><span style="font-size:13px;font-weight:700;color:var(--text);">Brązowa</span></div>
+                <div style="font-size:10px;font-weight:600;color:var(--text-3);">250 – 499 pkt</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <div style="font-size:11px;color:var(--text-2);">⚡ <strong>1,5× szybciej</strong> wybierana przez klientów</div>
+                <div style="font-size:11px;color:var(--text-2);">🎁 Nagroda powitalna: <strong>voucher 20 €</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Srebrna — CURRENT -->
+          <div style="border-radius:12px;background:var(--brand-light);border:1.5px solid var(--brand-mid);overflow:hidden;display:flex;">
+            <div style="width:4px;background:var(--brand);flex-shrink:0;"></div>
+            <div style="flex:1;padding:11px 12px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+                <div style="display:flex;align-items:center;gap:7px;"><span style="font-size:17px;">🏅</span><span style="font-size:13px;font-weight:700;color:var(--brand);">Srebrna</span><span style="background:var(--brand);color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;">TWÓJ POZIOM</span></div>
+                <div style="font-size:10px;font-weight:600;color:var(--brand);">500 – 749 pkt</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <div style="font-size:11px;color:var(--text-2);">⚡ <strong>2× szybciej</strong> wybierana · top 20% widoczności</div>
+                <div style="font-size:11px;color:var(--text-2);">🎁 Nagroda: <strong>karta podarunkowa 50 €</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Złota -->
+          <div style="border-radius:12px;background:var(--card);border:1.5px solid #EDE8F2;overflow:hidden;display:flex;">
+            <div style="width:4px;background:#D4A017;flex-shrink:0;"></div>
+            <div style="flex:1;padding:11px 12px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+                <div style="display:flex;align-items:center;gap:7px;"><span style="font-size:17px;">🥇</span><span style="font-size:13px;font-weight:700;color:var(--text);">Złota</span></div>
+                <div style="font-size:10px;font-weight:600;color:var(--text-3);">750 – 1 499 pkt</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <div style="font-size:11px;color:var(--text-2);">⚡ <strong>3× szybciej</strong> wybierana · top 10% widoczności</div>
+                <div style="font-size:11px;color:var(--text-2);">🎁 Nagroda: <strong>voucher SPA 100 €</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Platynowa -->
+          <div style="border-radius:12px;background:var(--card);border:1.5px solid #EDE8F2;overflow:hidden;display:flex;">
+            <div style="width:4px;background:#7B68C8;flex-shrink:0;"></div>
+            <div style="flex:1;padding:11px 12px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+                <div style="display:flex;align-items:center;gap:7px;"><span style="font-size:17px;">💎</span><span style="font-size:13px;font-weight:700;color:var(--text);">Platynowa</span></div>
+                <div style="font-size:10px;font-weight:600;color:var(--text-3);">od 1 500 pkt</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:3px;">
+                <div style="font-size:11px;color:var(--text-2);">⚡ <strong>Zawsze pierwsza</strong> na liście klientów · VIP</div>
+                <div style="font-size:11px;color:var(--text-2);">🎁 Nagroda: <strong>weekend SPA dla dwojga</strong> ✨</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- How to earn -->
+        <div style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Jak zdobywać punkty?</div>
+        <div style="display:flex;gap:8px;margin-bottom:16px;">
+          <div style="flex:1;text-align:center;background:#F5F3F8;border-radius:12px;padding:12px 6px;border:1.5px solid #EDE8F2;">
+            <div style="font-size:16px;margin-bottom:4px;">🌿</div>
+            <div style="font-size:10px;font-weight:700;color:var(--text-2);margin-bottom:3px;">Łatwe</div>
+            <div style="font-size:12px;font-weight:700;color:var(--text);">5 pkt/dzień</div>
+          </div>
+          <div style="flex:1;text-align:center;background:#F5F3F8;border-radius:12px;padding:12px 6px;border:1.5px solid #EDE8F2;">
+            <div style="font-size:16px;margin-bottom:4px;">🔶</div>
+            <div style="font-size:10px;font-weight:700;color:var(--text-2);margin-bottom:3px;">Średnie</div>
+            <div style="font-size:12px;font-weight:700;color:var(--text);">10 pkt/dzień</div>
+          </div>
+          <div style="flex:1;text-align:center;background:#F5F3F8;border-radius:12px;padding:12px 6px;border:1.5px solid #EDE8F2;">
+            <div style="font-size:16px;margin-bottom:4px;">⚡</div>
+            <div style="font-size:10px;font-weight:700;color:var(--text-2);margin-bottom:3px;">Wymagające</div>
+            <div style="font-size:12px;font-weight:700;color:var(--text);">20 pkt/dzień</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F5EDF6;" onclick="closePointsModal();openPhotoModal()">
+            <div style="width:32px;height:32px;border-radius:10px;background:#FFF5CC;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">📷</div>
+            <div style="flex:1;font-size:13px;color:var(--text);font-weight:600;">Dodaj zdjęcie profilowe</div>
+            <div style="font-size:12px;font-weight:700;color:var(--brand);">+20 pkt</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F5EDF6;">
+            <div style="width:32px;height:32px;border-radius:10px;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">📝</div>
+            <div style="flex:1;font-size:13px;color:var(--text);font-weight:600;">Za każdą aplikację</div>
+            <div style="font-size:12px;font-weight:700;color:var(--brand);">+5 pkt</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F5EDF6;">
+            <div style="width:32px;height:32px;border-radius:10px;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">👥</div>
+            <div style="flex:1;font-size:13px;color:var(--text);font-weight:600;">Poleć koleżankę</div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1px;">
+              <div style="font-size:12px;font-weight:700;color:var(--cta);">+50 €</div>
+              <div style="font-size:10px;font-weight:600;color:var(--brand);">+100 pkt</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F5EDF6;">
+            <div style="width:32px;height:32px;border-radius:10px;background:#E6F7F3;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">🏠</div>
+            <div style="flex:1;font-size:13px;color:var(--text);font-weight:600;">Poleć rodzinę</div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1px;">
+              <div style="font-size:12px;font-weight:700;color:var(--cta);">+250 €</div>
+              <div style="font-size:10px;font-weight:600;color:var(--brand);">+500 pkt</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F5EDF6;">
+            <div style="width:32px;height:32px;border-radius:10px;background:#E8EEFF;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">⭐</div>
+            <div style="flex:1;font-size:13px;color:var(--text);font-weight:600;">Oceń aplikację</div>
+            <div style="font-size:12px;font-weight:700;color:var(--brand);">+30 pkt</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 0;">
+            <div style="width:32px;height:32px;border-radius:10px;background:#E6F7F3;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">✅</div>
+            <div style="flex:1;font-size:13px;color:var(--text);font-weight:600;">Uzupełnij profil w 100%</div>
+            <div style="font-size:12px;font-weight:700;color:var(--brand);">+50 pkt</div>
+          </div>
+        </div>
+        <button class="btn-close" onclick="closePointsModal()" style="margin-top:16px;">Zamknij</button>
+      </div>
+    </div>
+
+    <div style="height:16px;"></div>
+  </div>
+
+  <div class="bnav">
+    <div class="ni" onclick="go('s-home')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="ni-lbl">Start</div></div>
+    <div class="ni" onclick="go('s-search')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><div class="ni-lbl">Oferty</div><div class="ni-pip">23</div></div>
+    <div class="ni" onclick="go('s-zapytania')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg><div class="ni-lbl">Zapytania</div><div class="ni-pip">1</div></div>
+    <div class="ni" onclick="go('s-activity')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="1.6" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div class="ni-lbl">Aplikacje</div></div>
+  </div>
+
+  <!-- PHOTO MODAL -->
+  <div class="modal-overlay" id="photo-modal" onclick="if(event.target===this)closePhotoModal()">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Zdjęcie profilowe</div>
+      <div class="modal-sub">Dodaj lub ulepsz swoje zdjęcie za pomocą AI.</div>
+      <div class="modal-opts">
+        <div class="modal-opt"><div class="modal-opt-ico">📷</div><div class="modal-opt-lbl">Zrób zdjęcie</div></div>
+        <div class="modal-opt"><div class="modal-opt-ico">🖼️</div><div class="modal-opt-lbl">Z galerii</div></div>
+      </div>
+      <div class="modal-ai"><div class="modal-ai-ico">✨</div><div><div class="modal-ai-title">Ulepsz zdjęcie z AI</div><div class="modal-ai-sub">AI poprawi jakość, tło i oświetlenie. Możesz zachować lub odrzucić wynik.</div><div class="modal-ai-pts">⭐ +20 punktów za dodanie zdjęcia</div></div></div>
+      <button class="btn-close" onclick="closePhotoModal()">Anuluj</button>
+    </div>
+  </div>
+</div>
+
+<!-- OFFLINE OVERLAY (phone-level, shown on all screens except chat/profil/w toku) -->
+<div class="offline-overlay" id="offline-overlay">
+  <div style="width:68px;height:68px;border-radius:22px;background:#F0EBF5;display:flex;align-items:center;justify-content:center;">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+  </div>
+  <div style="text-align:center;">
+    <div style="font-size:19px;font-weight:700;color:var(--text);margin-bottom:8px;">Nie jesteś widoczna</div>
+    <div style="font-size:13px;color:var(--text-3);line-height:1.6;">Klienci nie mogą Cię teraz znaleźć<br>i nie widzisz nowych ofert pracy.</div>
+  </div>
+  <button onclick="reactivateSearch()" style="background:var(--brand);color:white;border:none;border-radius:14px;padding:14px 0;font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;width:100%;max-width:290px;box-shadow:0 4px 16px rgba(155,31,161,0.25);">Wróć do aktywnego szukania</button>
+  <button onclick="go('s-profile')" style="background:none;border:none;color:var(--text-3);font-size:13px;font-family:var(--font);cursor:pointer;padding:4px;">Zmień ustawienia w profilu</button>
+</div>
+
+<!-- CALENDAR MODAL -->
+<div class="modal-overlay" id="cal-modal" onclick="if(event.target===this)closeCalModal()" style="align-items:center;justify-content:center;padding:16px;">
+  <div class="modal" style="gap:0;padding:0;overflow:hidden;border-radius:20px;width:100%;max-width:320px;animation:slideDown 0.22s ease;">
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px;">
+      <button id="cal-prev" onclick="calNav(-1)" style="width:34px;height:34px;border-radius:50%;border:none;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s;" onmouseover="this.style.background='#EDE7EF'" onmouseout="this.style.background='var(--bg)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <div id="cal-month-label" style="font-size:15px;font-weight:800;color:var(--text);"></div>
+      <button id="cal-next" onclick="calNav(1)" style="width:34px;height:34px;border-radius:50%;border:none;background:var(--bg);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s;" onmouseover="this.style.background='#EDE7EF'" onmouseout="this.style.background='var(--bg)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.5" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+    <!-- Weekday labels -->
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);padding:0 16px 6px;">
+      <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-3);">Pn</div>
+      <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-3);">Wt</div>
+      <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-3);">Śr</div>
+      <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-3);">Cz</div>
+      <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-3);">Pt</div>
+      <div style="text-align:center;font-size:11px;font-weight:700;color:var(--text-3);color:#E05050;">So</div>
+      <div style="text-align:center;font-size:11px;font-weight:700;color:#E05050;">Nd</div>
+    </div>
+    <!-- Grid -->
+    <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:0 16px 16px;"></div>
+    <!-- Footer -->
+    <div style="padding:0 16px 18px;">
+      <button onclick="calConfirm()" class="btn-confirm" style="width:100%;background:var(--brand);color:white;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;box-shadow:0 4px 16px rgba(155,31,161,0.25);">Zatwierdź datę</button>
+    </div>
+  </div>
+</div>
+
+<!-- OFFLINE CONFIRM MODAL -->
+<div class="modal-overlay" id="offline-modal" onclick="if(event.target===this)closeOfflineModal()">
+  <div class="modal" style="gap:0;">
+    <div style="text-align:center;margin-bottom:18px;">
+      <div style="width:52px;height:52px;border-radius:16px;background:#F5EDF6;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+      </div>
+      <div class="modal-title" style="margin-bottom:8px;">Wyłączyć widoczność?</div>
+      <div style="font-size:13px;color:var(--text-3);line-height:1.6;">Po wyłączeniu <strong style="color:var(--text-2);">klienci nie będą mogli Cię znaleźć</strong> i nie zobaczysz żadnych nowych ofert pracy.</div>
+    </div>
+    <div style="background:#FFF9F0;border:1px solid #FFD699;border-radius:12px;padding:13px 14px;margin-bottom:20px;">
+      <div style="font-size:12px;font-weight:700;color:#8B5000;margin-bottom:5px;">💡 Lepsza opcja</div>
+      <div style="font-size:12px;color:#A06010;line-height:1.6;">Jeśli potrzebujesz przerwy, <strong>zmień tylko datę dostępności</strong> — pozostaniesz w bazie, ale z terminem w przyszłości.</div>
+      <button onclick="closeOfflineModal();go('s-profile')" style="margin-top:10px;background:none;border:1.5px solid #FFB84D;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;color:#8B5000;font-family:var(--font);cursor:pointer;width:100%;">Zmień datę dostępności →</button>
+    </div>
+    <button onclick="confirmOffline()" style="width:100%;background:#F5EDF6;border:1.5px solid var(--brand-mid);border-radius:12px;padding:13px;font-size:14px;font-weight:700;color:var(--brand);font-family:var(--font);cursor:pointer;margin-bottom:8px;">Tak, wyłącz widoczność</button>
+    <button onclick="closeOfflineModal()" style="width:100%;background:none;border:none;padding:10px;font-size:13px;color:var(--text-3);font-family:var(--font);cursor:pointer;">Anuluj</button>
+  </div>
+</div>
+
+<!-- APPLY MODAL -->
+<div class="modal-overlay" id="apply-modal" onclick="if(event.target===this)closeApplyModal()">
+  <div class="modal" style="text-align:center;gap:0;">
+    <div class="modal-handle"></div>
+    <div style="font-size:44px;margin-bottom:10px;">🎉</div>
+    <div style="font-size:19px;font-weight:700;color:var(--text);margin-bottom:8px;">Świetny wybór, Moniko!</div>
+    <div style="font-size:13px;color:var(--text-3);line-height:1.6;margin-bottom:20px;">Twoja aplikacja trafi do rekruterki w ciągu kilku minut.<br>Trzymamy kciuki — ta oferta wygląda naprawdę dobrze dla Ciebie! 💜</div>
+
+    <!-- Mini summary -->
+    <div style="background:var(--bg);border-radius:14px;padding:14px 16px;margin-bottom:12px;text-align:left;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div id="apply-city" style="font-size:16px;font-weight:700;color:var(--text);"></div>
+        <div id="apply-sal" style="font-size:15px;font-weight:700;color:var(--cta-d);"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;">
+        <div style="font-size:12px;color:var(--text-2);" id="apply-date"></div>
+        <div style="font-size:12px;color:var(--text-2);" id="apply-region"></div>
+        <div style="font-size:12px;color:var(--text-2);" id="apply-patient"></div>
+        <div style="font-size:12px;color:var(--text-2);" id="apply-nights"></div>
+        <div style="font-size:12px;color:var(--brand);font-weight:600;" id="apply-pts"></div>
+      </div>
+    </div>
+
+    <!-- Rekruter info -->
+    <div style="background:#F0EBF8;border:1px solid var(--brand-mid);border-radius:12px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:18px;flex-shrink:0;">👩</span>
+      <div style="font-size:12px;color:var(--text-2);text-align:left;line-height:1.5;">Po wysłaniu <strong>Rekruterka odezwie się z feedbackiem</strong> w ciągu 24 godzin.</div>
+    </div>
+
+    <div style="background:#E8F7F0;border-radius:12px;padding:11px 14px;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:18px;">⭐</span>
+      <div style="font-size:12px;color:#005A3C;text-align:left;">Za tę aplikację dostajesz <strong>+5 punktów</strong> — tak trzymaj!</div>
+    </div>
+
+    <button class="btn-confirm" onclick="confirmApply()" style="width:100%;background:#00A878;color:white;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;box-shadow:0 4px 16px rgba(0,168,120,0.28);margin-bottom:8px;">Wyślij aplikację ♥</button>
+    <button onclick="closeApplyModal()" style="width:100%;background:none;border:none;padding:10px;font-size:13px;color:var(--text-3);font-family:var(--font);cursor:pointer;">Anuluj</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast">✓ Aplikacja wysłana! +5 punktów ⭐</div>
+
+</div>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
