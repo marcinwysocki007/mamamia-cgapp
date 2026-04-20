@@ -6,6 +6,8 @@ body{font-family:var(--font);background:#D8D8E0;display:flex;align-items:center;
 @keyframes rippleAnim{to{transform:scale(4);opacity:0;}}
 @keyframes heartBeat{0%{transform:scale(1);}30%{transform:scale(1.4);}60%{transform:scale(1);}80%{transform:scale(1.15);}100%{transform:scale(1);}}
 @keyframes lvlBar{from{width:0;}to{width:68%;}}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-48px) scale(1.15);}}
+.pts-badge{position:absolute;background:var(--brand);color:white;font-size:13px;font-weight:800;padding:5px 11px;border-radius:20px;pointer-events:none;animation:floatUp 1.4s ease-out forwards;z-index:200;white-space:nowrap;}
 @keyframes dotPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.45);}}
 @keyframes heroBlink{
   0%,88%,100%{transform:scaleY(1);}

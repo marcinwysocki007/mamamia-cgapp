@@ -138,7 +138,7 @@
     <div style="padding:20px 16px 12px;">
       <div class="lvl lvl-anim" onclick="go('s-profile')">
         <div class="lvl-ic">🏅</div>
-        <div style="flex:1"><div class="lvl-t">Poziom 4</div><div class="lvl-n">Srebrna Opiekunka</div><div class="lvl-x">680 / 1000 pkt do Złotej</div><div class="lvl-bg"><div class="lvl-fill"></div></div></div>
+        <div style="flex:1"><div class="lvl-t">Poziom 4</div><div class="lvl-n">Srebrna Opiekunka</div><div class="lvl-x" id="home-pts-text">680 / 1000 pkt do Złotej</div><div class="lvl-bg"><div class="lvl-fill" id="home-pts-fill" style="width:68%"></div></div></div>
         <div class="lvl-pct">›</div>
       </div>
     </div>
@@ -1079,13 +1079,13 @@
               <span style="font-size:20px;">🏅</span>
               <div>
                 <div style="font-size:13px;font-weight:700;color:var(--brand);">Srebrna opiekunka</div>
-                <div style="font-size:11px;color:var(--text-3);">680 punktów · jeszcze 70 do Złotej</div>
+                <div id="profile-pts-sub" style="font-size:11px;color:var(--text-3);">680 punktów · jeszcze 70 do Złotej</div>
               </div>
             </div>
-            <div style="font-size:20px;font-weight:700;color:var(--brand);">680</div>
+            <div id="profile-pts-number" style="font-size:20px;font-weight:700;color:var(--brand);">680</div>
           </div>
           <div style="background:rgba(155,31,161,0.12);border-radius:4px;height:6px;overflow:hidden;">
-            <div style="background:var(--brand);width:68%;height:100%;border-radius:4px;"></div>
+            <div id="profile-pts-fill" style="background:var(--brand);width:68%;height:100%;border-radius:4px;"></div>
           </div>
           <div style="display:flex;justify-content:space-between;margin-top:5px;">
             <div style="font-size:10px;color:var(--text-3);">500 pkt</div>

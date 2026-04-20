@@ -4,6 +4,53 @@ let wynVal = 2000;
 let detailMode = 'normal'; // 'normal' | 'zapytania'
 let detailApplied = false;
 let profileSearching = true;
+let totalPts = 680;
+const PTS_MAX = 1000; // points to next level
+
+function updatePtsDisplays(val) {
+  const pct = Math.min(val / PTS_MAX * 100, 100).toFixed(1);
+  const remaining = Math.max(PTS_MAX - val, 0);
+  const homeText = document.getElementById('home-pts-text');
+  const homeFill = document.getElementById('home-pts-fill');
+  const profNum  = document.getElementById('profile-pts-number');
+  const profSub  = document.getElementById('profile-pts-sub');
+  const profFill = document.getElementById('profile-pts-fill');
+  if (homeText) homeText.textContent = `${val} / ${PTS_MAX} pkt do Złotej`;
+  if (homeFill) homeFill.style.width = pct + '%';
+  if (profNum)  profNum.textContent  = val;
+  if (profSub)  profSub.textContent  = `${val} punktów · jeszcze ${remaining} do Złotej`;
+  if (profFill) profFill.style.width = pct + '%';
+}
+
+function addPoints(pts, anchorEl) {
+  // floating badge near the level card
+  const anchor = anchorEl || document.getElementById('home-pts-fill');
+  if (anchor) {
+    const rect = anchor.getBoundingClientRect();
+    const phoneRect = document.querySelector('.phone').getBoundingClientRect();
+    const badge = document.createElement('div');
+    badge.className = 'pts-badge';
+    badge.textContent = `+${pts} pkt ⭐`;
+    badge.style.left = (rect.left - phoneRect.left + rect.width / 2 - 40) + 'px';
+    badge.style.top  = (rect.top  - phoneRect.top  - 10) + 'px';
+    document.querySelector('.phone').appendChild(badge);
+    setTimeout(() => badge.remove(), 1500);
+  }
+  // animate counter
+  const start = totalPts;
+  const end   = totalPts + pts;
+  totalPts    = end;
+  const dur   = 800;
+  const startTime = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - startTime) / dur, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(start + (end - start) * eased);
+    updatePtsDisplays(current);
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
 
 function updateDetailCTA() {
   const def  = document.getElementById('cta-default');
@@ -52,10 +99,13 @@ window.applyFromDetail = () => {
 };
 
 window.confirmApplyFromDetail = () => {
-  const dayPts = document.getElementById('apply-pts-day')?.textContent.match(/\d+/)?.[0] || '10';
   closeApplyModal();
   applyFromDetail();
-  showToast('🎉 Aplikacja wysłana! Trzymamy kciuki! 💜');
+  go('s-home');
+  setTimeout(() => {
+    showToast('🎉 Aplikacja wysłana! Trzymamy kciuki! 💜');
+    addPoints(5);
+  }, 300);
 };
 
 window.undoApply = () => {
@@ -110,9 +160,12 @@ window.closeApplyModal = () => {
 };
 
 window.confirmApply = () => {
-  const dayPts = document.getElementById('apply-pts-day')?.textContent.match(/\d+/)?.[0] || '10';
   closeApplyModal();
-  showToast('🎉 Aplikacja wysłana! Trzymamy kciuki! 💜');
+  go('s-home');
+  setTimeout(() => {
+    showToast('🎉 Aplikacja wysłana! Trzymamy kciuki! 💜');
+    addPoints(5);
+  }, 300);
 };
 
 window.closePointsModal = () => {}; // kept for profile screen compat
