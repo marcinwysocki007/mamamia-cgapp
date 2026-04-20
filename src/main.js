@@ -95,24 +95,12 @@ window.openApplyModal = (btn) => {
   }).join(' · ');
   document.getElementById('apply-patient-list').textContent = patList;
 
-  document.getElementById('apply-city').textContent   = city;
-  document.getElementById('apply-sal').textContent    = sal;
-  document.getElementById('apply-date').textContent   = date.replace('📅', '').trim();
-  document.getElementById('apply-nights').textContent = nights;
+  document.getElementById('apply-city').textContent    = city;
+  document.getElementById('apply-sal').textContent     = sal;
+  document.getElementById('apply-date').textContent    = date.replace('📅', '').trim();
+  document.getElementById('apply-nights').textContent  = nights;
+  document.getElementById('apply-pts-day').textContent = `⭐ +${dayPts} pkt / dzień pracy`;
   document.getElementById('pts-per-day-label').textContent = `${dayPts} pkt`;
-
-  // auto-dismiss recruiter banner after 3s
-  const banner = document.getElementById('apply-recruiter-banner');
-  banner.style.opacity = '1';
-  banner.style.maxHeight = '60px';
-  clearTimeout(window._bannerTimer);
-  window._bannerTimer = setTimeout(() => {
-    banner.style.opacity = '0';
-    banner.style.maxHeight = '0';
-    banner.style.padding = '0';
-    banner.style.marginBottom = '0';
-  }, 3000);
-
   document.getElementById('apply-modal').classList.add('open');
 };
 
@@ -150,11 +138,8 @@ window.openApplyModalDetail = () => {
   document.getElementById('apply-date').textContent         = '12.04.2026';
   document.getElementById('apply-nights').textContent       = '~1–2×/tydz.';
   document.getElementById('apply-patient-list').textContent = '👵 81 lat, mobilna';
+  document.getElementById('apply-pts-day').textContent      = '⭐ +10 pkt / dzień pracy';
   document.getElementById('pts-per-day-label').textContent  = '10 pkt';
-  const banner = document.getElementById('apply-recruiter-banner');
-  banner.style.opacity = '1'; banner.style.maxHeight = '60px'; banner.style.padding = ''; banner.style.marginBottom = '';
-  clearTimeout(window._bannerTimer);
-  window._bannerTimer = setTimeout(() => { banner.style.opacity='0'; banner.style.maxHeight='0'; banner.style.padding='0'; banner.style.marginBottom='0'; }, 3000);
   // override confirm button to also update detail CTA
   document.querySelector('#apply-modal .btn-confirm').onclick = confirmApplyFromDetail;
   document.getElementById('apply-modal').classList.add('open');

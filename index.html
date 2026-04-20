@@ -1331,20 +1331,17 @@
   <div class="modal" style="text-align:center;gap:0;">
     <div class="modal-handle"></div>
 
-    <!-- Auto-dismiss recruiter banner -->
-    <div id="apply-recruiter-banner" style="background:#F0EBF8;border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:8px;text-align:left;transition:opacity 0.4s,max-height 0.4s;overflow:hidden;">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.2" stroke-linecap="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      <span style="font-size:13px;font-weight:500;color:var(--brand);">Rekruterka odezwie się <strong>w ciągu 24h</strong> od wysłania.</span>
-    </div>
-
     <div style="font-size:19px;font-weight:700;color:var(--text);margin-bottom:4px;">Świetny wybór, Moniko!</div>
     <div style="font-size:13px;color:var(--text-3);line-height:1.5;margin-bottom:14px;">Sprawdź szczegóły i wyślij aplikację 💜</div>
 
     <!-- Mini summary -->
-    <div style="background:#F8F4FB;border-radius:16px;padding:16px 18px;margin-bottom:16px;text-align:left;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+    <div style="background:#F8F4FB;border-radius:16px;padding:16px 18px;margin-bottom:12px;text-align:left;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
         <div id="apply-city" style="font-size:20px;font-weight:800;color:var(--text);"></div>
-        <div id="apply-sal" style="font-size:18px;font-weight:800;color:var(--brand);"></div>
+        <div style="text-align:right;">
+          <div id="apply-sal" style="font-size:18px;font-weight:800;color:var(--brand);line-height:1.2;"></div>
+          <div id="apply-pts-day" style="font-size:11px;font-weight:600;color:var(--brand);opacity:0.85;margin-top:2px;"></div>
+        </div>
       </div>
 
       <!-- Patients as list -->
@@ -1361,6 +1358,12 @@
           <span id="apply-nights" style="font-size:13px;font-weight:700;color:var(--text);"></span>
         </div>
       </div>
+    </div>
+
+    <!-- Recruiter info — always visible -->
+    <div style="display:flex;align-items:center;gap:8px;padding:0 4px;margin-bottom:14px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.2" stroke-linecap="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span style="font-size:13px;font-weight:500;color:var(--text-2);text-align:left;">Rekruterka odezwie się <strong style="color:var(--text);">w ciągu 24h</strong> od wysłania.</span>
     </div>
 
     <button class="btn-confirm" onclick="confirmApply()" style="width:100%;background:var(--brand);color:white;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:700;font-family:var(--font);cursor:pointer;box-shadow:0 4px 18px rgba(155,31,161,0.28);margin-bottom:8px;">Wyślij aplikację ♥</button>
