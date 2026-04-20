@@ -55,7 +55,7 @@ window.confirmApplyFromDetail = () => {
   const dayPts = document.getElementById('apply-pts-day')?.textContent.match(/\d+/)?.[0] || '10';
   closeApplyModal();
   applyFromDetail();
-  showToast(`✓ Aplikacja wysłana! ⭐ +5 pkt · 🗓 +${dayPts} pkt/dzień`);
+  showToast('🎉 Aplikacja wysłana! Trzymamy kciuki! 💜');
 };
 
 window.undoApply = () => {
@@ -112,7 +112,7 @@ window.closeApplyModal = () => {
 window.confirmApply = () => {
   const dayPts = document.getElementById('apply-pts-day')?.textContent.match(/\d+/)?.[0] || '10';
   closeApplyModal();
-  showToast(`✓ Aplikacja wysłana! ⭐ +5 pkt · 🗓 +${dayPts} pkt/dzień`);
+  showToast('🎉 Aplikacja wysłana! Trzymamy kciuki! 💜');
 };
 
 window.closePointsModal = () => {}; // kept for profile screen compat
