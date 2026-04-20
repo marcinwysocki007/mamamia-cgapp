@@ -130,10 +130,10 @@
 
     <div class="slbl">Szybki dostęp</div>
     <div class="qgrid">
-      <div class="qi" onclick="go('s-search')"><div class="qic" style="background:#F5EDF6;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div class="ql">Szukaj pracy</div></div>
-      <div class="qi" onclick="go('s-zapytania')"><div class="qic" style="background:#FFF0E0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#CC6600" stroke-width="1.6" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/><circle cx="12" cy="7" r="1.5" fill="#CC6600" stroke="none"/></svg></div><div class="ql">Zapytania</div></div>
-      <div class="qi" onclick="go('s-activity')"><div class="qic" style="background:#E6F7F3;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00A878" stroke-width="1.6" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="ql">Aplikacje</div></div>
-      <div class="qi" onclick="go('s-profile')"><div class="qic" style="background:#FFF5CC;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A07000" stroke-width="1.6" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="ql">Mój profil</div></div>
+      <div class="qi" onclick="go('s-search')"><div class="qic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div class="ql">Szukaj pracy</div></div>
+      <div class="qi" onclick="go('s-zapytania')"><div class="qic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div><div class="ql">Zapytania</div></div>
+      <div class="qi" onclick="go('s-activity')"><div class="qic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.8" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="ql">Aplikacje</div></div>
+      <div class="qi" onclick="go('s-profile')"><div class="qic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="ql">Mój profil</div></div>
     </div>
     <div style="padding:20px 16px 12px;">
       <div class="lvl lvl-anim" onclick="go('s-profile')">
@@ -1349,18 +1349,19 @@
       </div>
     </div>
 
-    <!-- Rekruter info -->
-    <div style="background:#F0EBF8;border:1px solid var(--brand-mid);border-radius:12px;padding:11px 14px;margin-bottom:12px;display:flex;align-items:center;gap:10px;">
-      <span style="font-size:18px;flex-shrink:0;">👩</span>
-      <div style="font-size:12px;color:var(--text-2);text-align:left;line-height:1.5;">Po wysłaniu <strong>Rekruterka odezwie się z feedbackiem</strong> w ciągu 24 godzin.</div>
+    <!-- Info row -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;">
+      <div style="flex:1;background:#F8F4FB;border-radius:12px;padding:11px 12px;display:flex;align-items:flex-start;gap:8px;">
+        <span style="font-size:16px;flex-shrink:0;">👩</span>
+        <div style="font-size:11.5px;color:var(--text-2);line-height:1.5;">Rekruterka odezwie się <strong>w ciągu 24h</strong></div>
+      </div>
+      <div style="flex:1;background:#F8F4FB;border-radius:12px;padding:11px 12px;display:flex;align-items:flex-start;gap:8px;">
+        <span style="font-size:16px;flex-shrink:0;">⭐</span>
+        <div style="font-size:11.5px;color:var(--text-2);line-height:1.5;">Zdobywasz <strong style="color:var(--brand);">+5 punktów</strong> za aplikację</div>
+      </div>
     </div>
 
-    <div style="background:#E8F7F0;border-radius:12px;padding:11px 14px;margin-bottom:20px;display:flex;align-items:center;gap:10px;">
-      <span style="font-size:18px;">⭐</span>
-      <div style="font-size:12px;color:#005A3C;text-align:left;">Za tę aplikację dostajesz <strong>+5 punktów</strong> — tak trzymaj!</div>
-    </div>
-
-    <button class="btn-confirm" onclick="confirmApply()" style="width:100%;background:#00A878;color:white;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;box-shadow:0 4px 16px rgba(0,168,120,0.28);margin-bottom:8px;">Wyślij aplikację ♥</button>
+    <button class="btn-confirm" onclick="confirmApply()" style="width:100%;background:var(--brand);color:white;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:700;font-family:var(--font);cursor:pointer;box-shadow:0 4px 18px rgba(155,31,161,0.28);margin-bottom:8px;">Wyślij aplikację ♥</button>
     <button onclick="closeApplyModal()" style="width:100%;background:none;border:none;padding:10px;font-size:13px;color:var(--text-3);font-family:var(--font);cursor:pointer;">Anuluj</button>
   </div>
 </div>
