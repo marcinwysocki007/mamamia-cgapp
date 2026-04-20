@@ -52,9 +52,10 @@ window.applyFromDetail = () => {
 };
 
 window.confirmApplyFromDetail = () => {
+  const dayPts = document.getElementById('apply-pts-day')?.textContent.match(/\d+/)?.[0] || '10';
   closeApplyModal();
   applyFromDetail();
-  showPointsModal(5);
+  showToast(`✓ Aplikacja wysłana! ⭐ +5 pkt · 🗓 +${dayPts} pkt/dzień`);
 };
 
 window.undoApply = () => {
@@ -109,28 +110,12 @@ window.closeApplyModal = () => {
 };
 
 window.confirmApply = () => {
+  const dayPts = document.getElementById('apply-pts-day')?.textContent.match(/\d+/)?.[0] || '10';
   closeApplyModal();
-  showPointsModal(5);
+  showToast(`✓ Aplikacja wysłana! ⭐ +5 pkt · 🗓 +${dayPts} pkt/dzień`);
 };
 
-window.showPointsModal = (pts) => {
-  const modal = document.getElementById('apply-success-modal');
-  modal.classList.add('open');
-  // animate counter 0 → pts
-  const counter = document.getElementById('pts-counter');
-  counter.textContent = '0';
-  let current = 0;
-  const step = Math.ceil(pts / 20);
-  const interval = setInterval(() => {
-    current = Math.min(current + step, pts);
-    counter.textContent = current;
-    if (current >= pts) clearInterval(interval);
-  }, 40);
-};
-
-window.closePointsModal = () => {
-  document.getElementById('apply-success-modal').classList.remove('open');
-};
+window.closePointsModal = () => {}; // kept for profile screen compat
 
 window.openApplyModalDetail = () => {
   document.getElementById('apply-city').textContent         = 'Konstanz';
@@ -145,14 +130,15 @@ window.openApplyModalDetail = () => {
   document.getElementById('apply-modal').classList.add('open');
 };
 
-window.showToast = () => {
+window.showToast = (msg) => {
   const t = document.getElementById('toast');
+  if (msg) t.textContent = msg;
   t.style.display = 'flex'; t.style.opacity = '1';
   t.style.transform = 'translateX(-50%) translateY(0)';
   setTimeout(() => {
     t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(20px)';
     setTimeout(() => { t.style.display = 'none'; }, 300);
-  }, 2500);
+  }, 3000);
 };
 
 function applySearchingUI(on) {
