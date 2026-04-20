@@ -1341,14 +1341,26 @@
         <div id="apply-city" style="font-size:20px;font-weight:800;color:var(--text);"></div>
         <div style="text-align:right;">
           <div id="apply-sal" style="font-size:18px;font-weight:800;color:var(--brand);line-height:1.2;"></div>
-          <div id="apply-pts" style="font-size:11px;font-weight:600;color:var(--brand);opacity:0.75;margin-top:2px;"></div>
+          <div id="apply-pts" style="font-size:11px;font-weight:600;color:var(--brand);opacity:0.8;margin-top:3px;"></div>
+          <div id="apply-pts-day" style="font-size:11px;font-weight:600;color:var(--brand);opacity:0.8;margin-top:1px;"></div>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:9px;">
-        <div style="font-size:14px;color:var(--text-2);" id="apply-date"></div>
-        <div style="font-size:14px;color:var(--text-2);" id="apply-region"></div>
-        <div style="font-size:14px;color:var(--text-2);" id="apply-patient"></div>
-        <div style="font-size:14px;color:var(--text-2);" id="apply-nights"></div>
+
+      <!-- Patient boxes -->
+      <div id="apply-patient-boxes" style="display:flex;gap:8px;margin-bottom:12px;"></div>
+
+      <!-- Info rows -->
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:16px;width:20px;text-align:center;">📅</span>
+          <span style="font-size:13px;color:var(--text-2);">Wyjazd: </span>
+          <span id="apply-date" style="font-size:13px;font-weight:700;color:var(--text);"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:16px;width:20px;text-align:center;">🌙</span>
+          <span style="font-size:13px;color:var(--text-2);">Nocne: </span>
+          <span id="apply-nights" style="font-size:13px;font-weight:700;color:var(--text);"></span>
+        </div>
       </div>
     </div>
 
@@ -1365,6 +1377,32 @@
 
 <!-- TOAST -->
 <div id="toast">✓ Aplikacja wysłana! +5 punktów ⭐</div>
+
+<!-- APPLY SUCCESS MODAL -->
+<div class="modal-overlay" id="apply-success-modal">
+  <div class="modal" style="text-align:center;gap:0;padding:32px 24px 28px;">
+    <div style="font-size:52px;margin-bottom:12px;line-height:1;">⭐</div>
+    <div style="font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;">Aplikacja wysłana!</div>
+    <div style="font-size:14px;color:var(--text-3);margin-bottom:28px;">Trzymamy kciuki — powodzenia!</div>
+
+    <!-- Points earned now -->
+    <div style="background:#F8F4FB;border-radius:16px;padding:20px;margin-bottom:12px;">
+      <div style="font-size:13px;color:var(--text-3);margin-bottom:6px;font-weight:500;">Za tę aplikację</div>
+      <div style="display:flex;align-items:baseline;justify-content:center;gap:4px;">
+        <span id="pts-counter" style="font-size:48px;font-weight:900;color:var(--brand);line-height:1;">0</span>
+        <span style="font-size:20px;font-weight:700;color:var(--brand);">pkt</span>
+      </div>
+    </div>
+
+    <!-- Per day -->
+    <div style="background:#F2F2F7;border-radius:14px;padding:14px 16px;margin-bottom:24px;display:flex;align-items:center;gap:10px;text-align:left;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div style="font-size:14px;font-weight:500;color:var(--text);line-height:1.5;">Zyskujesz też <strong id="pts-per-day-label" style="color:var(--brand);">10 pkt</strong> za każdy dzień pracy w tym zleceniu.</div>
+    </div>
+
+    <button onclick="closePointsModal()" style="width:100%;background:var(--brand);color:white;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:700;font-family:var(--font);cursor:pointer;box-shadow:0 4px 18px rgba(155,31,161,0.25);">Super, dziękuję! 💜</button>
+  </div>
+</div>
 
 </div>
 </div>

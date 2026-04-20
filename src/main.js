@@ -54,7 +54,7 @@ window.applyFromDetail = () => {
 window.confirmApplyFromDetail = () => {
   closeApplyModal();
   applyFromDetail();
-  showToast();
+  showPointsModal(5);
 };
 
 window.undoApply = () => {
@@ -81,13 +81,31 @@ window.openApplyModal = (btn) => {
   const nightRow = irows.find(r => r.textContent.includes('Nocne'));
   const nights = nightRow ? nightRow.querySelector('b')?.textContent || '' : '';
 
-  document.getElementById('apply-city').textContent    = `${city}, ${state}`;
+  // extract per-day pts number from pts string e.g. "⭐ 10 pkt / dzień"
+  const dayPtsMatch = pts.match(/(\d+)\s*pkt/i);
+  const dayPts = dayPtsMatch ? dayPtsMatch[1] : '10';
+
+  // build patient boxes from card
+  const patBoxesEl = document.getElementById('apply-patient-boxes');
+  patBoxesEl.innerHTML = '';
+  const patNodes = card?.querySelectorAll('.pat-box') || [];
+  patNodes.forEach(p => {
+    const emoji = p.querySelector('.pat-ico')?.textContent || '👤';
+    const age   = p.querySelector('.pat-age')?.textContent  || '';
+    const mob   = p.querySelector('.pat-mob')?.textContent  || '';
+    const box = document.createElement('div');
+    box.style.cssText = 'flex:1;background:#fff;border-radius:12px;padding:10px 12px;';
+    box.innerHTML = `<div style="font-size:20px;margin-bottom:4px;">${emoji}</div><div style="font-size:13px;font-weight:700;color:var(--text);">${age}</div><div style="font-size:11px;color:var(--text-3);">${mob}</div>`;
+    patBoxesEl.appendChild(box);
+  });
+
+  document.getElementById('apply-city').textContent    = city;
   document.getElementById('apply-sal').textContent     = sal;
-  document.getElementById('apply-date').textContent    = date;
-  document.getElementById('apply-region').textContent  = dist;
-  document.getElementById('apply-patient').textContent = pats;
-  document.getElementById('apply-nights').textContent  = `🌙 Nocne: ${nights}`;
-  document.getElementById('apply-pts').textContent     = pts;
+  document.getElementById('apply-date').textContent    = date.replace('📅', '').trim();
+  document.getElementById('apply-nights').textContent  = nights;
+  document.getElementById('apply-pts').textContent     = '⭐ +5 pkt za aplikację';
+  document.getElementById('apply-pts-day').textContent = `🗓 +${dayPts} pkt za każdy dzień pracy`;
+  document.getElementById('pts-per-day-label').textContent = `${dayPts} pkt`;
   document.getElementById('apply-modal').classList.add('open');
 };
 
@@ -97,17 +115,39 @@ window.closeApplyModal = () => {
 
 window.confirmApply = () => {
   closeApplyModal();
-  showToast();
+  showPointsModal(5);
+};
+
+window.showPointsModal = (pts) => {
+  const modal = document.getElementById('apply-success-modal');
+  modal.classList.add('open');
+  // animate counter 0 → pts
+  const counter = document.getElementById('pts-counter');
+  counter.textContent = '0';
+  let current = 0;
+  const step = Math.ceil(pts / 20);
+  const interval = setInterval(() => {
+    current = Math.min(current + step, pts);
+    counter.textContent = current;
+    if (current >= pts) clearInterval(interval);
+  }, 40);
+};
+
+window.closePointsModal = () => {
+  document.getElementById('apply-success-modal').classList.remove('open');
 };
 
 window.openApplyModalDetail = () => {
-  document.getElementById('apply-city').textContent    = 'Konstanz, Baden-Württemberg';
+  document.getElementById('apply-city').textContent    = 'Konstanz';
   document.getElementById('apply-sal').textContent     = '€ 2.410';
-  document.getElementById('apply-date').textContent    = '📅 Wyjazd: 12.04.2026';
-  document.getElementById('apply-region').textContent  = '📍 ~680 km od Ciebie';
-  document.getElementById('apply-patient').textContent = '👤 Kobieta · 81 lat · mobilna';
-  document.getElementById('apply-nights').textContent  = '🌙 Nocne: ~1–2×/tydz.';
-  document.getElementById('apply-pts').textContent     = '⭐ 10 pkt / dzień';
+  document.getElementById('apply-date').textContent    = '12.04.2026';
+  document.getElementById('apply-nights').textContent  = '~1–2×/tydz.';
+  document.getElementById('apply-pts').textContent     = '⭐ +5 pkt za aplikację';
+  document.getElementById('apply-pts-day').textContent = '🗓 +10 pkt za każdy dzień pracy';
+  document.getElementById('pts-per-day-label').textContent = '10 pkt';
+  // patient box for detail
+  const patBoxesEl = document.getElementById('apply-patient-boxes');
+  patBoxesEl.innerHTML = '<div style="flex:1;background:#fff;border-radius:12px;padding:10px 12px;"><div style="font-size:20px;margin-bottom:4px;">👵</div><div style="font-size:13px;font-weight:700;color:var(--text);">81 lat</div><div style="font-size:11px;color:var(--text-3);">mobilna</div></div>';
   // override confirm button to also update detail CTA
   document.querySelector('#apply-modal .btn-confirm').onclick = confirmApplyFromDetail;
   document.getElementById('apply-modal').classList.add('open');
@@ -256,8 +296,8 @@ window.calConfirm = () => {
 };
 window.openPhotoModal  = () => { document.getElementById('photo-modal').classList.add('open'); };
 window.closePhotoModal = () => { document.getElementById('photo-modal').classList.remove('open'); };
-window.openPointsModal = () => { document.getElementById('points-modal').classList.add('open'); };
-window.closePointsModal= () => { document.getElementById('points-modal').classList.remove('open'); };
+window.openPointsModal = () => { document.getElementById('apply-success-modal').classList.add('open'); };
+window.closePointsModal= () => { document.getElementById('apply-success-modal').classList.remove('open'); };
 window.changeWyn      = (d) => {
   wynVal = Math.max(1000, Math.min(5000, wynVal + d));
   const inp = document.getElementById('wyn-val-input');
