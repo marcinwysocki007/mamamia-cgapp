@@ -85,27 +85,34 @@ window.openApplyModal = (btn) => {
   const dayPtsMatch = pts.match(/(\d+)\s*pkt/i);
   const dayPts = dayPtsMatch ? dayPtsMatch[1] : '10';
 
-  // build patient boxes from card
-  const patBoxesEl = document.getElementById('apply-patient-boxes');
-  patBoxesEl.innerHTML = '';
+  // build patient list from card
   const patNodes = card?.querySelectorAll('.pat-box') || [];
-  patNodes.forEach(p => {
+  const patList = [...patNodes].map(p => {
     const emoji = p.querySelector('.pat-ico')?.textContent || '👤';
-    const age   = p.querySelector('.pat-age')?.textContent  || '';
-    const mob   = p.querySelector('.pat-mob')?.textContent  || '';
-    const box = document.createElement('div');
-    box.style.cssText = 'flex:1;background:#fff;border-radius:12px;padding:10px 12px;';
-    box.innerHTML = `<div style="font-size:20px;margin-bottom:4px;">${emoji}</div><div style="font-size:13px;font-weight:700;color:var(--text);">${age}</div><div style="font-size:11px;color:var(--text-3);">${mob}</div>`;
-    patBoxesEl.appendChild(box);
-  });
+    const age   = p.querySelector('.pat-age')?.textContent || '';
+    const mob   = p.querySelector('.pat-mob')?.textContent || '';
+    return `${emoji} ${age}, ${mob}`;
+  }).join(' · ');
+  document.getElementById('apply-patient-list').textContent = patList;
 
-  document.getElementById('apply-city').textContent    = city;
-  document.getElementById('apply-sal').textContent     = sal;
-  document.getElementById('apply-date').textContent    = date.replace('📅', '').trim();
-  document.getElementById('apply-nights').textContent  = nights;
-  document.getElementById('apply-pts').textContent     = '⭐ +5 pkt za aplikację';
-  document.getElementById('apply-pts-day').textContent = `🗓 +${dayPts} pkt za każdy dzień pracy`;
+  document.getElementById('apply-city').textContent   = city;
+  document.getElementById('apply-sal').textContent    = sal;
+  document.getElementById('apply-date').textContent   = date.replace('📅', '').trim();
+  document.getElementById('apply-nights').textContent = nights;
   document.getElementById('pts-per-day-label').textContent = `${dayPts} pkt`;
+
+  // auto-dismiss recruiter banner after 3s
+  const banner = document.getElementById('apply-recruiter-banner');
+  banner.style.opacity = '1';
+  banner.style.maxHeight = '60px';
+  clearTimeout(window._bannerTimer);
+  window._bannerTimer = setTimeout(() => {
+    banner.style.opacity = '0';
+    banner.style.maxHeight = '0';
+    banner.style.padding = '0';
+    banner.style.marginBottom = '0';
+  }, 3000);
+
   document.getElementById('apply-modal').classList.add('open');
 };
 
@@ -138,16 +145,16 @@ window.closePointsModal = () => {
 };
 
 window.openApplyModalDetail = () => {
-  document.getElementById('apply-city').textContent    = 'Konstanz';
-  document.getElementById('apply-sal').textContent     = '€ 2.410';
-  document.getElementById('apply-date').textContent    = '12.04.2026';
-  document.getElementById('apply-nights').textContent  = '~1–2×/tydz.';
-  document.getElementById('apply-pts').textContent     = '⭐ +5 pkt za aplikację';
-  document.getElementById('apply-pts-day').textContent = '🗓 +10 pkt za każdy dzień pracy';
-  document.getElementById('pts-per-day-label').textContent = '10 pkt';
-  // patient box for detail
-  const patBoxesEl = document.getElementById('apply-patient-boxes');
-  patBoxesEl.innerHTML = '<div style="flex:1;background:#fff;border-radius:12px;padding:10px 12px;"><div style="font-size:20px;margin-bottom:4px;">👵</div><div style="font-size:13px;font-weight:700;color:var(--text);">81 lat</div><div style="font-size:11px;color:var(--text-3);">mobilna</div></div>';
+  document.getElementById('apply-city').textContent         = 'Konstanz';
+  document.getElementById('apply-sal').textContent          = '€ 2.410';
+  document.getElementById('apply-date').textContent         = '12.04.2026';
+  document.getElementById('apply-nights').textContent       = '~1–2×/tydz.';
+  document.getElementById('apply-patient-list').textContent = '👵 81 lat, mobilna';
+  document.getElementById('pts-per-day-label').textContent  = '10 pkt';
+  const banner = document.getElementById('apply-recruiter-banner');
+  banner.style.opacity = '1'; banner.style.maxHeight = '60px'; banner.style.padding = ''; banner.style.marginBottom = '';
+  clearTimeout(window._bannerTimer);
+  window._bannerTimer = setTimeout(() => { banner.style.opacity='0'; banner.style.maxHeight='0'; banner.style.padding='0'; banner.style.marginBottom='0'; }, 3000);
   // override confirm button to also update detail CTA
   document.querySelector('#apply-modal .btn-confirm').onclick = confirmApplyFromDetail;
   document.getElementById('apply-modal').classList.add('open');
