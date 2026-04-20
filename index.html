@@ -1336,29 +1336,26 @@
 
     <!-- Mini summary -->
     <div style="background:#F8F4FB;border-radius:16px;padding:18px 20px;margin-bottom:14px;text-align:left;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <!-- City + Salary + Points -->
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
         <div id="apply-city" style="font-size:20px;font-weight:800;color:var(--text);"></div>
-        <div id="apply-sal" style="font-size:18px;font-weight:800;color:var(--brand);"></div>
+        <div style="text-align:right;">
+          <div id="apply-sal" style="font-size:18px;font-weight:800;color:var(--brand);line-height:1.2;"></div>
+          <div id="apply-pts" style="font-size:11px;font-weight:600;color:var(--brand);opacity:0.75;margin-top:2px;"></div>
+        </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:9px;">
         <div style="font-size:14px;color:var(--text-2);" id="apply-date"></div>
         <div style="font-size:14px;color:var(--text-2);" id="apply-region"></div>
         <div style="font-size:14px;color:var(--text-2);" id="apply-patient"></div>
         <div style="font-size:14px;color:var(--text-2);" id="apply-nights"></div>
-        <div style="font-size:14px;color:var(--brand);font-weight:700;margin-top:2px;" id="apply-pts"></div>
       </div>
     </div>
 
-    <!-- Info row -->
-    <div style="display:flex;gap:8px;margin-bottom:20px;">
-      <div style="flex:1;background:#F8F4FB;border-radius:12px;padding:11px 12px;display:flex;align-items:flex-start;gap:8px;">
-        <span style="font-size:16px;flex-shrink:0;">👩</span>
-        <div style="font-size:11.5px;color:var(--text-2);line-height:1.5;">Rekruterka odezwie się <strong>w ciągu 24h</strong></div>
-      </div>
-      <div style="flex:1;background:#F8F4FB;border-radius:12px;padding:11px 12px;display:flex;align-items:flex-start;gap:8px;">
-        <span style="font-size:16px;flex-shrink:0;">⭐</span>
-        <div style="font-size:11.5px;color:var(--text-2);line-height:1.5;">Zdobywasz <strong style="color:var(--brand);">+5 punktów</strong> za aplikację</div>
-      </div>
+    <!-- Recruiter hint -->
+    <div style="display:flex;align-items:center;gap:10px;background:#F2F2F7;border-radius:12px;padding:12px 14px;margin-bottom:20px;">
+      <span style="font-size:22px;flex-shrink:0;">👩</span>
+      <div style="font-size:13px;color:var(--text-2);line-height:1.5;">Rekruterka <strong>Monika</strong> odezwie się z feedbackiem <strong>w ciągu 24 godzin</strong> od wysłania.</div>
     </div>
 
     <button class="btn-confirm" onclick="confirmApply()" style="width:100%;background:var(--brand);color:white;border:none;border-radius:14px;padding:15px;font-size:16px;font-weight:700;font-family:var(--font);cursor:pointer;box-shadow:0 4px 18px rgba(155,31,161,0.28);margin-bottom:8px;">Wyślij aplikację ♥</button>
