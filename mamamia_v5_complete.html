@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mamamia · App v5</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#9B1FA1;--brand-d:#7B1A85;--brand-light:#F5EDF6;--brand-mid:#DEC6E0;--cta:#00A878;--cta-d:#008F65;--cta-light:#E6F7F3;--bg:#F7F4F8;--card:#fff;--text:#1A1A2E;--text-2:#5A5470;--text-3:#B0A4BE;--amber:#A07000;--font:'Plus Jakarta Sans',system-ui,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:#E0D5E5;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes slideUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0;}}
+@keyframes heartBeat{0%{transform:scale(1);}30%{transform:scale(1.4);}60%{transform:scale(1);}80%{transform:scale(1.15);}100%{transform:scale(1);}}
+@keyframes lvlBar{from{width:0;}to{width:68%;}}
+@keyframes dotPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.45);}}
+@keyframes wiggle{0%{transform:rotate(0);}15%{transform:rotate(-14deg);}30%{transform:rotate(11deg);}45%{transform:rotate(-8deg);}60%{transform:rotate(5deg);}100%{transform:rotate(0);}}
+@keyframes iconBounce{0%,100%{transform:translateY(0);}40%{transform:translateY(-5px);}70%{transform:translateY(-2px);}}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+@keyframes slideUpSheet{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+
+/* ══ PHONE SHELL ══ */
+.phone{width:375px;height:812px;background:var(--bg);border-radius:40px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.22);display:flex;flex-direction:column;position:relative;flex-shrink:0;}
+.screen{display:none;flex-direction:column;height:100%;overflow:hidden;}
+.screen.active{display:flex;animation:fadeIn 0.18s ease;}
+.sbar{background:var(--brand);padding:12px 24px 8px;display:flex;justify-content:space-between;flex-shrink:0;}
+.sbar span{color:white;font-size:13px;font-weight:700;}
+
+/* ══ SHARED HEADER ══ */
+.hdr{background:var(--brand);padding:0 18px 16px;flex-shrink:0;}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;}
+.hdr-greet{color:rgba(255,255,255,0.8);font-size:13px;margin-bottom:2px;}
+.hdr-name-row{display:flex;align-items:center;gap:10px;}
+.hdr-name{color:white;font-size:20px;font-weight:800;}
+.hdr-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:3px 9px;}
+.hdr-badge-ico{font-size:13px;}
+.hdr-badge-txt{color:rgba(255,255,255,0.9);font-size:11px;font-weight:600;}
+.hdr-icons{display:flex;align-items:center;gap:12px;}
+.chat-wrap{position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;width:44px;height:44px;transition:transform 0.2s cubic-bezier(0.22,1,0.36,1);}
+.chat-wrap:hover{transform:scale(1.15);}
+.chat-wrap:hover .chat-icon{animation:wiggle 0.5s ease;}
+.chat-wrap:active{transform:scale(0.9);}
+.chat-icon{display:block;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.22));}
+.chat-dot{position:absolute;top:2px;right:2px;width:12px;height:12px;border-radius:50%;background:#FFB800;border:2.5px solid var(--brand);animation:dotPulse 2s ease-in-out infinite;}
+.av{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.45);color:white;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.15s;}
+.av:hover{transform:scale(1.1);}
+.hero-stats{background:rgba(255,255,255,0.14);border-radius:14px;border:1px solid rgba(255,255,255,0.18);padding:11px 14px;margin-top:12px;display:flex;}
+.hstat{flex:1;text-align:center;}
+.hstat+.hstat{border-left:1px solid rgba(255,255,255,0.18);}
+.hstat-v{color:white;font-size:20px;font-weight:800;}
+.hstat-l{color:rgba(255,255,255,0.7);font-size:10px;margin-top:1px;}
+
+/* ══ SCROLL ══ */
+.scroll{flex:1;overflow-y:auto;padding:14px;}
+.scroll::-webkit-scrollbar{display:none;}
+.slbl{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.8px;margin:14px 0 9px;}
+.slbl:first-child{margin-top:0;}
+.srow{display:flex;align-items:center;justify-content:space-between;margin:14px 0 9px;}
+.srow .slbl{margin:0;}
+.see-all{font-size:12px;color:var(--brand);font-weight:600;cursor:pointer;}
+
+/* ══ LEVEL CARD ══ */
+.lvl{background:linear-gradient(135deg,#7B1A85,#9B1FA1,#B83EC0);border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:transform 0.15s;margin-bottom:14px;}
+.lvl:active{transform:scale(0.98);}
+.lvl-ic{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.lvl-t{color:rgba(255,255,255,0.7);font-size:10px;font-weight:700;text-transform:uppercase;}
+.lvl-n{color:white;font-size:15px;font-weight:800;margin-top:1px;}
+.lvl-x{color:rgba(255,255,255,0.65);font-size:11px;margin-top:3px;}
+.lvl-bg{height:5px;background:rgba(255,255,255,0.2);border-radius:10px;margin-top:5px;}
+.lvl-fill{height:100%;background:#FFE066;border-radius:10px;animation:lvlBar 1s cubic-bezier(0.22,1,0.36,1) 0.5s both;}
+.lvl-pct{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:5px 10px;color:white;font-size:11px;font-weight:700;flex-shrink:0;margin-left:8px;}
+
+/* ══ QUICK ACCESS ══ */
+.qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.qi{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;animation:fadeSlideUp 0.35s cubic-bezier(0.22,1,0.36,1) both;}
+.qi:nth-child(1){animation-delay:0.04s;}.qi:nth-child(2){animation-delay:0.09s;}.qi:nth-child(3){animation-delay:0.14s;}.qi:nth-child(4){animation-delay:0.19s;}
+.qic{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);transition:transform 0.18s cubic-bezier(0.22,1,0.36,1),box-shadow 0.18s;}
+.qi:hover .qic{transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,0.1);}
+.qi:active .qic{transform:scale(0.94);}
+.ql{font-size:10px;font-weight:600;color:var(--text-2);text-align:center;line-height:1.2;transition:color 0.15s;}
+.qi:hover .ql{color:var(--brand);}
+
+/* ══ JOB CARD ══ */
+.jcard{background:var(--card);border-radius:20px;overflow:hidden;margin-bottom:12px;box-shadow:0 2px 16px rgba(100,30,120,0.08);border:1.5px solid #EDE0F0;position:relative;cursor:pointer;transition:transform 0.18s cubic-bezier(0.22,1,0.36,1),box-shadow 0.18s;animation:slideUp 0.4s cubic-bezier(0.22,1,0.36,1) both;}
+.jcard:nth-child(1){animation-delay:0.05s;}.jcard:nth-child(2){animation-delay:0.15s;}.jcard:nth-child(3){animation-delay:0.25s;}
+.jcard:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(100,30,120,0.12);}
+.ribbon{position:absolute;top:0;right:0;z-index:10;width:64px;height:64px;overflow:hidden;pointer-events:none;}
+.ribbon-inner{position:absolute;top:12px;right:-16px;background:#FFB800;color:#7A4A00;font-size:9px;font-weight:800;padding:3px 18px;transform:rotate(45deg);white-space:nowrap;}
+.jhero{position:relative;height:100px;display:flex;align-items:stretch;overflow:hidden;}
+.jhero-bg{position:absolute;inset:0;transition:filter 0.3s;}
+.jcard:hover .jhero-bg{filter:brightness(1.07);}
+.jhero-map{position:relative;z-index:1;width:88px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:5px 2px 5px 8px;}
+.jhero-map svg{width:100%;height:100%;display:block;}
+.jhero-mid{flex:1;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;padding:0 10px 0 4px;gap:3px;}
+.jhero-city{font-size:17px;font-weight:800;color:white;text-shadow:0 1px 5px rgba(0,0,0,0.25);letter-spacing:-0.3px;}
+.jhero-state{font-size:10px;color:rgba(255,255,255,0.72);font-weight:600;}
+.jhero-dist{display:inline-flex;align-items:center;gap:3px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.28);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;color:white;width:fit-content;}
+.jstatus{padding:8px 12px 0;}
+.badge-s{display:inline-flex;align-items:center;gap:4px;background:#E6F7F3;border:1px solid #A8E6D4;border-radius:20px;padding:3px 9px;font-size:11px;font-weight:700;color:#007A58;}
+.badge-n{display:inline-flex;align-items:center;gap:4px;background:var(--brand-light);border:1px solid var(--brand-mid);border-radius:20px;padding:3px 9px;font-size:11px;font-weight:700;color:var(--brand);}
+.jpats{display:flex;gap:7px;padding:8px 12px 9px;border-bottom:1px solid #F0EAF4;}
+.pat-box{flex:1;background:#FAF7FC;border:1px solid #EDE0F0;border-radius:12px;padding:8px 10px;}
+.pat-ico{font-size:17px;margin-bottom:2px;}
+.pat-age{font-size:13px;font-weight:800;color:var(--text);}
+.pat-mob{font-size:10px;color:var(--text-3);margin-top:1px;line-height:1.3;}
+.jinfos{padding:8px 12px 7px;display:flex;flex-direction:column;gap:5px;border-bottom:1px solid #F0EAF4;}
+.irow{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-2);}
+.iico{font-size:12px;width:16px;text-align:center;flex-shrink:0;}
+.irow b{color:var(--text);font-weight:700;}
+.jmeta{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;}
+.meta-lbl{font-size:10px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:2px;}
+.meta-val{font-size:12px;font-weight:700;color:var(--text-2);}
+.meta-sal{font-size:18px;font-weight:800;color:var(--cta-d);letter-spacing:-0.3px;line-height:1;}
+.meta-pts{font-size:10px;font-weight:700;color:var(--amber);margin-top:2px;display:flex;align-items:center;gap:2px;justify-content:flex-end;}
+.jbtns{padding:0 12px 9px;}
+.btn-apply{display:flex!important;align-items:center!important;justify-content:center!important;gap:6px!important;width:100%!important;background-color:#00A878!important;color:#fff!important;border:none!important;border-radius:12px!important;padding:12px!important;font-size:14px!important;font-weight:800!important;font-family:'Plus Jakarta Sans',sans-serif!important;cursor:pointer!important;position:relative!important;overflow:hidden!important;transition:transform 0.15s,box-shadow 0.15s!important;}
+.btn-apply:hover{transform:scale(1.02)!important;box-shadow:0 4px 16px rgba(0,168,120,0.3)!important;}
+.btn-apply:active{transform:scale(0.97)!important;background-color:#008F65!important;}
+.btn-apply:hover .heart{animation:heartBeat 0.6s ease;}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.35);transform:scale(0);animation:rippleAnim 0.55s linear;pointer-events:none;}
+.jfooter{display:flex;align-items:center;justify-content:space-between;padding:5px 12px 9px;}
+.jviewers{font-size:11px;color:var(--text-3);}
+.jszczegoly{font-size:12px;font-weight:700;color:var(--brand);cursor:pointer;display:flex;align-items:center;gap:3px;transition:opacity 0.15s,transform 0.15s;}
+.jszczegoly:hover{opacity:0.75;transform:translateX(2px);}
+
+/* ══ BOTTOM NAV ══ */
+.bnav{display:flex;background:var(--card);border-top:1px solid #EDE7EF;padding:8px 0 16px;flex-shrink:0;}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 0;position:relative;}
+.ni-lbl{font-size:10px;font-weight:600;color:var(--text-3);}
+.ni.on .ni-lbl{color:var(--brand);}
+.ni-pip{position:absolute;top:2px;right:18px;background:var(--cta);color:white;font-size:9px;font-weight:800;min-width:14px;height:14px;border-radius:7px;display:flex;align-items:center;justify-content:center;padding:0 3px;border:1.5px solid var(--card);}
+
+/* ══ ACTIVITY ══ */
+.act-hdr{background:var(--brand);padding:12px 16px 0;flex-shrink:0;}
+.act-hdr-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.act-title{color:white;font-size:18px;font-weight:800;}
+.tabs{display:flex;}
+.tab{flex:1;padding:9px 4px;text-align:center;font-size:11px;font-weight:700;color:rgba(255,255,255,0.55);cursor:pointer;border-bottom:3px solid transparent;transition:all 0.15s;}
+.tab.on{color:white;border-bottom-color:white;}
+.act-card{background:var(--card);border-radius:18px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 12px rgba(100,30,120,0.07);border:1.5px solid #EDE0F0;cursor:pointer;}
+.act-hero{position:relative;height:68px;display:flex;align-items:stretch;overflow:hidden;}
+.act-hero-bg{position:absolute;inset:0;}
+.act-hero-map{position:relative;z-index:1;width:64px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:4px 2px 4px 7px;}
+.act-hero-map svg{width:100%;height:100%;display:block;}
+.act-hero-mid{flex:1;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;padding:0 8px 0 4px;gap:2px;}
+.act-hero-city{font-size:13px;font-weight:800;color:white;text-shadow:0 1px 4px rgba(0,0,0,0.2);}
+.act-hero-state{font-size:10px;color:rgba(255,255,255,0.7);font-weight:600;}
+.act-hero-right{position:relative;z-index:1;display:flex;align-items:center;padding:0 12px 0 4px;}
+.act-pill{border-radius:20px;padding:4px 10px;font-size:10px;font-weight:700;}
+.ap-pend{background:rgba(255,255,255,0.22);color:white;}
+.ap-acc{background:rgba(0,168,120,0.28);color:#B0FFE0;}
+.ap-inv{background:rgba(212,123,0,0.28);color:#FFD88A;}
+.ap-run{background:rgba(51,85,187,0.28);color:#C0D0FF;}
+.act-body{padding:9px 12px;}
+.act-brow{display:flex;align-items:center;justify-content:space-between;}
+.act-sal{font-size:15px;font-weight:800;color:var(--cta-d);}
+.act-pts{font-size:10px;font-weight:700;color:var(--amber);margin-top:2px;}
+.act-foot{display:flex;align-items:center;justify-content:space-between;margin-top:7px;padding-top:7px;border-top:1px solid #F3EEF5;}
+.act-sent{font-size:10px;color:var(--text-3);}
+.act-acts{display:flex;gap:5px;}
+.btn-sm-g{background:var(--brand-light);color:var(--brand);border:none;border-radius:8px;padding:5px 11px;font-size:11px;font-weight:700;font-family:var(--font);cursor:pointer;}
+.btn-sm-c{background:var(--cta);color:white;border:none;border-radius:8px;padding:5px 11px;font-size:11px;font-weight:700;font-family:var(--font);cursor:pointer;}
+
+/* ══ SEARCH / FILTER ══ */
+.shdr{background:var(--brand);padding:12px 18px 14px;flex-shrink:0;}
+.shdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.stitle{color:white;font-size:18px;font-weight:800;}
+.filter-bar{background:var(--card);border-bottom:1px solid #EDE7EF;padding:9px 16px;display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.filter-btn{display:flex;align-items:center;gap:5px;flex-shrink:0;background:var(--brand-light);border:1.5px solid var(--brand-mid);border-radius:20px;padding:7px 12px;font-size:12px;font-weight:700;font-family:var(--font);color:var(--brand);cursor:pointer;transition:background 0.15s,border-color 0.15s,transform 0.15s;}
+.filter-btn:hover{background:#EDD9F5;border-color:var(--brand);transform:scale(1.03);}
+.filter-count{background:var(--brand);color:white;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;}
+.filter-divider{width:1px;height:24px;background:#EDE7EF;flex-shrink:0;}
+.date-pill{display:inline-flex;align-items:center;gap:7px;border-radius:20px;border:1.5px solid #EDE0F0;background:var(--card);padding:7px 13px;cursor:pointer;flex:1;transition:border-color 0.15s,box-shadow 0.15s;}
+.date-pill:hover{border-color:var(--brand);box-shadow:0 2px 8px rgba(155,31,161,0.1);}
+.date-pill-text{flex:1;}
+.date-pill-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-3);margin-bottom:2px;}
+.date-pill-val{font-size:13px;font-weight:800;color:#007A58;line-height:1;}
+.result-bar{background:var(--bg);display:flex;align-items:center;justify-content:space-between;padding:8px 16px 4px;flex-shrink:0;}
+.result-lbl{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.7px;}
+.result-sort{font-size:11px;font-weight:700;color:var(--brand);cursor:pointer;}
+
+/* ══ CHAT ══ */
+.chat-hdr{background:var(--brand);padding:12px 18px 14px;flex-shrink:0;}
+.chat-hdr-row{display:flex;align-items:center;gap:12px;}
+.chat-title{color:white;font-size:18px;font-weight:800;}
+.back-btn{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background 0.15s;}
+.back-btn:hover{background:rgba(255,255,255,0.28);}
+.chat-item{background:var(--card);border-radius:16px;padding:12px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;cursor:pointer;border:1.5px solid #EDE0F0;transition:transform 0.1s;}
+.chat-item:active{transform:scale(0.98);}
+.chat-av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.chat-name{font-size:13px;font-weight:700;color:var(--text);}
+.chat-prev{font-size:11px;color:var(--text-3);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:185px;}
+.chat-pip{background:var(--brand);color:white;font-size:9px;font-weight:800;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:4px;margin-left:auto;}
+.chat-detail-hdr{background:var(--brand);padding:10px 16px 12px;flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;}
+.messages::-webkit-scrollbar{display:none;}
+.msg-row{display:flex;gap:8px;align-items:flex-end;}
+.msg-row.me{flex-direction:row-reverse;}
+.msg-av-sm{width:28px;height:28px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.bubble{max-width:225px;padding:9px 13px;border-radius:16px;font-size:13px;line-height:1.45;}
+.bubble.them{background:var(--card);color:var(--text);border-bottom-left-radius:3px;box-shadow:0 1px 5px rgba(100,30,120,0.07);}
+.bubble.me{background:var(--brand);color:white;border-bottom-right-radius:3px;}
+.msg-time{font-size:10px;color:var(--text-3);margin-bottom:2px;}
+.chat-inp-row{padding:8px 12px 14px;background:var(--bg);display:flex;gap:8px;align-items:center;flex-shrink:0;border-top:1px solid #EDE7EF;}
+.chat-inp{flex:1;background:var(--card);border:1.5px solid #EDE0F0;border-radius:22px;padding:9px 14px;font-size:13px;font-family:var(--font);color:var(--text);outline:none;}
+.chat-send{width:38px;height:38px;border-radius:50%;background:var(--brand);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* ══ PROFILE ══ */
+.photo-block{background:var(--card);padding:26px 20px 22px;display:flex;flex-direction:column;align-items:center;gap:14px;border-bottom:1px solid #F0EAF4;}
+.photo-wrap{position:relative;cursor:pointer;}
+.photo-circle{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#EDD9F5,#C890D8);border:3px solid white;box-shadow:0 4px 20px rgba(155,31,161,0.18);display:flex;align-items:center;justify-content:center;}
+.photo-initials{font-size:30px;font-weight:800;color:var(--brand);}
+.photo-cam{position:absolute;bottom:3px;right:3px;width:26px;height:26px;border-radius:50%;background:#FFB800;border:2.5px solid white;display:flex;align-items:center;justify-content:center;font-size:12px;}
+.btn-add-photo{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--brand);color:white;border:none;border-radius:14px;padding:13px;font-size:14px;font-weight:800;font-family:var(--font);cursor:pointer;box-shadow:0 4px 16px rgba(155,31,161,0.25);transition:transform 0.15s;}
+.btn-add-photo:hover{transform:scale(1.02);}
+.pts-hint{font-size:11px;color:var(--text-3);display:flex;align-items:center;gap:4px;}
+.pts-hint b{color:var(--amber);}
+.stats-row{background:var(--card);display:flex;border-bottom:1px solid #F0EAF4;flex-shrink:0;}
+.sbox{flex:1;text-align:center;padding:13px 8px;}
+.sbox+.sbox{border-left:1px solid #F0EAF4;}
+.sbox-v{font-size:20px;font-weight:800;color:var(--text);}
+.sbox-l{font-size:10px;color:var(--text-3);margin-top:1px;font-weight:600;}
+.pad{padding:14px;}
+.pts-card{background:var(--card);border-radius:14px;border:1.5px solid #EDE0F0;overflow:hidden;margin-bottom:14px;}
+.pts-sec-hdr{padding:11px 14px 6px;}
+.pts-sec-title{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.6px;}
+.pts-row{display:flex;align-items:center;gap:10px;padding:9px 14px;border-top:1px solid #F8F5FA;}
+.pts-ico{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.pts-label{flex:1;font-size:13px;font-weight:600;color:var(--text);}
+.pts-val{font-size:13px;font-weight:800;color:var(--amber);}
+.pts-divider{height:6px;background:var(--bg);}
+.earn-row{display:flex;align-items:center;gap:10px;padding:9px 14px;border-top:1px solid #F8F5FA;cursor:pointer;transition:background 0.12s;}
+.earn-row:hover{background:#FAF7FC;}
+.earn-ico{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.earn-label{flex:1;font-size:13px;font-weight:600;color:var(--text);}
+.earn-badge{background:var(--cta-light);color:var(--cta-d);font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;flex-shrink:0;}
+.pref-card{background:var(--card);border-radius:14px;border:1.5px solid #EDE0F0;overflow:hidden;margin-bottom:14px;}
+.pref-sec{padding:11px 14px 6px;display:flex;align-items:center;justify-content:space-between;}
+.pref-sec-title{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.6px;}
+.pref-edit-btn{font-size:11px;font-weight:700;color:var(--brand);background:none;border:none;cursor:pointer;font-family:var(--font);}
+.pref-row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-top:1px solid #F8F5FA;font-size:13px;}
+.pref-lbl{color:var(--text-2);}
+.pref-val{font-weight:700;color:var(--text);display:flex;align-items:center;gap:4px;}
+.dot-g{width:7px;height:7px;border-radius:50%;background:var(--cta);display:inline-block;}
+.pref-action{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid #F8F5FA;cursor:pointer;transition:background 0.12s;}
+.pref-action:hover{background:#FAF7FC;}
+.pref-action-ico{width:32px;height:32px;border-radius:9px;background:var(--brand-light);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.pref-action-label{flex:1;font-size:13px;font-weight:700;color:var(--brand);}
+.mitem{background:var(--card);border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:10px;margin-bottom:7px;cursor:pointer;border:1.5px solid #EDE0F0;}
+.mic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.mit{flex:1;font-size:13px;font-weight:600;color:var(--text);}
+.mia{color:var(--text-3);font-size:14px;}
+
+/* ══ FILTER SHEET ══ */
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,0.45);z-index:10;display:none;border-radius:40px;animation:fadeIn 0.2s ease;}
+.overlay.open{display:block;}
+.sheet{position:absolute;bottom:0;left:0;right:0;background:var(--card);border-radius:24px 24px 0 0;z-index:11;display:none;flex-direction:column;max-height:88%;animation:slideUpSheet 0.28s cubic-bezier(0.22,1,0.36,1);}
+.sheet.open{display:flex;}
+.sheet-handle{width:36px;height:4px;background:#E0D5E5;border-radius:4px;margin:12px auto 0;}
+.sheet-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px;}
+.sheet-title{font-size:17px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px;}
+.sheet-close{width:32px;height:32px;border-radius:50%;background:#F5F0F7;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.sheet-scroll{flex:1;overflow-y:auto;padding:0 18px;scrollbar-width:none;}
+.sheet-scroll::-webkit-scrollbar{display:none;}
+.fsec{padding:14px 0;border-bottom:1px solid #F0EAF4;}
+.fsec:last-child{border-bottom:none;}
+.fsec-label{font-size:13px;font-weight:700;color:var(--text);margin-bottom:11px;}
+.date-field{display:flex;align-items:center;gap:10px;background:#FAF7FC;border:1.5px solid #EDE0F0;border-radius:12px;padding:11px 14px;cursor:pointer;}
+.date-field-val{font-size:14px;font-weight:700;color:var(--text);flex:1;}
+.stepper{display:flex;align-items:center;gap:10px;}
+.step-btn{width:40px;height:40px;border-radius:50%;border:2px solid var(--brand-mid);background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;color:var(--brand);font-weight:700;transition:all 0.15s;flex-shrink:0;}
+.step-btn:hover{background:var(--brand);color:white;border-color:var(--brand);}
+.step-val{flex:1;text-align:center;background:#FAF7FC;border:1.5px solid #EDE0F0;border-radius:12px;padding:11px;font-size:16px;font-weight:800;color:var(--text);}
+.tchips{display:flex;flex-wrap:wrap;gap:7px;}
+.tchip{padding:7px 13px;border-radius:22px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid #EDE0F0;background:var(--card);color:var(--text-2);transition:all 0.15s;}
+.tchip.on{background:var(--brand-light);border-color:var(--brand);color:var(--brand);}
+.sort-select{width:100%;background:#FAF7FC;border:1.5px solid #EDE0F0;border-radius:12px;padding:11px 14px;font-size:13px;font-weight:600;color:var(--text);font-family:var(--font);cursor:pointer;appearance:none;outline:none;}
+.sheet-footer{padding:12px 18px 18px;display:flex;gap:10px;flex-shrink:0;border-top:1px solid #F0EAF4;}
+.btn-reset{width:44px;height:44px;border-radius:50%;border:2px solid var(--brand-mid);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.btn-show{flex:1;background:var(--brand);color:white;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:800;font-family:var(--font);cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;}
+.btn-show:hover{transform:scale(1.02);box-shadow:0 5px 18px rgba(155,31,161,0.3);}
+
+/* ══ PHOTO MODAL ══ */
+.modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.55);z-index:20;border-radius:40px;display:none;align-items:flex-end;animation:fadeIn 0.2s ease;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--card);border-radius:24px 24px 0 0;width:100%;padding:20px 20px 30px;}
+.modal-handle{width:36px;height:4px;background:#E0D5E5;border-radius:4px;margin:0 auto 16px;}
+.modal-title{font-size:17px;font-weight:800;color:var(--text);margin-bottom:4px;}
+.modal-sub{font-size:13px;color:var(--text-2);margin-bottom:16px;line-height:1.45;}
+.modal-opts{display:flex;gap:10px;margin-bottom:14px;}
+.modal-opt{flex:1;background:#F5F2F7;border-radius:14px;padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;border:1.5px solid #EDE0F0;transition:border-color 0.15s;}
+.modal-opt:hover{border-color:var(--brand);}
+.modal-opt-ico{font-size:26px;}
+.modal-opt-lbl{font-size:11px;font-weight:700;color:var(--text-2);}
+.modal-ai{background:linear-gradient(135deg,#F2E5FA,#EDD9F5);border-radius:14px;padding:13px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px;cursor:pointer;}
+.modal-ai-ico{font-size:22px;flex-shrink:0;}
+.modal-ai-title{font-size:13px;font-weight:800;color:var(--text);}
+.modal-ai-sub{font-size:12px;color:var(--text-2);margin-top:2px;line-height:1.4;}
+.modal-ai-pts{font-size:11px;font-weight:800;color:var(--brand);margin-top:4px;}
+.btn-close{width:100%;background:none;border:1.5px solid var(--brand-mid);border-radius:12px;padding:12px;font-size:13px;font-weight:700;color:var(--text-2);font-family:var(--font);cursor:pointer;}
+
+/* TOAST */
+#toast{position:absolute;bottom:85px;left:50%;transform:translateX(-50%) translateY(20px);background:#00A878;color:white;border-radius:12px;padding:10px 18px;font-size:13px;font-weight:700;display:none;align-items:center;gap:6px;box-shadow:0 8px 20px rgba(0,168,120,0.4);transition:all 0.3s;z-index:99;white-space:nowrap;}
+</style>
+
+<!-- MAP SYMBOLS -->
+<svg width="0" height="0" style="position:absolute;"><defs>
+  <symbol id="m-nrw" viewBox="0 0 250 290"><path d="M118,4 L198,4 L214,82 L196,106 L170,132 L148,146 L130,172 L110,192 L84,214 L62,222 L36,190 L26,136 L48,76 L60,40 L66,36 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><path d="M66,36 L116,40 L112,96 L96,120 L66,130 L48,100 L52,76 Z" fill="rgba(255,255,255,0.5)" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/><path d="M116,40 L196,36 L198,80 L148,80 L148,40 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M96,120 L148,116 L146,148 L110,144 L82,132 L66,130 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M110,144 L148,148 L196,152 L196,200 L140,236 L96,214 L82,148 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M66,130 L82,128 L82,200 L54,182 L52,144 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><circle cx="72" cy="108" r="5" fill="white" opacity="0.95"/><circle cx="72" cy="108" r="2.5" fill="#1A4D3A"/></symbol>
+  <symbol id="m-berlin" viewBox="0 0 250 290"><path d="M118,4 L198,4 L214,82 L196,106 L170,132 L148,146 L130,172 L110,192 L84,214 L62,222 L36,190 L26,136 L48,76 L60,40 L66,36 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><path d="M116,40 L196,36 L198,80 L148,80 L148,40 Z" fill="rgba(255,255,255,0.48)" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/><path d="M66,36 L116,40 L112,96 L96,120 L66,130 L48,100 L52,76 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M96,120 L148,116 L146,148 L110,144 L82,132 L66,130 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M110,144 L148,148 L196,152 L196,200 L140,236 L96,214 L82,148 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M66,130 L82,128 L82,200 L54,182 L52,144 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><circle cx="165" cy="56" r="7" fill="rgba(255,255,255,0.9)" stroke="rgba(255,255,255,0.95)" stroke-width="1.5"/><circle cx="165" cy="56" r="3" fill="#2A3F5E"/></symbol>
+  <symbol id="m-hessen" viewBox="0 0 250 290"><path d="M118,4 L198,4 L214,82 L196,106 L170,132 L148,146 L130,172 L110,192 L84,214 L62,222 L36,190 L26,136 L48,76 L60,40 L66,36 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><path d="M66,36 L116,40 L112,96 L96,120 L66,130 L48,100 L52,76 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M116,40 L196,36 L198,80 L148,80 L148,40 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M96,120 L148,116 L146,148 L110,144 L82,132 L66,130 Z" fill="rgba(255,255,255,0.48)" stroke="rgba(255,255,255,0.9)" stroke-width="1.5"/><path d="M110,144 L148,148 L196,152 L196,200 L140,236 L96,214 L82,148 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><path d="M66,130 L82,128 L82,200 L54,182 L52,144 Z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><circle cx="116" cy="134" r="5" fill="white" opacity="0.95"/><circle cx="116" cy="134" r="2.5" fill="#6B4A7A"/></symbol>
+</defs></svg>
+
+<div style="display:flex;align-items:center;justify-content:center;min-height:100vh;">
+<div class="phone">
+
+<!-- ══════════════════════════════════════
+     SCREEN: HOME
+══════════════════════════════════════ -->
+<div class="screen active" id="s-home">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div class="hdr">
+    <div class="hdr-row">
+      <div>
+        <div class="hdr-greet">Dzień dobry 👋</div>
+        <div class="hdr-name-row">
+          <div class="hdr-name">Monika K.</div>
+          <div class="hdr-badge"><span class="hdr-badge-ico">🏅</span><span class="hdr-badge-txt">Srebrna</span></div>
+        </div>
+      </div>
+      <div class="hdr-icons">
+        <div class="chat-wrap" onclick="go('s-chat')">
+          <svg class="chat-icon" width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"/><circle cx="8" cy="11" r="1.1" fill="rgba(155,31,161,0.35)"/><circle cx="12" cy="11" r="1.1" fill="rgba(155,31,161,0.35)"/><circle cx="16" cy="11" r="1.1" fill="rgba(155,31,161,0.35)"/></svg>
+          <div class="chat-dot"></div>
+        </div>
+        <div class="av" onclick="go('s-profile')">MK</div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-v">23</div><div class="hstat-l">Nowe oferty</div></div>
+      <div class="hstat"><div class="hstat-v">3</div><div class="hstat-l">Aplikacje</div></div>
+      <div class="hstat"><div class="hstat-v">680</div><div class="hstat-l">Punkty</div></div>
+    </div>
+  </div>
+  <div class="scroll">
+    <div class="slbl">Szybki dostęp</div>
+    <div class="qgrid">
+      <div class="qi" onclick="go('s-search')"><div class="qic" style="background:#F5EDF6;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div><div class="ql">Szukaj pracy</div></div>
+      <div class="qi" onclick="go('s-activity')"><div class="qic" style="background:#E6F7F3;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00A878" stroke-width="2.2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="ql">Aplikacje</div></div>
+      <div class="qi" onclick="go('s-profile')"><div class="qic" style="background:#FFF5CC;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A07000" stroke-width="2.2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="ql">Mój profil</div></div>
+      <div class="qi" onclick="go('s-profile')"><div class="qic" style="background:#E8EEFF;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3355BB" stroke-width="2.2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="ql">Punkty</div></div>
+    </div>
+    <div class="slbl" style="margin-top:14px;">Twój status</div>
+    <div class="lvl" onclick="go('s-profile')">
+      <div class="lvl-ic">🏅</div>
+      <div style="flex:1"><div class="lvl-t">Poziom 4</div><div class="lvl-n">Srebrna Opiekunka</div><div class="lvl-x">680 / 1000 pkt do Złotej</div><div class="lvl-bg"><div class="lvl-fill"></div></div></div>
+      <div class="lvl-pct">+68%</div>
+    </div>
+    <div class="srow"><div class="slbl">Dopasowane oferty</div><div class="see-all" onclick="go('s-search')">Wszystkie 23 →</div></div>
+    <!-- Job Card 1 -->
+    <div class="jcard"><div class="ribbon"><div class="ribbon-inner">+ 200 €</div></div><div class="jhero"><div class="jhero-bg" style="background:linear-gradient(135deg,#4A8C6E,#2D6B5A,#1A4D3A);"></div><div class="jhero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-nrw"/></svg></div><div class="jhero-mid"><div class="jhero-city">Köln</div><div class="jhero-state">Nordrhein-Westfalen</div><div class="jhero-dist">📍 ~680 km od Ciebie</div></div></div><div class="jstatus"><div class="badge-s">✅ Sprawdzona · 3× wynajmowana</div></div><div class="jpats"><div class="pat-box"><div class="pat-ico">👨</div><div class="pat-age">90 lat</div><div class="pat-mob">osoba leżąca</div></div><div class="pat-box"><div class="pat-ico">👩</div><div class="pat-age">90 lat</div><div class="pat-mob">o balkoniku</div></div></div><div class="jinfos"><div class="irow"><span class="iico">👤</span><span>dla: <b>opiekuna lub opiekunki</b></span></div><div class="irow"><span class="iico">🌙</span><span>Nocne: <b>tak, ~2×/tydz.</b></span></div><div class="irow"><span class="iico">🇩🇪</span><span>Język: <b>dobry</b></span></div></div><div class="jmeta"><div><div class="meta-lbl">Wyjazd</div><div class="meta-val">📅 10.04.2026</div></div><div style="text-align:right;"><div class="meta-lbl">Wynagrodzenie</div><div class="meta-sal">€ 2.738</div><div class="meta-pts">⭐ 10 pkt / dzień</div></div></div><div class="jbtns"><button class="btn-apply" onclick="showToast()">Aplikuj <span class="heart">♥</span></button></div><div class="jfooter"><div class="jviewers">👁 16 ogląda</div><div class="jszczegoly" onclick="go('s-detail')">Szczegóły <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    <!-- Job Card 2 -->
+    <div class="jcard"><div class="jhero"><div class="jhero-bg" style="background:linear-gradient(135deg,#5B7FA6,#3D5A80,#2A3F5E);"></div><div class="jhero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-berlin"/></svg></div><div class="jhero-mid"><div class="jhero-city">Berlin</div><div class="jhero-state">Berlin</div><div class="jhero-dist">📍 ~520 km od Ciebie</div></div></div><div class="jstatus"><div class="badge-n">🆕 Nowa oferta · dodana dzisiaj</div></div><div class="jpats"><div class="pat-box" style="max-width:calc(50% - 4px);"><div class="pat-ico">👨</div><div class="pat-age">61 lat</div><div class="pat-mob">samodzielny</div></div></div><div class="jinfos"><div class="irow"><span class="iico">👤</span><span>dla: <b>opiekuna lub opiekunki</b></span></div><div class="irow"><span class="iico">🌙</span><span>Nocne: <b>brak</b></span></div><div class="irow"><span class="iico">🇩🇪</span><span>Język: <b>bardzo dobry</b></span></div></div><div class="jmeta"><div><div class="meta-lbl">Wyjazd</div><div class="meta-val">📅 17.04.2026</div></div><div style="text-align:right;"><div class="meta-lbl">Wynagrodzenie</div><div class="meta-sal">€ 2.010</div><div class="meta-pts">⭐ 5 pkt / dzień</div></div></div><div class="jbtns"><button class="btn-apply" onclick="showToast()">Aplikuj <span class="heart">♥</span></button></div><div class="jfooter"><div class="jviewers">👁 8 ogląda</div><div class="jszczegoly" onclick="go('s-detail')">Szczegóły <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+  </div>
+  <div class="bnav">
+    <div class="ni on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.2" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="ni-lbl" style="color:var(--brand)">Start</div></div>
+    <div class="ni" onclick="go('s-search')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><div class="ni-lbl">Oferty</div><div class="ni-pip">23</div></div>
+    <div class="ni" onclick="go('s-activity')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div class="ni-lbl">Aktywności</div><div class="ni-pip">2</div></div>
+    <div class="ni" onclick="go('s-profile')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div class="ni-lbl">Profil</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: OFERTY (SEARCH)
+══════════════════════════════════════ -->
+<div class="screen" id="s-search">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div class="shdr">
+    <div class="shdr-top">
+      <div class="stitle">Znajdź pracę</div>
+      <div class="chat-wrap" onclick="go('s-chat')"><svg class="chat-icon" width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"/><circle cx="8" cy="11" r="1.1" fill="rgba(155,31,161,0.35)"/><circle cx="12" cy="11" r="1.1" fill="rgba(155,31,161,0.35)"/><circle cx="16" cy="11" r="1.1" fill="rgba(155,31,161,0.35)"/></svg><div class="chat-dot"></div></div>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <button class="filter-btn" onclick="openSheet()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.5" stroke-linecap="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+      Dopasuj oferty
+      <div class="filter-count">3</div>
+    </button>
+    <div class="filter-divider"></div>
+    <div class="date-pill">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#007A58" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+      <div class="date-pill-text"><div class="date-pill-label">Mogę od</div><div class="date-pill-val">09.04.2026</div></div>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#B0A4BE" stroke-width="2.2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>
+    </div>
+  </div>
+  <div class="result-bar"><div class="result-lbl">23 oferty dopasowane</div><div class="result-sort" onclick="openSheet()">↕ Sortuj</div></div>
+  <div class="scroll" style="padding-top:8px;">
+    <div class="jcard"><div class="ribbon"><div class="ribbon-inner">+ 200 €</div></div><div class="jhero"><div class="jhero-bg" style="background:linear-gradient(135deg,#4A8C6E,#2D6B5A,#1A4D3A);"></div><div class="jhero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-nrw"/></svg></div><div class="jhero-mid"><div class="jhero-city">Köln</div><div class="jhero-state">Nordrhein-Westfalen</div><div class="jhero-dist">📍 ~680 km od Ciebie</div></div></div><div class="jstatus"><div class="badge-s">✅ Sprawdzona · 3× wynajmowana</div></div><div class="jpats"><div class="pat-box"><div class="pat-ico">👨</div><div class="pat-age">90 lat</div><div class="pat-mob">osoba leżąca</div></div><div class="pat-box"><div class="pat-ico">👩</div><div class="pat-age">90 lat</div><div class="pat-mob">o balkoniku</div></div></div><div class="jinfos"><div class="irow"><span class="iico">👤</span><span>dla: <b>opiekuna lub opiekunki</b></span></div><div class="irow"><span class="iico">🌙</span><span>Nocne: <b>tak, ~2×/tydz.</b></span></div><div class="irow"><span class="iico">🇩🇪</span><span>Język: <b>dobry</b></span></div></div><div class="jmeta"><div><div class="meta-lbl">Wyjazd</div><div class="meta-val">📅 10.04.2026</div></div><div style="text-align:right;"><div class="meta-lbl">Wynagrodzenie</div><div class="meta-sal">€ 2.738</div><div class="meta-pts">⭐ 10 pkt / dzień</div></div></div><div class="jbtns"><button class="btn-apply" onclick="showToast()">Aplikuj <span class="heart">♥</span></button></div><div class="jfooter"><div class="jviewers">👁 16 ogląda</div><div class="jszczegoly" onclick="go('s-detail')">Szczegóły <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    <div class="jcard"><div class="jhero"><div class="jhero-bg" style="background:linear-gradient(135deg,#5B7FA6,#3D5A80,#2A3F5E);"></div><div class="jhero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-berlin"/></svg></div><div class="jhero-mid"><div class="jhero-city">Berlin</div><div class="jhero-state">Berlin</div><div class="jhero-dist">📍 ~520 km od Ciebie</div></div></div><div class="jstatus"><div class="badge-n">🆕 Nowa oferta · dodana dzisiaj</div></div><div class="jpats"><div class="pat-box" style="max-width:calc(50% - 4px);"><div class="pat-ico">👨</div><div class="pat-age">61 lat</div><div class="pat-mob">samodzielny</div></div></div><div class="jinfos"><div class="irow"><span class="iico">👤</span><span>dla: <b>opiekuna lub opiekunki</b></span></div><div class="irow"><span class="iico">🌙</span><span>Nocne: <b>brak</b></span></div><div class="irow"><span class="iico">🇩🇪</span><span>Język: <b>bardzo dobry</b></span></div></div><div class="jmeta"><div><div class="meta-lbl">Wyjazd</div><div class="meta-val">📅 17.04.2026</div></div><div style="text-align:right;"><div class="meta-lbl">Wynagrodzenie</div><div class="meta-sal">€ 2.010</div><div class="meta-pts">⭐ 5 pkt / dzień</div></div></div><div class="jbtns"><button class="btn-apply" onclick="showToast()">Aplikuj <span class="heart">♥</span></button></div><div class="jfooter"><div class="jviewers">👁 8 ogląda</div><div class="jszczegoly" onclick="go('s-detail')">Szczegóły <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+    <div class="jcard"><div class="ribbon"><div class="ribbon-inner">+ 150 €</div></div><div class="jhero"><div class="jhero-bg" style="background:linear-gradient(135deg,#C8916E,#9B6E8A,#6B4A7A);"></div><div class="jhero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-hessen"/></svg></div><div class="jhero-mid"><div class="jhero-city">Pohlheim</div><div class="jhero-state">Hessen</div><div class="jhero-dist">📍 ~750 km od Ciebie</div></div></div><div class="jstatus"><div class="badge-s">✅ Sprawdzona · 5× wynajmowana</div></div><div class="jpats"><div class="pat-box"><div class="pat-ico">👩</div><div class="pat-age">91 lat</div><div class="pat-mob">wózek inwalidzki</div></div><div class="pat-box"><div class="pat-ico">👨</div><div class="pat-age">91 lat</div><div class="pat-mob">o balkoniku</div></div></div><div class="jinfos"><div class="irow"><span class="iico">👤</span><span>dla: <b>opiekuna lub opiekunki</b></span></div><div class="irow"><span class="iico">🌙</span><span>Nocne: <b>tak, ~1×/tydz.</b></span></div><div class="irow"><span class="iico">🇩🇪</span><span>Język: <b>komunikatywny</b></span></div></div><div class="jmeta"><div><div class="meta-lbl">Wyjazd</div><div class="meta-val">📅 21.03.2026</div></div><div style="text-align:right;"><div class="meta-lbl">Wynagrodzenie</div><div class="meta-sal">€ 2.170</div><div class="meta-pts">⭐ 20 pkt / dzień</div></div></div><div class="jbtns"><button class="btn-apply" onclick="showToast()">Aplikuj <span class="heart">♥</span></button></div><div class="jfooter"><div class="jviewers">👁 22 ogląda</div><div class="jszczegoly" onclick="go('s-detail')">Szczegóły <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div></div>
+  </div>
+  <div class="bnav">
+    <div class="ni" onclick="go('s-home')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="ni-lbl">Start</div></div>
+    <div class="ni on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><div class="ni-lbl" style="color:var(--brand)">Oferty</div></div>
+    <div class="ni" onclick="go('s-activity')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div class="ni-lbl">Aktywności</div><div class="ni-pip">2</div></div>
+    <div class="ni" onclick="go('s-profile')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div class="ni-lbl">Profil</div></div>
+  </div>
+  <!-- FILTER SHEET -->
+  <div class="overlay" id="overlay" onclick="closeSheet()"></div>
+  <div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-hdr"><div class="sheet-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.2" stroke-linecap="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>Dopasuj oferty</div><button class="sheet-close" onclick="closeSheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A5470" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div style="height:1px;background:#F0EAF4;margin:0 18px;"></div>
+    <div class="sheet-scroll">
+      <div class="fsec"><div class="fsec-label">📅 Mogę pracować od</div><div class="date-field"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg><div class="date-field-val">09.04.2026</div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#B0A4BE" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div></div>
+      <div class="fsec"><div class="fsec-label">💶 Min. wynagrodzenie</div><div class="stepper"><button class="step-btn" onclick="changeWyn(-100)">−</button><div class="step-val" id="wyn-val">2.000 €</div><button class="step-btn" onclick="changeWyn(100)">+</button></div></div>
+      <div class="fsec"><div class="fsec-label">📍 Region</div><div class="tchips"><div class="tchip on" onclick="toggleChip(this)">Wszystkie</div><div class="tchip" onclick="toggleChip(this)">NRW</div><div class="tchip" onclick="toggleChip(this)">Berlin</div><div class="tchip" onclick="toggleChip(this)">Bawaria</div><div class="tchip" onclick="toggleChip(this)">Hessen</div><div class="tchip" onclick="toggleChip(this)">Hamburg</div></div></div>
+      <div class="fsec"><div class="fsec-label">👥 Liczba podopiecznych</div><div class="tchips"><div class="tchip" onclick="toggleSingle(this)">1</div><div class="tchip" onclick="toggleSingle(this)">2</div><div class="tchip on" onclick="toggleSingle(this)">Nieważne</div></div></div>
+      <div class="fsec"><div class="fsec-label">♿ Mobilność pacjentów</div><div class="tchips"><div class="tchip on" onclick="toggleChip(this)">Mobilny</div><div class="tchip on" onclick="toggleChip(this)">Na wózku</div><div class="tchip on" onclick="toggleChip(this)">Leżący</div></div></div>
+      <div class="fsec"><div class="fsec-label">🌙 Nocne dyżury</div><div class="tchips"><div class="tchip on" onclick="toggleChip(this)">Tak</div><div class="tchip on" onclick="toggleChip(this)">Nie</div></div></div>
+      <div class="fsec"><div class="fsec-label">↕ Sortuj według</div><select class="sort-select"><option>Rozpoczęcie pracy</option><option>Wynagrodzenie (malejąco)</option><option>Wynagrodzenie (rosnąco)</option><option>Nowe oferty najpierw</option></select></div>
+      <div style="height:8px;"></div>
+    </div>
+    <div class="sheet-footer"><button class="btn-reset"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></button><button class="btn-show" onclick="closeSheet()">Pokaż 23 oferty →</button></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: AKTYWNOSCI
+══════════════════════════════════════ -->
+<div class="screen" id="s-activity">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div class="act-hdr">
+    <div class="act-hdr-row">
+      <div class="act-title">Aktywności</div>
+      <div class="chat-wrap" onclick="go('s-chat')"><svg class="chat-icon" width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"/><circle cx="8" cy="11" r="1.1" fill="rgba(155,31,161,0.35)"/><circle cx="12" cy="11" r="1.1" fill="rgba(155,31,161,0.35)"/><circle cx="16" cy="11" r="1.1" fill="rgba(155,31,161,0.35)"/></svg><div class="chat-dot"></div></div>
+    </div>
+    <div class="tabs"><div class="tab on" id="tab-aplik" onclick="switchTab('aplik')">Aplikacje (2)</div><div class="tab" id="tab-zapyt" onclick="switchTab('zapyt')">Zapytania (1)</div><div class="tab" id="tab-wtoku" onclick="switchTab('wtoku')">W toku (1)</div></div>
+  </div>
+  <div class="scroll" style="padding-top:12px;">
+    <div id="tc-aplik">
+      <div class="act-card"><div class="act-hero"><div class="act-hero-bg" style="background:linear-gradient(135deg,#C8916E,#9B6E8A,#6B4A7A);"></div><div class="act-hero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-hessen"/></svg></div><div class="act-hero-mid"><div class="act-hero-city">Pohlheim · Hessen</div><div class="act-hero-state">👩 91 l. · 👨 91 l.</div></div><div class="act-hero-right"><div class="act-pill ap-pend">⏳ Oczekuje</div></div></div><div class="act-body"><div class="act-brow"><div><div style="font-size:11px;color:var(--text-3);">Wyjazd: 21.03.2026 · Wysłano: 13.03</div></div><div style="text-align:right;"><div class="act-sal">€ 2.170</div><div class="act-pts">⭐ 20 pkt / dzień</div></div></div><div class="act-foot"><div class="act-sent">Wysłano 13.03.26</div><div class="act-acts"><button class="btn-sm-g">Szczegóły</button></div></div></div></div>
+      <div class="act-card"><div class="act-hero"><div class="act-hero-bg" style="background:linear-gradient(135deg,#5B7FA6,#3D5A80,#2A3F5E);"></div><div class="act-hero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-berlin"/></svg></div><div class="act-hero-mid"><div class="act-hero-city">Berlin</div><div class="act-hero-state">👨 61 l.</div></div><div class="act-hero-right"><div class="act-pill ap-acc">✓ Zaakceptowana</div></div></div><div class="act-body"><div class="act-brow"><div><div style="font-size:11px;color:var(--text-3);">Wyjazd: 17.04.2026</div></div><div style="text-align:right;"><div class="act-sal">€ 2.010</div><div class="act-pts">⭐ 5 pkt / dzień</div></div></div><div class="act-foot"><div class="act-sent">Zaakceptowano 08.04</div><div class="act-acts"><button class="btn-sm-c">Szczegóły →</button></div></div></div></div>
+    </div>
+    <div id="tc-zapyt" style="display:none;">
+      <div class="act-card"><div class="act-hero"><div class="act-hero-bg" style="background:linear-gradient(135deg,#C8916E,#9B6E8A,#6B4A7A);"></div><div class="act-hero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-hessen"/></svg></div><div class="act-hero-mid"><div class="act-hero-city">Monachium · Bawaria</div><div class="act-hero-state">👩 78 l.</div></div><div class="act-hero-right"><div class="act-pill ap-inv">📩 Zaproszenie</div></div></div><div class="act-body"><div class="act-brow"><div><div style="font-size:11px;color:var(--text-3);">Wyjazd: 20.04.2026</div></div><div style="text-align:right;"><div class="act-sal">€ 2.200</div><div class="act-pts">⭐ 10 pkt / dzień</div></div></div><div style="font-size:11px;color:var(--text-2);margin:6px 0 2px;">Klient zaprasza Cię do aplikowania!</div><div class="act-foot"><div class="act-sent">Dodano dziś</div><div class="act-acts"><button class="btn-sm-g">Odrzuć</button><button class="btn-sm-c" onclick="showToast()">Aplikuj ♥</button></div></div></div></div>
+    </div>
+    <div id="tc-wtoku" style="display:none;">
+      <div class="act-card"><div class="act-hero"><div class="act-hero-bg" style="background:linear-gradient(135deg,#5B7FA6,#3D5A80,#2A3F5E);"></div><div class="act-hero-map"><svg style="width:100%;height:100%;display:block;"><use href="#m-berlin"/></svg></div><div class="act-hero-mid"><div class="act-hero-city">Berlin · aktywna</div><div class="act-hero-state">👨 61 l.</div></div><div class="act-hero-right"><div class="act-pill ap-run">🔵 W toku</div></div></div><div class="act-body"><div class="act-brow"><div><div style="font-size:11px;color:var(--text-3);">Od 17.04.2026</div></div><div style="text-align:right;"><div class="act-sal">€ 2.010</div><div class="act-pts">⭐ 5 pkt / dzień</div></div></div><div class="act-foot"><div class="act-sent">Kontakt: Monika R.</div><div class="act-acts"><button class="btn-sm-g" onclick="go('s-chat')">Czat</button></div></div></div></div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="ni" onclick="go('s-home')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="ni-lbl">Start</div></div>
+    <div class="ni" onclick="go('s-search')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><div class="ni-lbl">Oferty</div><div class="ni-pip">23</div></div>
+    <div class="ni on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div class="ni-lbl" style="color:var(--brand)">Aktywności</div><div class="ni-pip">2</div></div>
+    <div class="ni" onclick="go('s-profile')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div class="ni-lbl">Profil</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: CZAT LIST
+══════════════════════════════════════ -->
+<div class="screen" id="s-chat">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div class="chat-hdr">
+    <div class="chat-hdr-row">
+      <button class="back-btn" onclick="go('s-home')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button>
+      <div class="chat-title">Czat</div>
+    </div>
+  </div>
+  <div class="scroll" style="padding-top:10px;">
+    <div class="chat-item" onclick="go('s-chat-detail')"><div class="chat-av" style="background:#F5EDF6;">👩</div><div style="flex:1;min-width:0;"><div class="chat-name">Monika — Rekruterka</div><div class="chat-prev">Twoja aplikacja na Köln wygląda świetnie!</div></div><div style="flex-shrink:0;text-align:right;"><div style="font-size:10px;color:var(--text-3);">09:31</div><div class="chat-pip">2</div></div></div>
+    <div class="chat-item" onclick="go('s-chat-detail')"><div class="chat-av" style="background:#E6F7F3;">🏥</div><div style="flex:1;min-width:0;"><div class="chat-name">Klient — Berlin</div><div class="chat-prev">Chcielibyśmy się umówić na rozmowę...</div></div><div style="flex-shrink:0;"><div style="font-size:10px;color:var(--text-3);">Wczoraj</div></div></div>
+    <div class="chat-item" onclick="go('s-chat-detail')"><div class="chat-av" style="background:#FFF5CC;">📋</div><div style="flex:1;min-width:0;"><div class="chat-name">mamamia — Wsparcie</div><div class="chat-prev">Witaj! Jak możemy Ci pomóc?</div></div><div style="flex-shrink:0;"><div style="font-size:10px;color:var(--text-3);">Pon</div></div></div>
+  </div>
+  <div class="bnav">
+    <div class="ni" onclick="go('s-home')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="ni-lbl">Start</div></div>
+    <div class="ni" onclick="go('s-search')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><div class="ni-lbl">Oferty</div><div class="ni-pip">23</div></div>
+    <div class="ni" onclick="go('s-activity')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div class="ni-lbl">Aktywności</div><div class="ni-pip">2</div></div>
+    <div class="ni" onclick="go('s-profile')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div class="ni-lbl">Profil</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: CZAT DETAIL
+══════════════════════════════════════ -->
+<div class="screen" id="s-chat-detail">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div class="chat-detail-hdr">
+    <button class="back-btn" onclick="go('s-chat')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div class="chat-av" style="background:#F5EDF6;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">👩</div>
+    <div><div style="color:white;font-size:15px;font-weight:800;">Monika — Rekruterka</div><div style="color:rgba(255,255,255,0.7);font-size:11px;">Zazwyczaj odpowiada w ciągu godziny</div></div>
+  </div>
+  <div class="messages">
+    <div class="msg-row"><div class="msg-av-sm">👩</div><div><div class="msg-time">09:15</div><div class="bubble them">Cześć Moniko! Aplikowałaś na Köln — pasuje Ci termin 10 kwietnia?</div></div></div>
+    <div class="msg-row me"><div><div class="msg-time" style="text-align:right;">09:22</div><div class="bubble me">Tak, pasuje! Mam pytanie o nocne dyżury.</div></div></div>
+    <div class="msg-row"><div class="msg-av-sm">👩</div><div><div class="msg-time">09:31</div><div class="bubble them">~2x w tygodniu, dodatkowo płatne. Twoja aplikacja wygląda świetnie — przekazuję ją teraz! 🎉</div></div></div>
+    <div class="msg-row me"><div><div class="msg-time" style="text-align:right;">09:35</div><div class="bubble me">Super, dziękuję! Czekam na wiadomość 🙏</div></div></div>
+  </div>
+  <div class="chat-inp-row">
+    <input class="chat-inp" placeholder="Napisz wiadomość...">
+    <button class="chat-send"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: JOB DETAIL
+══════════════════════════════════════ -->
+<div class="screen" id="s-detail">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div style="background:var(--brand);padding:8px 16px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0;">
+    <button class="back-btn" onclick="go('s-search')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg></button>
+    <div style="color:white;font-size:15px;font-weight:700;">Szczegóły oferty</div>
+  </div>
+  <div class="scroll" style="padding:0;padding-bottom:80px;">
+    <!-- HERO -->
+    <div style="background:var(--card);padding:18px 18px 16px;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;">
+        <div>
+          <div style="font-size:20px;font-weight:800;color:var(--text);margin-bottom:4px;">Kobieta, 81 lat</div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:13px;color:var(--text-2);margin-bottom:8px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.2" stroke-linecap="round"><path d="M20 10c0 6-8 13-8 13s-8-7-8-13a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>Konstanz, Baden-Württemberg</div>
+          <div style="display:flex;gap:6px;"><div style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:#E6F7F3;color:#007A58;">✓ Sprawdzona</div><div style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--brand-light);color:var(--brand);">5× wynajmowana</div></div>
+        </div>
+        <div style="width:70px;height:70px;flex-shrink:0;"><svg viewBox="0 0 250 290" style="width:100%;height:100%;"><path d="M118,4 L198,4 L214,82 L196,106 L170,132 L148,146 L130,172 L110,192 L84,214 L62,222 L36,190 L26,136 L48,76 L60,40 L66,36 Z" fill="none" stroke="#DEC6E0" stroke-width="2.5"/><path d="M68,178 L96,160 L110,168 L112,202 L96,214 L72,210 L56,196 L54,182 Z" fill="#9B1FA1"/><path d="M110,152 L160,148 L196,152 L196,200 L170,228 L140,236 L110,228 L96,214 L112,202 L110,168 L96,160 Z" fill="#C890D8"/></svg></div>
+      </div>
+      <div style="background:var(--brand-light);border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
+        <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--brand);margin-bottom:3px;opacity:0.75;">Wynagrodzenie</div><div style="font-size:26px;font-weight:800;color:var(--text);letter-spacing:-0.5px;line-height:1;">2.410 €</div><div style="font-size:12px;color:var(--text-2);margin-top:2px;">netto / miesiąc</div></div>
+        <div style="text-align:center;"><div style="font-size:15px;font-weight:800;color:var(--brand);">⭐ 20 pkt</div><div style="font-size:10px;color:var(--text-3);margin-top:1px;">dziennie</div></div>
+      </div>
+    </div>
+    <!-- AI -->
+    <div style="background:var(--card);padding:14px 18px;"><div style="background:linear-gradient(135deg,#F2E5FA,#EDD9F5);border-radius:14px;padding:13px 14px;"><div style="display:flex;align-items:center;gap:9px;margin-bottom:8px;"><div style="width:30px;height:30px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">✨</div><div style="font-size:13px;font-weight:800;color:var(--text);">Automatyczne podsumowanie oferty</div></div><div style="font-size:13px;color:var(--text-2);line-height:1.55;">Szukamy opiekuna dla 81-letniej pacjentki, która jest mobilna, ale cierpi na demencję. Wymaga wsparcia w nocy 1–2 razy. Wymagany dobry poziom języka (L3).</div><div style="font-size:12px;font-weight:700;color:var(--brand);margin-top:7px;cursor:pointer;">więcej →</div></div></div>
+    <!-- SECTIONS -->
+    <div style="background:var(--card);margin-top:8px;">
+      <!-- Kiedy i gdzie -->
+      <div style="border-bottom:1px solid #F3EEF5;"><div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;cursor:pointer;" onclick="toggleDet(this)"><div style="display:flex;align-items:center;gap:10px;"><div style="font-size:17px;width:20px;text-align:center;">📅</div><div style="font-size:14px;font-weight:700;color:var(--text);">Kiedy i gdzie?</div></div><div style="color:var(--text-3);font-size:10px;transition:transform 0.25s;">▾</div></div><div style="overflow:hidden;max-height:200px;padding:0 18px 14px;"><div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F5FA;font-size:13px;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">📅</div><div><div style="font-weight:600;color:var(--text);">Data wyjazdu</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">12.04.2026</div></div></div><div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F5FA;font-size:13px;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">📍</div><div><div style="font-weight:600;color:var(--text);">Lokalizacja</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">78464 Konstanz, Baden-Württemberg</div></div></div></div></div>
+      <!-- Pacjenci -->
+      <div style="border-bottom:1px solid #F3EEF5;"><div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;cursor:pointer;" onclick="toggleDet(this)"><div style="display:flex;align-items:center;gap:10px;"><div style="font-size:17px;width:20px;text-align:center;">👤</div><div style="font-size:14px;font-weight:700;color:var(--text);">Pacjenci</div></div><div style="color:var(--text-3);font-size:10px;transition:transform 0.25s;">▾</div></div><div style="overflow:hidden;max-height:300px;padding:0 18px 14px;"><div style="display:flex;align-items:center;gap:12px;padding:10px 0 12px;border-bottom:1px solid #F8F5FA;"><div style="font-size:32px;">👩</div><div><div style="font-size:13px;font-weight:800;color:var(--brand);">Pacjent 1</div><div style="font-size:12px;color:var(--text-2);margin-top:1px;">Kobieta · 81 lat · 71–80 kg</div></div></div><div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F5FA;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">🚶</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Mobilny</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">Chodzi samodzielnie</div></div></div><div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F5FA;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">🌙</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Wsparcie w nocy</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">1–2 razy, godz. 21:15–06:00</div></div></div><div style="display:flex;align-items:center;gap:10px;padding:8px 0;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">🧠</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Demencja</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">Inkontynencja moczowa</div></div></div></div></div>
+      <!-- Co jest wymagane -->
+      <div style="border-bottom:1px solid #F3EEF5;"><div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;cursor:pointer;" onclick="toggleDet(this)"><div style="display:flex;align-items:center;gap:10px;"><div style="font-size:17px;width:20px;text-align:center;">✅</div><div style="font-size:14px;font-weight:700;color:var(--text);">Co jest wymagane?</div></div><div style="color:var(--text-3);font-size:10px;transition:transform 0.25s;">▾</div></div><div style="overflow:hidden;max-height:0;padding:0 18px;transition:max-height 0.35s;"><div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F5FA;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">🇩🇪</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Język niemiecki</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">Dobry (L3) lub bardzo dobry (L4)</div></div></div><div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F5FA;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">🚭</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Palenie</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">Preferowana osoba niepaląca</div></div></div><div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F5FA;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">🎓</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Doświadczenie</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">Profesjonalne</div></div></div><div style="display:flex;align-items:center;gap:10px;padding:8px 0;padding-bottom:14px;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">🛒</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Zakupy</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">Opiekun, sklep pieszo</div></div></div></div></div>
+      <!-- Twoje obowiązki -->
+      <div style="border-bottom:1px solid #F3EEF5;"><div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;cursor:pointer;" onclick="toggleDet(this)"><div style="display:flex;align-items:center;gap:10px;"><div style="font-size:17px;width:20px;text-align:center;">📋</div><div style="font-size:14px;font-weight:700;color:var(--text);">Twoje obowiązki</div></div><div style="color:var(--text-3);font-size:10px;transition:transform 0.25s;">▾</div></div><div style="overflow:hidden;max-height:0;padding:0 18px;transition:max-height 0.35s;"><div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F5FA;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">🏠</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Obowiązki domowe</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">Sprzątanie, gotowanie, pranie</div></div></div><div style="display:flex;align-items:center;gap:10px;padding:8px 0;padding-bottom:14px;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">🌙</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Wstawanie w nocy</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">2×, pielęgnacja inkontynencji</div></div></div></div></div>
+      <!-- Zakwaterowanie -->
+      <div style="border-bottom:1px solid #F3EEF5;"><div style="display:flex;align-items:center;justify-content:space-between;padding:15px 18px;cursor:pointer;" onclick="toggleDet(this)"><div style="display:flex;align-items:center;gap:10px;"><div style="font-size:17px;width:20px;text-align:center;">🏠</div><div style="font-size:14px;font-weight:700;color:var(--text);">Zakwaterowanie</div></div><div style="color:var(--text-3);font-size:10px;transition:transform 0.25s;">▾</div></div><div style="overflow:hidden;max-height:0;padding:0 18px;transition:max-height 0.35s;"><div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F5FA;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">🏘️</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Dom jednorodzinny</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">Duże miasto</div></div></div><div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F8F5FA;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">🛏️</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Osobny pokój</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">Do Twojej dyspozycji</div></div></div><div style="display:flex;align-items:center;gap:10px;padding:8px 0;padding-bottom:14px;"><div style="font-size:13px;width:20px;text-align:center;color:var(--brand);">📶</div><div><div style="font-size:13px;font-weight:600;color:var(--text);">Internet</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">Dostęp zapewniony, brak zwierząt</div></div></div></div></div>
+    </div>
+    <!-- USP -->
+    <div style="background:var(--card);margin-top:8px;padding:20px 18px;">
+      <div style="display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;color:var(--brand);margin-bottom:14px;"><span style="font-size:16px;">💜</span>Dlaczego mamamia?</div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #F8F5FA;"><div style="width:20px;height:20px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;">✓</div><div style="font-size:13px;color:var(--text);font-weight:500;">Oferty od wielu sprawdzonych agencji w jednym miejscu</div></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #F8F5FA;"><div style="width:20px;height:20px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;">✓</div><div style="font-size:13px;color:var(--text);font-weight:500;">Twój osobisty rekruter zawsze do dyspozycji</div></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #F8F5FA;"><div style="width:20px;height:20px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;">✓</div><div style="font-size:13px;color:var(--text);font-weight:500;">Wszystko widoczne online — aplikuj 24/7 z telefonu</div></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid #F8F5FA;"><div style="width:20px;height:20px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;">✓</div><div style="font-size:13px;color:var(--text);font-weight:500;">Powiadomienia o ofertach pasujących do Twoich preferencji</div></div>
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;"><div style="width:20px;height:20px;border-radius:50%;background:var(--brand-light);display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;">✓</div><div style="font-size:13px;color:var(--text);font-weight:500;">Zbieraj punkty za każde zlecenie i aktywność</div></div>
+    </div>
+    <div style="height:10px;"></div>
+  </div>
+  <!-- Fixed apply -->
+  <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 18px 22px;background:linear-gradient(to top,var(--bg) 65%,transparent);">
+    <button class="btn-apply" style="border-radius:14px!important;padding:15px!important;font-size:15px!important;" onclick="showToast()">Aplikuj ♥</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: PROFIL
+══════════════════════════════════════ -->
+<div class="screen" id="s-profile">
+  <div class="sbar"><span>09:41</span><span>▐▐▐ ██ 86%</span></div>
+  <div class="hdr">
+    <div class="hdr-row">
+      <div>
+        <div class="hdr-greet">Mój profil</div>
+        <div class="hdr-name-row">
+          <div class="hdr-name">Monika K.</div>
+          <div class="hdr-badge"><span class="hdr-badge-ico">🏅</span><span class="hdr-badge-txt">Srebrna</span></div>
+        </div>
+      </div>
+      <div class="hdr-icons">
+        <div class="chat-wrap" onclick="go('s-chat')"><svg class="chat-icon" width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2Z"/><circle cx="8" cy="11" r="1.1" fill="rgba(155,31,161,0.35)"/><circle cx="12" cy="11" r="1.1" fill="rgba(155,31,161,0.35)"/><circle cx="16" cy="11" r="1.1" fill="rgba(155,31,161,0.35)"/></svg><div class="chat-dot"></div></div>
+        <div class="av">MK</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll" style="padding:0;">
+    <div class="photo-block">
+      <div class="photo-wrap" onclick="openPhotoModal()"><div class="photo-circle"><div class="photo-initials">MK</div></div><div class="photo-cam">📷</div></div>
+      <button class="btn-add-photo" onclick="openPhotoModal()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Dodaj zdjęcie profilowe</button>
+      <div class="pts-hint">⭐ <b>+20 punktów</b> za dodanie zdjęcia</div>
+    </div>
+    <div class="stats-row">
+      <div class="sbox"><div class="sbox-v">12</div><div class="sbox-l">Wyjazdy</div></div>
+      <div class="sbox"><div class="sbox-v">4.9</div><div class="sbox-l">Ocena</div></div>
+      <div class="sbox"><div class="sbox-v">680</div><div class="sbox-l">Punkty</div></div>
+    </div>
+    <div class="pad">
+      <div class="lvl">
+        <div class="lvl-ic">🏅</div>
+        <div style="flex:1"><div class="lvl-t">Poziom 4</div><div class="lvl-n">Srebrna Opiekunka</div><div class="lvl-x">680 / 1000 pkt do Złotej</div><div class="lvl-bg"><div class="lvl-fill"></div></div></div>
+        <div class="lvl-pct">+68%</div>
+      </div>
+      <div class="slbl">Punkty</div>
+      <div class="pts-card">
+        <div class="pts-sec-hdr"><div class="pts-sec-title">Za każde zlecenie</div></div>
+        <div class="pts-row"><div class="pts-ico" style="background:#E6F7F3;">🟢</div><div class="pts-label">Lekkie zlecenie</div><div class="pts-val">⭐ 5 pkt / dzień</div></div>
+        <div class="pts-row"><div class="pts-ico" style="background:#FFF5CC;">🟡</div><div class="pts-label">Średnie zlecenie</div><div class="pts-val">⭐ 10 pkt / dzień</div></div>
+        <div class="pts-row"><div class="pts-ico" style="background:#FEF0F0;">🔴</div><div class="pts-label">Wymagające zlecenie</div><div class="pts-val">⭐ 20 pkt / dzień</div></div>
+        <div class="pts-divider"></div>
+        <div class="pts-sec-hdr"><div class="pts-sec-title">Zdobądź dodatkowe punkty</div></div>
+        <div class="earn-row" onclick="openPhotoModal()"><div class="earn-ico" style="background:#FFF5CC;">📷</div><div class="earn-label">Dodaj zdjęcie profilowe</div><div class="earn-badge">+20 pkt</div></div>
+        <div class="earn-row"><div class="earn-ico" style="background:var(--brand-light);">📝</div><div class="earn-label">Za każdą aplikację</div><div class="earn-badge">+5 pkt</div></div>
+        <div class="earn-row"><div class="earn-ico" style="background:var(--brand-light);">👥</div><div class="earn-label">Poleć koleżankę</div><div class="earn-badge">+100 pkt</div></div>
+        <div class="earn-row"><div class="earn-ico" style="background:#E8EEFF;">⭐</div><div class="earn-label">Oceń aplikację</div><div class="earn-badge">+30 pkt</div></div>
+      </div>
+      <div class="slbl">Moje preferencje</div>
+      <div class="pref-card">
+        <div class="pref-sec"><div class="pref-sec-title">Szukam pracy</div><button class="pref-edit-btn">✏️ Zmień</button></div>
+        <div class="pref-row"><span class="pref-lbl">Dostępność od</span><span class="pref-val"><span class="dot-g"></span>15.01.2026</span></div>
+        <div class="pref-row"><span class="pref-lbl">Region</span><span class="pref-val">Południe, Berlin</span></div>
+        <div class="pref-row"><span class="pref-lbl">Min. wynagrodzenie</span><span class="pref-val">1.800 €</span></div>
+        <div class="pref-row"><span class="pref-lbl">Czas trwania</span><span class="pref-val">2–3 miesiące</span></div>
+        <div class="pref-row"><span class="pref-lbl">Język niemiecki</span><span class="pref-val">dobry (B1)</span></div>
+        <div class="pref-row"><span class="pref-lbl">Dyżury nocne</span><span class="pref-val">nie</span></div>
+        <div class="pref-action"><div class="pref-action-ico">👤</div><div class="pref-action-label">Uzupełnij profil opiekunki</div><div style="color:var(--brand);font-size:14px;">›</div></div>
+      </div>
+      <div class="slbl">Konto</div>
+      <div class="mitem"><div class="mic" style="background:#F0EEF5;">🔔</div><div class="mit">Powiadomienia</div><div class="mia">›</div></div>
+      <div class="mitem"><div class="mic" style="background:#F0EEF5;">📄</div><div class="mit">Moje dokumenty</div><div class="mia">›</div></div>
+      <div class="mitem"><div class="mic" style="background:#FEF0F0;">🚪</div><div class="mit" style="color:#D44;">Wyloguj się</div><div class="mia" style="color:#D44;">›</div></div>
+      <div style="height:10px;"></div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="ni" onclick="go('s-home')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><div class="ni-lbl">Start</div></div>
+    <div class="ni" onclick="go('s-search')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><div class="ni-lbl">Oferty</div><div class="ni-pip">23</div></div>
+    <div class="ni" onclick="go('s-activity')"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A89FBF" stroke-width="2.2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div class="ni-lbl">Aktywności</div><div class="ni-pip">2</div></div>
+    <div class="ni on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9B1FA1" stroke-width="2.2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><div class="ni-lbl" style="color:var(--brand)">Profil</div></div>
+  </div>
+  <!-- PHOTO MODAL -->
+  <div class="modal-overlay" id="photo-modal" onclick="if(event.target===this)closePhotoModal()">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Zdjęcie profilowe</div>
+      <div class="modal-sub">Dodaj lub ulepsz swoje zdjęcie za pomocą AI.</div>
+      <div class="modal-opts">
+        <div class="modal-opt"><div class="modal-opt-ico">📷</div><div class="modal-opt-lbl">Zrób zdjęcie</div></div>
+        <div class="modal-opt"><div class="modal-opt-ico">🖼️</div><div class="modal-opt-lbl">Z galerii</div></div>
+      </div>
+      <div class="modal-ai"><div class="modal-ai-ico">✨</div><div><div class="modal-ai-title">Ulepsz zdjęcie z AI</div><div class="modal-ai-sub">AI poprawi jakość, tło i oświetlenie. Możesz zachować lub odrzucić wynik.</div><div class="modal-ai-pts">⭐ +20 punktów za dodanie zdjęcia</div></div></div>
+      <button class="btn-close" onclick="closePhotoModal()">Anuluj</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast">✓ Aplikacja wysłana! +5 punktów ⭐</div>
+
+</div>
+</div>
+
+<script>
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function switchTab(t){['aplik','zapyt','wtoku'].forEach(x=>{document.getElementById('tab-'+x).classList.remove('on');document.getElementById('tc-'+x).style.display='none';});document.getElementById('tab-'+t).classList.add('on');document.getElementById('tc-'+t).style.display='block';}
+function showToast(){const t=document.getElementById('toast');t.style.display='flex';t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';setTimeout(()=>{t.style.display='none';},300);},2500);}
+function openSheet(){document.getElementById('overlay').classList.add('open');document.getElementById('sheet').classList.add('open');}
+function closeSheet(){document.getElementById('overlay').classList.remove('open');document.getElementById('sheet').classList.remove('open');}
+function openPhotoModal(){document.getElementById('photo-modal').classList.add('open');}
+function closePhotoModal(){document.getElementById('photo-modal').classList.remove('open');}
+let wynVal=2000;
+function changeWyn(d){wynVal=Math.max(1000,Math.min(4000,wynVal+d));document.getElementById('wyn-val').textContent=wynVal.toLocaleString('de-DE')+' €';}
+function toggleChip(el){el.classList.toggle('on');}
+function toggleSingle(el){el.closest('.tchips').querySelectorAll('.tchip').forEach(c=>c.classList.remove('on'));el.classList.add('on');}
+function toggleDet(hdr){const body=hdr.nextElementSibling;const chev=hdr.querySelector('div:last-child');const isOpen=body.style.maxHeight&&body.style.maxHeight!=='0px';body.style.maxHeight=isOpen?'0px':'800px';if(chev){chev.style.transform=isOpen?'rotate(0)':'rotate(180deg)';}}
+document.querySelectorAll('.btn-apply').forEach(btn=>{btn.addEventListener('click',function(e){const r=btn.getBoundingClientRect();const sz=Math.max(r.width,r.height);const rpl=document.createElement('span');rpl.className='ripple';rpl.style.cssText=`width:${sz}px;height:${sz}px;left:${e.clientX-r.left-sz/2}px;top:${e.clientY-r.top-sz/2}px;`;btn.appendChild(rpl);setTimeout(()=>rpl.remove(),600);});});
+</script>
+</body>
+</html>

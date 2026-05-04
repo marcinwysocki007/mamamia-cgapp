@@ -104,8 +104,9 @@ window.confirmApplyFromDetail = () => {
   go('s-home');
   setTimeout(() => {
     showToast('🎉 Aplikacja wysłana! Trzymamy kciuki! 💜');
-    addPoints(5);
-  }, 300);
+    const anchor = document.getElementById('home-pts-fill');
+    addPoints(5, anchor);
+  }, 350);
 };
 
 window.undoApply = () => {
@@ -115,43 +116,59 @@ window.undoApply = () => {
 
 window.openApplyModal = (btn) => {
   const card = btn.closest('.jcard');
-  const city    = card?.querySelector('.jhero-city')?.textContent || '';
-  const state   = card?.querySelector('.jhero-state')?.textContent || '';
-  const dist    = card?.querySelector('.jhero-dist')?.textContent || '';
-  const date    = card?.querySelector('.meta-val')?.textContent || '';
-  const sal     = card?.querySelector('.meta-sal')?.textContent || '';
-  const pts     = card?.querySelector('.meta-pts')?.textContent || '';
-  // patients
-  const pats    = [...(card?.querySelectorAll('.pat-box') || [])].map(p => {
-    const age = p.querySelector('.pat-age')?.textContent || '';
-    const mob = p.querySelector('.pat-mob')?.textContent || '';
-    return `${age} · ${mob}`;
-  }).join(' | ');
-  // nights from irow
-  const irows = [...(card?.querySelectorAll('.irow') || [])];
-  const nightRow = irows.find(r => r.textContent.includes('Nocne'));
-  const nights = nightRow ? nightRow.querySelector('b')?.textContent || '' : '';
 
-  // extract per-day pts number from pts string e.g. "⭐ 10 pkt / dzień"
-  const dayPtsMatch = pts.match(/(\d+)\s*pkt/i);
-  const dayPts = dayPtsMatch ? dayPtsMatch[1] : '10';
+  // ── Hero background (same gradient as card) ──
+  const heroBg = card?.querySelector('.jhero-bg')?.style.background || 'linear-gradient(135deg,#C8DDD0,#A8C8B8,#88B0A0)';
+  document.getElementById('apply-hero').style.background = heroBg;
 
-  // build patient list from card
-  const patNodes = card?.querySelectorAll('.pat-box') || [];
-  const patList = [...patNodes].map(p => {
-    const emoji = p.querySelector('.pat-ico')?.textContent || '👤';
-    const age   = p.querySelector('.pat-age')?.textContent || '';
-    const mob   = p.querySelector('.pat-mob')?.textContent || '';
-    return `${emoji} ${age}, ${mob}`;
-  }).join(' · ');
-  document.getElementById('apply-patient-list').textContent = patList;
+  // ── City + distance ──
+  document.getElementById('apply-city').textContent = card?.querySelector('.jhero-city')?.textContent || '';
+  document.getElementById('apply-dist').textContent = card?.querySelector('.jhero-dist')?.textContent || '';
 
-  document.getElementById('apply-city').textContent    = city;
+  // ── Difficulty + pay badges ──
+  const diffEl = card?.querySelector('.badge-diff');
+  const payEl  = card?.querySelector('.badge-pay');
+  const diffDiv = document.getElementById('apply-diff');
+  diffDiv.innerHTML = '';
+  if (diffEl) {
+    const d = document.createElement('div');
+    d.className = diffEl.className;
+    d.textContent = diffEl.textContent;
+    diffDiv.appendChild(d);
+  }
+  if (payEl) {
+    const p = document.createElement('div');
+    p.className = payEl.className;
+    p.textContent = payEl.textContent;
+    diffDiv.appendChild(p);
+  }
+
+  // ── Salary + pts ──
+  const sal = card?.querySelector('.meta-sal')?.textContent || '';
+  const pts = card?.querySelector('.meta-pts')?.textContent || '';
   document.getElementById('apply-sal').textContent     = sal;
-  document.getElementById('apply-date').textContent    = date.replace('📅', '').trim();
-  document.getElementById('apply-nights').textContent  = nights;
-  document.getElementById('apply-pts-day').textContent = `⭐ +${dayPts} pkt / dzień pracy`;
-  document.getElementById('pts-per-day-label').textContent = `${dayPts} pkt`;
+  document.getElementById('apply-pts-day').textContent = pts;
+
+  // ── Departure date ──
+  const date = card?.querySelector('.meta-val')?.textContent || '';
+  document.getElementById('apply-date').textContent = date.replace('📅', '').trim();
+
+  // ── Patients — rendered just like .jpats in the card ──
+  const patNodes = card?.querySelectorAll('.pat-box') || [];
+  const patsHTML = [...patNodes].map(p => {
+    const emoji = p.querySelector('.pat-ico')?.textContent  || '👤';
+    const age   = p.querySelector('.pat-age')?.textContent  || '';
+    const mob   = p.querySelector('.pat-mob')?.textContent  || '';
+    return `<div class="pat-box" style="flex:1;"><div class="pat-head"><div class="pat-ico">${emoji}</div><div class="pat-age">${age}</div></div><div class="pat-mob">${mob}</div></div>`;
+  }).join('');
+  document.getElementById('apply-pats').innerHTML = patsHTML;
+
+  // ── Info rows: dla / nocne / język — copy exactly from card ──
+  const irows = [...(card?.querySelectorAll('.irow') || [])];
+  document.getElementById('apply-infos').innerHTML = irows
+    .map(r => `<div class="irow">${r.innerHTML}</div>`)
+    .join('');
+
   document.getElementById('apply-modal').classList.add('open');
 };
 
@@ -164,21 +181,43 @@ window.confirmApply = () => {
   go('s-home');
   setTimeout(() => {
     showToast('🎉 Aplikacja wysłana! Trzymamy kciuki! 💜');
-    addPoints(5);
-  }, 300);
+    const anchor = document.getElementById('home-pts-fill');
+    addPoints(5, anchor);
+  }, 350);
 };
 
 window.closePointsModal = () => {}; // kept for profile screen compat
 
 window.openApplyModalDetail = () => {
-  document.getElementById('apply-city').textContent         = 'Konstanz';
-  document.getElementById('apply-sal').textContent          = '€ 2.410';
-  document.getElementById('apply-date').textContent         = '12.04.2026';
-  document.getElementById('apply-nights').textContent       = '~1–2×/tydz.';
-  document.getElementById('apply-patient-list').textContent = '👵 81 lat, mobilna';
-  document.getElementById('apply-pts-day').textContent      = '⭐ +10 pkt / dzień pracy';
-  document.getElementById('pts-per-day-label').textContent  = '10 pkt';
-  // override confirm button to also update detail CTA
+  // Hero — Baden-Württemberg warm tones
+  document.getElementById('apply-hero').style.background = 'linear-gradient(135deg,#D0C8F0,#B0A8E0,#9090C8)';
+  document.getElementById('apply-city').textContent  = 'Konstanz';
+  document.getElementById('apply-dist').textContent  = '📍 ~680 km od Ciebie';
+
+  // Badges
+  const diffDiv = document.getElementById('apply-diff');
+  diffDiv.innerHTML = '<div class="badge-diff diff-med">🔶 Średnie</div>';
+
+  // Salary
+  document.getElementById('apply-sal').textContent      = '€ 2.410';
+  document.getElementById('apply-pts-day').textContent  = '⭐ 10 pkt / dzień';
+  document.getElementById('apply-date').textContent     = '12.04.2026';
+
+  // Patient
+  document.getElementById('apply-pats').innerHTML =
+    `<div class="pat-box" style="flex:1;max-width:calc(50% - 4px);">
+      <div class="pat-ico">👵</div>
+      <div class="pat-age">81 lat</div>
+      <div class="pat-mob">mobilna</div>
+    </div>`;
+
+  // Info rows
+  document.getElementById('apply-infos').innerHTML =
+    `<div class="irow"><span class="iico">👤</span><span>dla: <b>opiekuna lub opiekunki</b></span></div>
+     <div class="irow"><span class="iico">🌙</span><span>Nocne: <b>~1–2×/tydz.</b></span></div>
+     <div class="irow"><span class="iico">🇩🇪</span><span>Język: <b>dobry</b></span></div>`;
+
+  // Override confirm to also mark detail CTA
   document.querySelector('#apply-modal .btn-confirm').onclick = confirmApplyFromDetail;
   document.getElementById('apply-modal').classList.add('open');
 };
@@ -189,7 +228,7 @@ window.showToast = (msg) => {
   t.style.display = 'flex'; t.style.opacity = '1';
   t.style.transform = 'translateX(-50%) translateY(0)';
   setTimeout(() => {
-    t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(20px)';
+    t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(-20px)';
     setTimeout(() => { t.style.display = 'none'; }, 300);
   }, 3000);
 };
@@ -349,7 +388,7 @@ window.withdrawApply = () => {
     const prev = orig.textContent;
     if (t.querySelector('span')) t.querySelector('span').textContent = 'Aplikacja cofnięta';
     setTimeout(() => {
-      t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(20px)';
+      t.style.opacity = '0'; t.style.transform = 'translateX(-50%) translateY(-20px)';
       setTimeout(() => { t.style.display = 'none'; if (t.querySelector('span')) t.querySelector('span').textContent = prev; }, 300);
     }, 2000);
   }
